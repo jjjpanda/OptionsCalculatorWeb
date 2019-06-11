@@ -1,11 +1,14 @@
 const http = require('http');
-
-const server = http.createServer((request, response) => {
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.end("Hello World!");
-});
+const fs = require('fs');
 
 const port = process.env.PORT || 1337;
-server.listen(port);
+const server = http.createServer(function(request, response) {
+}).listen(port);
+
+fs.readFile("index.html", function(err, data){
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(data);
+    response.end();
+});
 
 console.log("Server running at http://localhost:%d", port);
