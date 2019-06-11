@@ -1,7 +1,9 @@
 {
-    "name": "OP1",
+    "name": "op1",
+    "version": "1.0.0",
+    "main": "app.js",
     "scripts": {
-      "start": "node ./site/wwwroot/app.js"
+      "start": "node app.js"
     },
     "dependencies": {
       "express": "~4.13.1"
