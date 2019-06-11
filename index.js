@@ -1,7 +1,8 @@
 const http = require('http');
-const fs = require('fs');
-
+const exp = require('express');
+const app = exp()
 const port = process.env.PORT || 1337;
+
 const server = http.createServer(function(request, response) {
 
     fs.readFile("index.html", function(err, data){
@@ -12,6 +13,9 @@ const server = http.createServer(function(request, response) {
 
 }).listen(port);
 
+app.get('/', (req, res) => res.sendFile('index.html'))
+app.listen(port, () => console.log("Server running at http://localhost:%d", port));
 
 
-console.log("Server running at http://localhost:%d", port);
+
+
