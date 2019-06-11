@@ -1,0 +1,9 @@
+{
+    "name": "OP1",
+    "scripts": {
+      "start": "node ./site/wwwroot/app.js"
+    },
+    "dependencies": {
+      "express": "~4.13.1"
+    }
+  }
