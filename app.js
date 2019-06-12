@@ -6,7 +6,7 @@ const app = exp()
 const port = process.env.PORT || 1337;
 const key = process.env.tradier;(
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:false})));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
