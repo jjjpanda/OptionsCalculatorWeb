@@ -1,6 +1,7 @@
 const request = require('request');
 
-function getData(apikey, ticker){
+module.exports = {
+getData: function (apikey, ticker){
     request({
         method: 'get',
         url: 'https://sandbox.tradier.com/v1/markets/quotes',
@@ -13,11 +14,14 @@ function getData(apikey, ticker){
         }
         }, (error, response, body) => {
         //console.log(response.statusCode);
-        console.log(body);
+        if(error){
+            return "Not Found"
+        }
+        return (body);
     });
-}
+},
 
-function getExpiries(apikey, ticker){
+getExpiries: function (apikey, ticker){
     request({
         method: 'get',
         url: 'https://sandbox.tradier.com/v1/markets/options/expirations',
@@ -32,11 +36,11 @@ function getExpiries(apikey, ticker){
         }
         }, (error, response, body) => {
         //console.log(response.statusCode);
-        console.log(body);
+        return(body);
       });
-}
+},
 
-function getChain(apikey, ticker, expiration){
+getChain: function (apikey, ticker, expiration){
     request({
         method: 'get',
         url: 'https://sandbox.tradier.com/v1/markets/options/chains',
@@ -50,6 +54,7 @@ function getChain(apikey, ticker, expiration){
         }
         }, (error, response, body) => {
         //console.log(response.statusCode);
-        console.log(body);
+        return(body);
       });
 }
+};
