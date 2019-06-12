@@ -3,7 +3,7 @@ const exp = require('express');
 const bodyParser = require("body-parser")
 const path = require('path')
 const app = exp()
-const port = process.env.PORT || 1337;
+const port = process.env.PORT;
 const key = process.env.tradier;(
 
 app.use(bodyParser.urlencoded({extended:false})));
