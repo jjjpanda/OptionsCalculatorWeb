@@ -9,6 +9,3 @@ function timeTillExpiry(expiry){
     const utc2 = Date.UTC(current.getFullYear(), current.getMonth(), current.getDate());
     return Math.floor((utc2-utc1)/ ms_per_day)
 }
-
-getCurrentDate()
-console.log(date)
