@@ -9,6 +9,8 @@ const key = process.env.tradier;(
 app.use(bodyParser.urlencoded({extended:false})));
 app.use(bodyParser.json());
 
+app.use(exp.static('js'));
+
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'temp.html')))
 app.post('/', function(req, res){
     var ticker = req.body.ticker
