@@ -9,7 +9,7 @@ const key = process.env.tradier;(
 app.use(bodyParser.urlencoded({extended:false})));
 app.use(bodyParser.json());
 
-app.use('/js', exp.static(path.join(__dirname, 'js')));
+app.use('/js', exp.static(path.join(__dirname, '/js')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'temp.html')))
 app.post('/', function(req, res){
