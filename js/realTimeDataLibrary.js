@@ -1,4 +1,3 @@
-const apikey = 'H5KAlyYwAqz3dcDniKj0PGU6EqPn'
 const request = require('request');
 
 function getData(apikey, ticker){
@@ -54,7 +53,3 @@ function getChain(apikey, ticker, expiration){
         console.log(body);
       });
 }
-
-getData(apikey, 'AAPL')
-getExpiries(apikey, "AAPL")
-getChain(apikey, "AAPL", "2019-9-20")
