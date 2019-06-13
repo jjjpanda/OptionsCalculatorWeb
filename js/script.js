@@ -6,7 +6,7 @@ $(document).ready(function(){
       $.post("/",{ticker: ticker}, function(data){
             //do things with data returned from app js
             a = data
-            if(false){
+            if(a === -1){
               data = 'NOT FOUND'
             }
             $("#iv").val(data)

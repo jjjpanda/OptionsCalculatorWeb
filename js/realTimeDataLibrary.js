@@ -17,7 +17,7 @@ getData: function (apikey, ticker, callback){
             callback(JSON.parse(body).quotes.quote.last); 
         }
         else{
-            callback({'message':'error'})
+            callback(-1)
         }
     });
 },
@@ -40,7 +40,7 @@ getExpiries: function (apikey, ticker, callback){
             callback(body); 
         }
         else{
-            callback(undefined)
+            callback(-1)
         }
       });
 },
@@ -63,8 +63,7 @@ getChain: function (apikey, ticker, expiration, callback){
             callback(body); 
         }
         else{
-            callback(undefined)
-            //callback("{\"error\":\"error\"}")
+            callback(-1)
         }
       });
 }
