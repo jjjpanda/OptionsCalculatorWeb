@@ -48,6 +48,8 @@ getExpiries: function (apikey, ticker, callback){
             if(body.date != undefined){
                 body = body.date;
                 
+                callback({"dates":body})
+                /*
                 var fullChain = {}
                 index = 0;
                 var clback = function(data){
@@ -60,6 +62,7 @@ getExpiries: function (apikey, ticker, callback){
                     }
                 }
                 this.getChain(apikey, ticker, body, index, clback)
+                */
 
             }
             else{
