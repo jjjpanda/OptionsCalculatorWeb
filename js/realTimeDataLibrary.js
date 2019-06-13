@@ -14,10 +14,13 @@ getData: function (apikey, ticker){
         }
         }, (error, response, body) => {
         //console.log(response.statusCode);
-        if(error){
-            return "Not Found"
+        if(!error && response == 200){
+            return body; 
         }
-        return body.quotes;
+        else{
+            return {"error": "error"}
+        }
+       
     });
 },
 

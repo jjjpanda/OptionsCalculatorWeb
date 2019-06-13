@@ -23,9 +23,8 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'temp.html')))
 
 app.post('/', function(req, res){
     var ticker = req.body.ticker
-    res.json({"test": "test"
-    });
-    //res.json(realTimeOptions.getData(key, ticker));
+    //res.json({"test": "test"});
+    res.json(realTimeOptions.getData(key, ticker));
 })
 
 app.listen(port, () => console.log("Server running at http://localhost:%d", port));
