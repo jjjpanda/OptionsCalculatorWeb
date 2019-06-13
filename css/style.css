@@ -21,9 +21,8 @@
 }
 
 .collapseContent th, .collapseContent td {
-    padding: 5px;
-    text-align: left;
-    width: 10%;
+    padding: 1px;
+    text-align: center;
 }
 
 #options{
@@ -35,4 +34,5 @@
 button{
     background-color: wheat;
     padding: 5px;
+    height:10%
 }
