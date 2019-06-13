@@ -17,7 +17,7 @@ getData: function (apikey, ticker){
         if(error){
             return "Not Found"
         }
-        return body.quotes.quote[0].close;
+        return body.quotes;
     });
 },
 
