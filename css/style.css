@@ -8,7 +8,7 @@
     display:block;
     width: 100%;
     overflow: auto;
-    height: 50%;
+    height: 66%;
 }
 
 .collapseContent thead tr {
@@ -23,7 +23,7 @@
 .collapseContent th, .collapseContent td {
     padding: 1px;
     text-align: center;
-    width : 30px
+    width : 50px
 }
 
 #options{
@@ -35,6 +35,6 @@
 .collapse{
     background-color: wheat;
     padding: 5px;
-    height: 2%
+    height: 10%
 }
  
