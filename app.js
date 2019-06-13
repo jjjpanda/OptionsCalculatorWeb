@@ -26,7 +26,7 @@ app.post('/', function(req, res){
     //res.json({"test": "test"});
     realTimeOptions.getData(key, ticker, function(data){
         if(data === "e"){
-            res.send("Error")
+            res.send({"message":"Error"})
         }
         res.json(data);
     });

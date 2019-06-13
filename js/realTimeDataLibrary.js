@@ -14,7 +14,7 @@ getData: function (apikey, ticker, callback){
         }
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
-            callback(JSON.parse(body).quotes.quote); 
+            callback(JSON.parse(body).quotes.quote.last); 
         }
         else{
             callback("e")
