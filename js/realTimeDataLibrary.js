@@ -15,7 +15,7 @@ getData: function (apikey, ticker, callback){
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
             body = JSON.parse(body).quotes
-            if(body.quote != undefined){
+            if(body != null && body.quote != undefined){
                 body = body.quote.last
             }
             if(body === undefined){
@@ -45,7 +45,7 @@ getExpiries: function (apikey, ticker, callback){
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
             body = JSON.parse(body).expirations
-            if(body.date != undefined){
+            if(body != null && body.date != undefined){
                 body = body.date;
                 bodyLen = body.length;
                 var fullChain = {}

@@ -1,0 +1,37 @@
+.collapseContent{
+    width: 33%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.collapseContent tbody{
+    display:block;
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+}
+
+.collapseContent thead tr {
+    display: block;
+}
+
+.collapseContent thead {
+    background: black;
+    color:#fff;
+}
+
+.collapseContent th, .collapseContent td {
+    padding: 5px;
+    text-align: left;
+    width: 10%;
+}
+
+#options{
+    overflow: auto;
+    height: 75%;
+    width: 33%
+}
+
+button{
+    background-color: wheat;
+}
