@@ -47,14 +47,9 @@ getExpiries: function (apikey, ticker, callback){
             body = body.expirations
             if(body.date != undefined){
                 body = body.date;
-                var fullChain = {}
-                for(date of body){
-                    this.getChain(apikey, ticker, date, function(data){
-                        fullChain[date] = data
-                    })
-                }
+                
             }
-            callback(fullChain); 
+            callback(body); 
         }
         else{
             callback({'error':error, 'response':response.statusCode});
