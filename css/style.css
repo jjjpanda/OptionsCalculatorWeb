@@ -23,6 +23,7 @@
 .collapseContent th, .collapseContent td {
     padding: 1px;
     text-align: center;
+    width : 30px
 }
 
 #options{
@@ -31,8 +32,9 @@
     width: 100%
 }
 
-button{
+.collapse{
     background-color: wheat;
     padding: 5px;
-    height:10%
+    height: 2%
 }
+ 
