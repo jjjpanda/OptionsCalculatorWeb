@@ -5,8 +5,7 @@ $(document).ready(function(){
       ticker=$("#ticker").val();
       $.post("/",{ticker: ticker}, function(data){
             //do things with data returned from app js
-            a = data
-            if(a === -1){
+            if(data.error == true || data.unmatched_symbols != undefined){
               data = 'NOT FOUND'
             }
             $("#iv").val(data)
