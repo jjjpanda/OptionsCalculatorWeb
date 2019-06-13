@@ -21,7 +21,7 @@ app.use('/js', exp.static(path.join(__dirname, '/js')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'temp.html')))
 
-app.post('/:price', function(req, res){
+app.post('/price', function(req, res){
     var ticker = req.body.ticker
     //res.json({"test": "test"});
     realTimeOptions.getData(key, ticker, function(data){
@@ -29,7 +29,7 @@ app.post('/:price', function(req, res){
     });
 })
 
-app.post('/:chain', function(req, res){
+app.post('/chain', function(req, res){
     var ticker = req.body.ticker
     realTimeOptions.getExpiries(key, ticker, function(data){
         res.json(data);
