@@ -53,8 +53,14 @@ getExpiries: function (apikey, ticker, callback){
                         fullChain[date] = data
                     })
                 }
+                while(Object.keys(fullChain).length != body.length){
+
+                }
+                callback(fullChain)
             }
-            callback(fullChain); 
+            else{
+                callback(null); 
+            }
         }
         else{
             callback({'error':error, 'response':response.statusCode});
