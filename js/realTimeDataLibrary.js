@@ -14,10 +14,17 @@ getData: function (apikey, ticker, callback){
         }
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
-            callback(JSON.parse(body).quotes.quote.last); 
+            body = JSON.parse(body).quotes
+            if(body.quote != undefined){
+                body = body.quote.last
+            }
+            if(body === undefined){
+                body = null
+            }
+            callback(body); 
         }
         else{
-            callback(-1)
+            callback({'error':error, 'response':response.statusCode});
         }
     });
 },
@@ -40,7 +47,7 @@ getExpiries: function (apikey, ticker, callback){
             callback(body); 
         }
         else{
-            callback(-1)
+            callback({'error':error, 'response':response.statusCode});
         }
       });
 },
@@ -63,7 +70,7 @@ getChain: function (apikey, ticker, expiration, callback){
             callback(body); 
         }
         else{
-            callback(-1)
+            callback({'error':error, 'response':response.statusCode});
         }
       });
 }
