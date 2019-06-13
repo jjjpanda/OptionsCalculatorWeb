@@ -48,8 +48,6 @@ getExpiries: function (apikey, ticker, callback){
             if(body.date != undefined){
                 body = body.date;
                 
-                callback({"dates":body})
-                /*
                 var fullChain = {}
                 index = 0;
                 var clback = function(data){
@@ -57,13 +55,13 @@ getExpiries: function (apikey, ticker, callback){
                         callback(fullChain)
                     }
                     else{
-                    fullChain[body[index]] = data
-                    this.getChain(apikey, ticker, body, index++, clback)
+                        fullChain[body[index]] = data
+                        this.getChain(apikey, ticker, body, index++, clback)
                     }
                 }
+                
                 this.getChain(apikey, ticker, body, index, clback)
-                */
-
+        
             }
             else{
                 callback(null); 
