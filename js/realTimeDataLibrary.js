@@ -47,14 +47,14 @@ getExpiries: function (apikey, ticker, callback){
             body = body.expirations
             if(body.date != undefined){
                 body = body.date;
+                var fullChain = {}
+                for(date of body){
+                    this.getChain(apikey, ticker, date, function(data){
+                        fullChain[date] = data
+                    })
+                }
             }
-            var fullChain = {}
-            for(date of body){
-                this.getChain(apikey, ticker, date, function(data){
-                    fullChain[date] = data
-                })
-            }
-            callback(body); 
+            callback(fullChain); 
         }
         else{
             callback({'error':error, 'response':response.statusCode});
@@ -86,7 +86,6 @@ getChain: function (apikey, ticker, expiration, callback){
                 type = body.map(a => a.option_type)
                 data = zip([type, strike, bid, ask]) 
             }
-            //for(date of body){}
             callback(data); 
         }
         else{
