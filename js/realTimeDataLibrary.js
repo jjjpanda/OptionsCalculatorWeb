@@ -44,12 +44,17 @@ getExpiries: function (apikey, ticker, callback){
         }
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
-            body = body.expirations
+            body = JSON.parse(body).expirations
             if(body.date != undefined){
                 body = body.date;
-                
+                var fullChain = {}
+                for(date of body){
+                    this.getChain(apikey, ticker, date, function(data){
+                        fullChain[date] = data
+                    })
+                }
             }
-            callback({'message':body}); 
+            callback(fullChain); 
         }
         else{
             callback({'error':error, 'response':response.statusCode});
@@ -72,7 +77,7 @@ getChain: function (apikey, ticker, expiration, callback){
         }, (error, response, body) => {
         //console.log(response.statusCode);
         if(!error && response.statusCode == 200){
-            body = body.options
+            body = JSON.parse(body).options
             if(body.option != undefined){
                 body = body.option;
                 bid = body.map(a => a.bid)
