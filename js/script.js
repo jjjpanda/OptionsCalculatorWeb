@@ -6,6 +6,9 @@ $(document).ready(function(){
       $.post("/",{ticker: ticker}, function(data){
             //do things with data returned from app js
             a = data
+            if(data instanceof Object){
+              data = 'NOT FOUND'
+            }
             $("#iv").val(data)
       });
     });
