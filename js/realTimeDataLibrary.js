@@ -53,7 +53,8 @@ getExpiries: function (apikey, ticker, callback){
                 var clback = function(data){
                     if(index >= body.length){
                         callback(fullChain)
-                    }else{
+                    }
+                    else{
                     fullChain[body[index]] = data
                     this.getChain(apikey, ticker, body, index++, clback)
                     }
@@ -95,6 +96,14 @@ getChain: function (apikey, ticker, expiration, index, callback){
                 type = body.map(a => a.option_type)
                 data = zip([type, strike, bid, ask]) 
             }
+            data = data.map(function(x){
+                return {
+                    type: x[0],
+                    strike: x[1],
+                    bid: x[2],
+                    ask: x[3]
+                };
+            });
             callback(data); 
         }
         else{
