@@ -53,7 +53,7 @@ getExpiries: function (apikey, ticker, callback){
                 var clback = function(data){
                     fullChain[body[index]] = data;
                     index++;
-                    if(index >= 1){
+                    if(index >= body.length-1){
                         callback(fullChain)
                     }
                     else{
@@ -62,7 +62,6 @@ getExpiries: function (apikey, ticker, callback){
                 }
                 
                 this.getChain(apikey, ticker, body, index, clback)
-        
             }
             else{
                 callback(null); 
