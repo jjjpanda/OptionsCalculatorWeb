@@ -47,13 +47,13 @@ getExpiries: function (apikey, ticker, callback){
             body = JSON.parse(body).expirations
             if(body.date != undefined){
                 body = body.date;
-                
+                bodyLen = body.length;
                 var fullChain = {}
                 index = 0;
                 var clback = function(data){
                     fullChain[body[index]] = data;
                     index++;
-                    if(index >= body.length-1){
+                    if(index >= 3){
                         callback(fullChain)
                     }
                     else{
