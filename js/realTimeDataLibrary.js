@@ -53,7 +53,7 @@ getExpiries: function (apikey, ticker, callback){
                 var clback = function(data){
                     fullChain[body[index]] = data;
                     index++;
-                    if(index >= 3){
+                    if(index >= bodyLen){
                         callback(fullChain)
                     }
                     else{
