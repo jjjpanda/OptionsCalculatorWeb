@@ -14,10 +14,10 @@ getData: function (apikey, ticker, callback){
         }
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
-            callback(JSON.parse(body).quotes.quote.last); 
+            callback(JSON.parse(body).quotes.quote); 
         }
         else{
-            callback("{\"error\":\"error\"}")
+            callback(reponse)
         }
     });
 },
