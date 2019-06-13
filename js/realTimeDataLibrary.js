@@ -57,11 +57,11 @@ getExpiries: function (apikey, ticker, callback){
                         callback(fullChain)
                     }
                     else{
-                        this.getChain(apikey, ticker, body, index, clback)
+                        module.exports.getChain(apikey, ticker, body, index, clback)
                     }
                 }
                 
-                this.getChain(apikey, ticker, body, index, clback)
+                module.exports.getChain(apikey, ticker, body, index, clback)
             }
             else{
                 callback(null); 
