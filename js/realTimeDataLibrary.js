@@ -17,7 +17,7 @@ getData: function (apikey, ticker, callback){
             callback(JSON.parse(body).quotes.quote.last); 
         }
         else{
-            callback(null)
+            callback({"error": "error"})
         }
     });
 },
