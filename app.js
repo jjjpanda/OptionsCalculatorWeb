@@ -25,7 +25,7 @@ app.post('/', function(req, res){
     var ticker = req.body.ticker
     //res.json({"test": "test"});
     realTimeOptions.getData(key, ticker, function(data){
-        res.json(data);
+        res.send(data);
     });
 })
 
