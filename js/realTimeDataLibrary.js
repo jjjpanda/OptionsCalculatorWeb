@@ -44,6 +44,16 @@ getExpiries: function (apikey, ticker, callback){
         }
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
+            body = body.expirations
+            if(body.date != undefined){
+                body = body.date;
+            }
+            var fullChain = {}
+            for(date of body){
+                this.getChain(apikey, ticker, date, function(data){
+                    fullChain[date] = data
+                })
+            }
             callback(body); 
         }
         else{
@@ -67,7 +77,17 @@ getChain: function (apikey, ticker, expiration, callback){
         }, (error, response, body) => {
         //console.log(response.statusCode);
         if(!error && response.statusCode == 200){
-            callback(body); 
+            body = body.options
+            if(body.option != undefined){
+                body = body.option;
+                bid = body.map(a => a.bid)
+                ask = body.map(a => a.ask)
+                strike = body.map(a => a.strike)
+                type = body.map(a => a.option_type)
+                data = zip([type, strike, bid, ask]) 
+            }
+            //for(date of body){}
+            callback(data); 
         }
         else{
             callback({'error':error, 'response':response.statusCode});
@@ -75,3 +95,9 @@ getChain: function (apikey, ticker, expiration, callback){
       });
 }
 };
+
+function zip(arrays) {
+    return Array.apply(null,Array(arrays[0].length)).map(function(_,i){
+        return arrays.map(function(array){return array[i]})
+    });
+}

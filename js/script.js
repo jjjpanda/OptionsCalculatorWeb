@@ -1,9 +1,8 @@
-var a 
-$(document).ready(function(){
+ $(document).ready(function(){
     var ticker;
     $("#submit").click(function(){
       ticker=$("#ticker").val();
-      $.post("/",{ticker: ticker}, function(data){
+      $.post("/:price",{ticker: ticker}, function(data){
             //do things with data returned from app js
             if(data.error == true || data.unmatched_symbols != undefined){
               data = 'NOT FOUND'
@@ -11,4 +10,13 @@ $(document).ready(function(){
             $("#iv").val(data)
       });
     });
+
+    $("#chain").click(function(){
+      ticker=$("#ticker").val();
+      $.post("/:chain",{ticker: ticker}, function(data){
+            //do things with data returned from app js
+            console.log(data)
+      });
+    });
+
   });

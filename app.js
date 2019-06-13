@@ -21,13 +21,21 @@ app.use('/js', exp.static(path.join(__dirname, '/js')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'temp.html')))
 
-app.post('/', function(req, res){
+app.post('/:price', function(req, res){
     var ticker = req.body.ticker
     //res.json({"test": "test"});
     realTimeOptions.getData(key, ticker, function(data){
         res.json(data);
     });
 })
+
+app.post('/:chain', function(req, res){
+    var ticker = req.body.ticker
+    realTimeOptions.getExpiries(key, ticker, function(data){
+        res.json(data);
+    });
+})
+
 
 app.listen(port, () => console.log("Server running at http://localhost:%d", port));
 
