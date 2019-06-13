@@ -1,7 +1,7 @@
 const request = require('request');
 
 module.exports = {
-getData: function (apikey, ticker){
+getData: function (apikey, ticker, callback){
     request({
         method: 'get',
         url: 'https://sandbox.tradier.com/v1/markets/quotes',
@@ -15,16 +15,16 @@ getData: function (apikey, ticker){
         }, (error, response, body) => {
         //console.log(response.statusCode);
         if(!error && response == 200){
-            return body; 
+            callback(body); 
         }
         else{
-            return {"error": "error"}
+            callback({"error": "error"})
         }
        
     });
 },
 
-getExpiries: function (apikey, ticker){
+getExpiries: function (apikey, ticker, callback){
     request({
         method: 'get',
         url: 'https://sandbox.tradier.com/v1/markets/options/expirations',
@@ -38,12 +38,16 @@ getExpiries: function (apikey, ticker){
         'Accept': 'application/json'
         }
         }, (error, response, body) => {
-        //console.log(response.statusCode);
-        return(body);
+        if(!error && response == 200){
+            callback(body); 
+        }
+        else{
+            callback({"error": "error"})
+        }
       });
 },
 
-getChain: function (apikey, ticker, expiration){
+getChain: function (apikey, ticker, expiration, callback){
     request({
         method: 'get',
         url: 'https://sandbox.tradier.com/v1/markets/options/chains',
@@ -57,7 +61,12 @@ getChain: function (apikey, ticker, expiration){
         }
         }, (error, response, body) => {
         //console.log(response.statusCode);
-        return(body);
+        if(!error && response == 200){
+            callback(body); 
+        }
+        else{
+            callback({"error": "error"})
+        }
       });
 }
 };
