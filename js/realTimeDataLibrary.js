@@ -47,16 +47,18 @@ getExpiries: function (apikey, ticker, callback){
             body = JSON.parse(body).expirations
             if(body.date != undefined){
                 body = body.date;
+                
                 var fullChain = {}
-                for(date of body){
-                    this.getChain(apikey, ticker, date, function(data){
-                        fullChain[date] = data
-                    })
+                index = 0;
+                var clback = function(data){
+                    if(index === body.length){
+                        callback(fullChain)
+                    }
+                    fullChain[body[index]] = data
+                    this.getChain(apikey, ticker, body, index+1, clback)
                 }
-                while(Object.keys(fullChain).length != body.length){
+                this.getChain(apikey, ticker, body, index, clback)
 
-                }
-                callback(fullChain)
             }
             else{
                 callback(null); 
@@ -68,13 +70,13 @@ getExpiries: function (apikey, ticker, callback){
       });
 },
 
-getChain: function (apikey, ticker, expiration, callback){
+getChain: function (apikey, ticker, expiration, index, callback){
     request({
         method: 'get',
         url: 'https://sandbox.tradier.com/v1/markets/options/chains',
         qs: {
         'symbol': ticker,
-        'expiration': expiration
+        'expiration': expiration[index]
         },
         headers: {
         'Authorization': 'Bearer '+apikey,
