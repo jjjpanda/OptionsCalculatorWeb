@@ -7,6 +7,7 @@ $(document).ready(function(){
             //do things with data returned from app js
             a = data
             alert(toString(data))
+            $("#iv").val(data)
       });
     });
   });
