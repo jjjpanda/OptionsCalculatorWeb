@@ -49,7 +49,7 @@ getExpiries: function (apikey, ticker, callback){
                 body = body.date;
                 
             }
-            callback(body); 
+            callback({'message':body}); 
         }
         else{
             callback({'error':error, 'response':response.statusCode});
