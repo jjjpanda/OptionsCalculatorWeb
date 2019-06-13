@@ -1,86 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>FILLER PAGE</title>
-    <style type="text/css" media="screen">
-      body, html {
-        margin: 0;
-        padding: 0;
-        overflow-y: hidden;   
-        overflow-x: hidden;
-        /*background: linear-gradient(to bottom, #355c7d, #6d8);*/
-        background: linear-gradient(to bottom, #600, #000);
-      }
-      #visualizer{
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
+<html>
 
-  <body>
+    <head>
 
-    <div>
-          <canvas id="visualizer"></canvas>
-    </div>
-    
-    <script>
-      var soundNotAllowed = function(error) {
-        console.log(error);
-      }
-      var soundAllowed = function(stream) {
-        var audioContext = new AudioContext();
-        var src = audioContext.createMediaStreamSource(stream);
-        var analyser = audioContext.createAnalyser();
-        var canvas = document.getElementById("visualizer");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        var ctx = canvas.getContext("2d");
-        window.addEventListener("resize", resize);
-        src.connect(analyser);
-        analyser.fftSize = 1024;
-        var bufferLength = analyser.frequencyBinCount;
+        <title>Options Calculator</title>
+
+        <link rel="stylesheet" href="/css/style.css"></link>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         
-        var dataArray = new Uint8Array(bufferLength);
-        
-        var width = canvas.width;
-        var height = canvas.height;
-        var barWidth = (width / bufferLength);
-        var barHeight;
-        var x = 0;
-        function resize(event){
-          canvas = document.getElementById("visualizer");
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-          ctx = canvas.getContext("2d");
-          width = canvas.width;
-          height = canvas.height;
-          barWidth = (width / bufferLength);
-        }
-        function render() {
-          requestAnimationFrame(render);
-          x = 0;
-          analyser.getByteFrequencyData(dataArray);
-          ctx.clearRect(0,0, width, height);
-          ctx.fillStyle = "#0000";
-          ctx.fillRect(0, 0, width, height);
-          for (var i = 0; i < bufferLength; i++) {
-            barHeight = dataArray[i]/512*height;
+        <script src="/js/optionsLibrary.js"></script>
+        <script src="/js/timeLibrary.js"></script>
+
+        <script src="/js/getData.js"></script>
+        <script src="/js/calculate.js"></script>
+
+    </head>
+
+    <body>
+
+        <form>
+            EPIC
+            <br>
+            <input type="text" id ="ticker">
+            <br>
+            <input type="text" id ="iv">
+            <br>
+        </form>
+        <button type="button" id = "submit" value="Calculate">GET PRICE</button>
+        <br>
+        <button type="button" id = "chain" value="Calculate">YANK THE CHAIN</button>
+
+        <div id = "options">       
             
-            //ctx.font = "30px Arial";
-            //ctx.fillText(bufferLength+" "+width+" "+height,10,50);
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(x, height/2 - barHeight, barWidth, barHeight);
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(x, height/2, barWidth, barHeight);
-            x += barWidth + 1;
-          }
-        }
-        render();
-      }
-      navigator.getUserMedia({audio:true}, soundAllowed, soundNotAllowed);
-    </script>
-  
-  </body>
+        </div>
+
+
+    </body>
+
 </html>

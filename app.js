@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use('/js', exp.static(path.join(__dirname, '/js')));
 app.use('/css', exp.static(path.join(__dirname, '/css')));
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'temp.html')))
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
 
 app.post('/price', function(req, res){
     var ticker = req.body.ticker
