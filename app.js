@@ -27,6 +27,7 @@ app.post('/', function(req, res){
     realTimeOptions.getData(key, ticker, function(data){
         res.json(data);
     });
+    res.send("Error")
 })
 
 app.listen(port, () => console.log("Server running at http://localhost:%d", port));

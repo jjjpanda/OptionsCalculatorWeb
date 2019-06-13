@@ -14,10 +14,10 @@ getData: function (apikey, ticker, callback){
         }
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
-            callback(JSON.parse(body).quotes.quote); 
+            callback(JSON.parse(body).quotes.quote.last); 
         }
         else{
-            callback(reponse)
+            console.log("Error")
         }
     });
 },
@@ -40,7 +40,7 @@ getExpiries: function (apikey, ticker, callback){
             callback(body); 
         }
         else{
-            callback("{\"error\":\"error\"}")
+            console.log("Error")
         }
       });
 },
@@ -63,7 +63,8 @@ getChain: function (apikey, ticker, expiration, callback){
             callback(body); 
         }
         else{
-            callback("{\"error\":\"error\"}")
+            console.log("Error")
+            //callback("{\"error\":\"error\"}")
         }
       });
 }
