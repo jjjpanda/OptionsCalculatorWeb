@@ -5,6 +5,7 @@
         <title>Options Calculator</title>
 
         <link rel="stylesheet" href="/css/style.css"></link>
+        <link rel="stylesheet" href="/css/switch.css"></link>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         
@@ -17,22 +18,41 @@
     </head>
 
     <body>
+        <span> 
+            <h1>Logo</h1>
+        </span>
+        <hr style="height:5px;border:none;color:#333;background-color:#333;" />
 
-        <form>
-            EPIC
-            <br>
+        <span>
             <input type="text" id ="ticker">
-            <br>
+            <button type="button" id = "submit" value="Calculate">GET PRICE</button>
+        
+            <input type='text' class = "text" id ="price" readonly>
+            <input type='text' class = "text" id="percentChange" readonly>
+            <!--LOADING ICON-->
             <input type="text" id ="iv">
-            <br>
-        </form>
-        <button type="button" id = "submit" value="Calculate">GET PRICE</button>
+        </span>
+
+        <br>
+
+        <span>
+            <div class="onoffswitch" style="display:inline-block">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+            <input type='text' class="optionName" readonly>
+            <input type='text' class="text" value="x" readonly>
+            <input type='text' class="quantity" value="1">
+            <input type='text' class="limitPrice">
+        </span>
+
         <br>
         <button type="button" id = "chain" value="Calculate">YANK THE CHAIN</button>
 
-        <div id = "options">       
-            
-        </div>
+        <div id = "options"></div>
 
 
     </body>
