@@ -1,22 +1,11 @@
  $(document).ready(function(){
     var ticker;
 
-    $("#submit").click(function(){
-      ticker=$("#ticker").val();
-      $.post("/price",{ticker: ticker}, function(data){
-            //do things with data returned from app js
-            if(data.error != undefined || data.unmatched_symbols != undefined){
-              data = 'NOT FOUND'
-            }
-            $("#price").val(data)
-            console.log(data)
-      });
-    });
-
     $("#chain").click(function(){
       ticker=$("#ticker").val();
       $.post("/chain",{ticker: ticker}, function(data){
             //do things with data returned from app js
+            loadIconStop()
             if(data.error != undefined || data == null || data == undefined){
               data = 'NOT FOUND'
             }
@@ -25,6 +14,7 @@
             }
             console.log(data)
       });
+      loadIconStart()
     });
 
     
