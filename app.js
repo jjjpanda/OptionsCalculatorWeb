@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 app.use('/js', exp.static(path.join(__dirname, '/js')));
+app.use('/jsLib', exp.static(path.join(__dirname, '/jsLib')));
 app.use('/css', exp.static(path.join(__dirname, '/css')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
