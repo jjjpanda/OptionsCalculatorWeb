@@ -5,7 +5,7 @@ const bodyParser = require("body-parser")
 
 const path = require('path')
 
-const realTimeOptions = require('./js/realTimeDataLibrary.js')
+const realTimeOptions = require('./jsLib/realTimeDataLibrary.js')
 
 const app = exp()
 
