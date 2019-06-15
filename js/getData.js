@@ -8,7 +8,7 @@
             if(data.error != undefined || data.unmatched_symbols != undefined){
               data = 'NOT FOUND'
             }
-            $("#iv").val(data)
+            $("#price").val(data)
             console.log(data)
       });
     });
