@@ -2,6 +2,10 @@
     height:10%
 }
 
+.loading{
+    height:5%
+}
+
 @keyframes cycle {
     0%, 50%, 100% {
     animation-timing-function: cubic-bezier(0.5, 0.5, 0.5, 0.5);
