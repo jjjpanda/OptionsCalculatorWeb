@@ -5,14 +5,14 @@ $(document).ready(function(){
       ticker=$("#ticker").val();
       $.post("/price",{ticker: ticker}, function(data){
             //do things with data returned from app js
-            loadIconStop()
+            loadIconInBoxStop($('#price'))
             if(data.error != undefined || data.unmatched_symbols != undefined){
               data = 'NOT FOUND'
             }
             $("#price").val(data)
             console.log(data)
       });
-      loadIconStart()
+      loadIconInBoxStart($('#price'))
     });
 
 });
