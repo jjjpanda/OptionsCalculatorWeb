@@ -7,12 +7,5 @@ function loadIconStop(){
         $("#loadingIcon").css('display','inline')
         $("#loadingIcon").css('visibility','hidden')
     })
-}
-
-function loadIconInBoxStart(pointer){
-    pointer.addClass('loadingInBox')
-}
-
-function loadIconInBoxStop(pointer){
-    pointer.removeClass('loadingInBox')
+    
 }
