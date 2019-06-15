@@ -12,21 +12,22 @@
             else{
               addOptionsChain(data)
             }
+            $("#modal").css("display", "block")
             console.log(data)
       });
       loadIconStart()
     });
 
-    
 });
 
 function addOptionsChain(data){
   expiries = Object.keys(data);
-  getOptionsMenu().innerHTML = "";
+  getOptionsMenu().innerHTML = "<span id=\"close\">&times;</span>";
   for(expiry of expiries){
     getOptionsMenu().appendChild(createChainDiv(expiry, data[expiry]))
   }
   addCollapsers()
+  addCloseListener()
 }
 
 function getOptionsMenu(){ 
@@ -120,7 +121,6 @@ function sortedChain(arr){
 
 function addCollapsers(){
   var coll = document.getElementsByClassName("collapse");
-  var cont = document.getElementsByClassName('collapseContent')
   var i;
   for (i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
@@ -133,4 +133,16 @@ function addCollapsers(){
       }
     });
   }
+}
+
+function addCloseListener(){
+  $("#close").click(function(){
+    $("#modal").css("display", "none")
+  });  
+
+  $("#modal").click(function(){
+    if($("#modal").css("display") == "block"){
+      $("#modal").css("display", "none") 
+    }
+  })
 }
