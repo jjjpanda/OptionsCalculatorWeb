@@ -46,31 +46,6 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#ticker{
-    height:5%;
-    padding: 5px;
-    width: 13%
-}
-
-#submitTicker{
-    height:5%;
-    padding: 5px;
-    width: 13%
-}
-
-.text{
-    height:5%;
-    padding: 5px;
-    width: 13%
-}
-
-#ivFactor{
-    align-content: right;
-    height:5%;
-    padding: 5px;
-    width: 13%
-}
-
 #options{
     background-color: #fefefe;
     margin: auto;

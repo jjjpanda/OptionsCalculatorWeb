@@ -1,0 +1,24 @@
+#ticker{
+    height:5%;
+    padding: 5px;
+    width: 13%
+}
+
+#submitTicker{
+    height:5%;
+    padding: 5px;
+    width: 13%
+}
+
+.text{
+    height:5%;
+    padding: 5px;
+    width: 13%
+}
+
+#ivFactor{
+    align-content: right;
+    height:5%;
+    padding: 5px;
+    width: 13%
+}
