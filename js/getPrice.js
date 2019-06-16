@@ -1,18 +1,34 @@
+var stockticker, stockdata;
+var notFound = {'price':'NOT FOUND', 'change':'NOT FOUND'}
 $(document).ready(function(){
-    var ticker;
-
+  
     $("#submitTicker").click(function(){
-      ticker=$("#ticker").val();
-      $.post("/price",{ticker: ticker}, function(data){
-            //do things with data returned from app js
-            loadIconStop()
-            if(data.error != undefined || data.unmatched_symbols != undefined){
-              data = 'NOT FOUND'
-            }
-            $("#price").val(data)
-            console.log(data)
-      });
-      loadIconStart()
+      if(stockticker != $("#ticker").val()){
+        stockticker=$("#ticker").val();
+        $.post("/price",{ticker: stockticker}, function(data){
+              //do things with data returned from app js
+              console.log(data)
+              if('error' in data || 'unmatched_symbols' in data){
+                data = notFound
+              }
+              displayData(data.price, data.change)
+              keepData(data)
+              loadIconStop()
+        });
+        loadIconStart()
+      }
+      else{
+        displayData(stockdata.price, stockdata.change)
+      }
     });
 
 });
+
+function keepData(ndata){
+  stockdata = ndata
+}
+
+function displayData(price, change){
+  $("#price").val(price)
+  $("#percentChange").val(change + " %")
+}

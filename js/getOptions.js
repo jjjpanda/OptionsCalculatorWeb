@@ -1,26 +1,42 @@
+var chainticker, chaindata;
  $(document).ready(function(){
-    var ticker;
-
+    
     $("#chain").click(function(){
-      ticker=$("#ticker").val();
-      $.post("/chain",{ticker: ticker}, function(data){
-            //do things with data returned from app js
+      if(chainticker != $("#ticker").val()){
+        chainticker=$("#ticker").val();
+        $.post("/chain",{ticker: chainticker}, function(data){
+          //do things with data returned from app js
+          console.log(data)
+          if('error' in data || data == null || data == undefined){
+            data = 'NOT FOUND'
             loadIconStop()
-            if(data.error != undefined || data == null || data == undefined){
-              data = 'NOT FOUND'
-            }
-            else{
-              addOptionsChain(data)
-            }
-            $("#modal").css("display", "block")
-            console.log(data)
-      });
-      loadIconStart()
+          }
+          else{
+            addOptionsChain(data, function(){
+              loadIconStop()
+            })
+          }
+          $("#modal").css("display", "block")
+          keepChain(data)
+        });
+        loadIconStart()
+      }
+      else{
+        loadIconStart()
+        addOptionsChain(chaindata, function(){
+          loadIconStop()
+        })
+      }
+     
     });
 
 });
 
-function addOptionsChain(data){
+function keepChain(ndata){
+  chaindata = ndata;
+}
+
+function addOptionsChain(data, callback){
   expiries = Object.keys(data);
   getOptionsMenu().innerHTML = "<span id=\"close\">&times;</span>";
   for(expiry of expiries){
@@ -28,6 +44,7 @@ function addOptionsChain(data){
   }
   addCollapsers()
   addCloseListener()
+  callback()
 }
 
 function getOptionsMenu(){ 
