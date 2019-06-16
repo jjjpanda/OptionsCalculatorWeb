@@ -14,9 +14,9 @@ var chainticker, chaindata;
           else{
             addOptionsChain(data, function(){
               loadIconStop()
+              $("#modal").css("display", "block")
             })
           }
-          $("#modal").css("display", "block")
           keepChain(data)
         });
         loadIconStart()
@@ -25,6 +25,7 @@ var chainticker, chaindata;
         loadIconStart()
         addOptionsChain(chaindata, function(){
           loadIconStop()
+          $("#modal").css("display", "block")
         })
       }
      

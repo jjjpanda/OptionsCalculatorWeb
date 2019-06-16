@@ -15,14 +15,15 @@ getData: function (apikey, ticker, callback){
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
             body = JSON.parse(body).quotes
-            if(body != null && body.quote != undefined){
+            if(body != null && 'quote' in body){
                 price = body.quote.last
                 change = body.quote.change_percentage
+                body = {'price':price, 'change':change}
             }
             if(body === undefined){
                 body = null
             }
-            callback({'price':price, 'change':change}); 
+            callback(body); 
         }
         else{
             callback({'error':error, 'response':response.statusCode});

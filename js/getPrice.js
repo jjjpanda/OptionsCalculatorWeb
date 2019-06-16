@@ -8,7 +8,7 @@ $(document).ready(function(){
         $.post("/price",{ticker: stockticker}, function(data){
               //do things with data returned from app js
               console.log(data)
-              if('error' in data || 'unmatched_symbols' in data){
+              if('error' in data || 'unmatched_symbols' in data || data == null){
                 data = notFound
               }
               displayData(data.price, data.change)
