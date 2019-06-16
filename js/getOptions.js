@@ -140,9 +140,11 @@ function addCloseListener(){
     $("#modal").css("display", "none")
   });  
 
+  /*
   $("#modal").click(function(){
     if($("#modal").css("display") == "block"){
       $("#modal").css("display", "none") 
     }
   })
+  */
 }
