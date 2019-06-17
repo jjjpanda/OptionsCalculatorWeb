@@ -1,23 +1,30 @@
-#ticker{
+input{
+    box-sizing:border-box
+}
+
+#ticker-div{
+    float: left;
     height:5%;
     padding: 5px;
-    width: 13%
+    width: 13%;
 }
 
 #submitTicker{
+    float: left;
+    height:3%;
+    padding: 1px;
+    width: 12%
+}
+
+.text-div{
+    float: left;
     height:5%;
     padding: 5px;
     width: 13%
 }
 
-.text{
-    height:5%;
-    padding: 5px;
-    width: 13%
-}
-
-#ivFactor{
-    align-content: right;
+#ivFactor-div{
+    float: right;
     height:5%;
     padding: 5px;
     width: 13%

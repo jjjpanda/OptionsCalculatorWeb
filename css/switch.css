@@ -23,7 +23,7 @@
 .onoffswitch-inner:before {
     content: "BUY";
     padding-left: 5px;
-    background-color: #00DE1E; color: #FFFFFF;
+    background-color: #00DE1E; color: #000000;
 }
 .onoffswitch-inner:after {
     content: "WRITE";

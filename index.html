@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="/css/optionSelection.css"></link>
         <link rel="stylesheet" href="/css/pictures.css"></link>
         <link rel="stylesheet" href="/css/switch.css"></link>
-        <link rel="stylesheet" href="/css/toprow.css"></link>
+        <link rel="stylesheet" href="/css/topRow.css"></link>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         
@@ -29,15 +29,31 @@
 
         <hr style="height:5px;border:none;color:#333;background-color:#333;" />
 
-        <span>
-            <input type="text" id ="ticker">
+        <div style="display:inline-block" class="toprow">
+            <div id= "ticker-div">
+                <label for="ticker">Symbol</label>
+                <input type="text" id ="ticker">
+            </div>
+            
             <button type="button" id = "submitTicker">GET PRICE</button>
         
-            <input type='text' class = "text" id ="price" readonly>
-            <input type='text' class = "text" id="percentChange" readonly>
+            <div class="text-div">
+                <label for="price">Price</label>
+                <input type='text' class = "text" id ="price" readonly>
+            </div>
+            
+            <div class="text-div">
+                <label for="percentChange">Percent Change</label>
+                <input type='text' class = "text" id="percentChange" readonly>
+            </div> 
+
             <img src="/img/logoTransparent.png" class="cycle loading" id = "loadingIcon" style="visibility: hidden"/>
-            <input type="text" id ="ivFactor">
-        </span>
+            
+            <div id="ivFactor-div">
+                <label for="ivFactor">IV Factor</label>
+                <input type="text" id ="ivFactor" value = 1>
+            </div>
+        </div>
 
         <br>
 
