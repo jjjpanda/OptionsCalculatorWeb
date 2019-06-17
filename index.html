@@ -1,87 +1,73 @@
 <html>
+<head>
+    <title>Options Calculator</title>
 
-    <head>
+    <link rel="stylesheet" href="/css/bodyRows.css"></link>
+    <link rel="stylesheet" href="/css/optionSelection.css"></link>
+    <link rel="stylesheet" href="/css/pictures.css"></link>
+    <link rel="stylesheet" href="/css/switch.css"></link>
+    <link rel="stylesheet" href="/css/topRow.css"></link>
 
-        <title>Options Calculator</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    
+    <script src="/jsLib/loadingLibrary.js"></script>
+    <script src="/jsLib/optionsLibrary.js"></script>
+    <script src="/jsLib/timeLibrary.js"></script>
+    
+    <script src="/js/calculate.js"></script>
+    <script src="/js/getOptions.js"></script>
+    <script src="/js/getPrice.js"></script>
+</head>
+<body>
 
-        <link rel="stylesheet" href="/css/bodyRows.css"></link>
-        <link rel="stylesheet" href="/css/optionSelection.css"></link>
-        <link rel="stylesheet" href="/css/pictures.css"></link>
-        <link rel="stylesheet" href="/css/switch.css"></link>
-        <link rel="stylesheet" href="/css/topRow.css"></link>
+    <!--LOGO-->
+    <span> 
+        <img src="/img/logoTransparent.png" class="logo"/>
+    </span>
+    <hr style="height:5px;border:none;color:#333;background-color:#333;" />
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        
-        <script src="/jsLib/loadingLibrary.js"></script>
-        <script src="/jsLib/optionsLibrary.js"></script>
-        <script src="/jsLib/timeLibrary.js"></script>
-        
-        <script src="/js/calculate.js"></script>
-        <script src="/js/getOptions.js"></script>
-        <script src="/js/getPrice.js"></script>
+    <!--TOP ROW-->
+    <div style="display:inline-block;" class="topRow">
 
-    </head>
-
-    <body>
-        <span> 
-            <img src="/img/logoTransparent.png" class="logo"/>
-        </span>
-
-        <hr style="height:5px;border:none;color:#333;background-color:#333;" />
-
-        <div style="display:inline-block" class="toprow">
-            <div id= "ticker-div">
-                <label for="ticker">Symbol</label>
-                <input type="text" id ="ticker">
-            </div>
-            
-            <button type="button" id = "submitTicker">GET PRICE</button>
-        
-            <div class="text-div">
-                <label for="price">Price</label>
-                <input type='text' class = "text" id ="price" readonly>
-            </div>
-            
-            <div class="text-div">
-                <label for="percentChange">Percent Change</label>
-                <input type='text' class = "text" id="percentChange" readonly>
-            </div> 
-
-            <img src="/img/logoTransparent.png" class="cycle loading" id = "loadingIcon" style="visibility: hidden"/>
-            
-            <div id="ivFactor-div">
-                <label for="ivFactor">IV Factor</label>
-                <input type="text" id ="ivFactor" value = 1>
-            </div>
+        <div id= "ticker-div">
+            <label for="ticker">Symbol</label>
+            <input type="text" id ="ticker">
         </div>
-
-        <br>
-
-        <span>
-            <div class="onoffswitch" style="display:inline-block">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                <label class="onoffswitch-label" for="myonoffswitch">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                </label>
-            </div>
-            <input type='text' class="optionName" readonly>
-            <span id="quantitySymbol">&times;</span>
-            <input type='text' class="quantity" value="1">
-            <input type='text' class="limitPrice">
-            <input type='text' class="ivOfOption" readonly>
-        </span>
-
-        <br>
-        <button type="button" id = "chain">YANK THE CHAIN</button>
-
-        <div id = "modal">
-            <div id = "options">
-            
-            </div>
+        
+        <button type="button" id = "submitTicker">GET PRICE</button>
+    
+        <div class="text-div">
+            <label for="price">Price</label>
+            <input type='text' class = "text" id ="price" readonly>
         </div>
+        
+        <div class="text-div">
+            <label for="percentChange">Percent Change</label>
+            <input type='text' class = "text" id="percentChange" readonly>
+        </div> 
+
+        <img src="/img/logoTransparent.png" class="cycle loading" id = "loadingIcon" style="visibility: hidden"/>
+        
+        <div id="ivFactor-div">
+            <label for="ivFactor">IV Factor</label>
+            <input type="text" id ="ivFactor" value = 1>
+        </div>
+        
+    </div>
+    <br/>
+
+    <!--SUBSEQUENT ROWS-->
+    <div style="display:inline-block" class="bottomRow">
+
+    </div>
+    <br/>
+
+    <!--ADD LEG OR SUBMIT-->
+    <span id="submitRow">
+
+    </span>
+    <br/>
 
 
-    </body>
-
+</body>
 </html>

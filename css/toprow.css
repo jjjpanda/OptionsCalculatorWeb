@@ -1,31 +1,16 @@
-input{
-    box-sizing:border-box
+.toprow > div{
+    display:inline-block;
 }
 
-#ticker-div{
-    float: left;
-    height:5%;
-    padding: 5px;
-    width: 13%;
-}
-
-#submitTicker{
-    float: left;
-    height:3%;
-    padding: 1px;
+#ticker-div, #text-div, #ivFactorDiv, #submitTicker{
     width: 12%
 }
 
-.text-div{
-    float: left;
-    height:5%;
-    padding: 5px;
-    width: 13%
+.toprow > div > label+input{
+    width: 50%;
+    box-sizing:border-box;
 }
 
-#ivFactor-div{
-    float: right;
-    height:5%;
-    padding: 5px;
-    width: 13%
+#ivFactorDiv{
+    float: right
 }
