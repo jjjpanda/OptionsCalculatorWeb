@@ -11,13 +11,14 @@
     height: 66%;
 }
 
-.collapseContent thead tr {
-    display: block;
-}
-
 .collapseContent thead {
     background: black;
     color:#fff;
+}
+
+.collapseContent tr, .collapseContent tr{
+    width: 100%;
+    display: block;
 }
 
 .collapseContent th, .collapseContent td {
@@ -27,6 +28,7 @@
 }
 
 .collapse{
+    width: 100%;
     background-color: wheat;
     padding: 5px;
     height: 10%
@@ -49,10 +51,11 @@
 #options{
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #888;
     width: 80%;
 }
+
 
 #close {
     color: #aaaaaa;

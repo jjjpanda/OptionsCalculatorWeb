@@ -2,15 +2,19 @@
     display:inline-block;
 }
 
-#ticker-div, #text-div, #ivFactorDiv, #submitTicker{
+#ticker-div, .text-div, #ivFactor-div, #submitTicker{
     width: 12%
 }
-
-.toprow > div > label+input{
-    width: 50%;
-    box-sizing:border-box;
+ 
+.toprow > div > input{
+    width: 100%;
+    box-sizing: border-box
 }
 
-#ivFactorDiv{
-    float: right
+#ticker-div, .text-div,  #submitTicker{
+    float: left;
+}
+
+#ivFactor-div{
+    float: right;
 }
