@@ -18,20 +18,19 @@
 
 .collapseContent tr, .collapseContent tr{
     width: 100%;
-    display: block;
+    table-layout: fixed;
+    display: table;
 }
 
 .collapseContent th, .collapseContent td {
     padding: 1px;
     text-align: center;
-    width : 50px
 }
 
 .collapse{
     width: 100%;
-    background-color: wheat;
-    padding: 5px;
-    height: 10%
+    background-color:#00ff0040;
+    color: black;
 }
 
 #modal {
@@ -68,4 +67,20 @@
   color: red;
   text-decoration: none;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: white; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: black; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background:green; 
 }

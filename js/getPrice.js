@@ -1,27 +1,34 @@
 var stockticker, stockdata;
 var notFound = {'price':'NOT FOUND', 'change':'NOT FOUND'}
-$(document).ready(function(){
-  
-    $("#submitTicker").click(function(){
-      if(stockticker != $("#ticker").val()){
-        stockticker=$("#ticker").val();
-        $.post("/price",{ticker: stockticker}, function(data){
-              //do things with data returned from app js
-              console.log(data)
-              if('error' in data || 'unmatched_symbols' in data || data == null){
-                data = notFound
-              }
-              displayData(data.price, data.change)
-              keepData(data)
-              loadIconStop()
-        });
-        loadIconStart()
-      }
-      else{
-        displayData(stockdata.price, stockdata.change)
-      }
-    });
 
+function getPrice(runIcons){
+  if(stockticker != $("#ticker").val()){
+    stockticker=$("#ticker").val();
+    $.post("/price",{ticker: stockticker}, function(data){
+          //do things with data returned from app js
+          console.log(data)
+          if('error' in data || 'unmatched_symbols' in data || data == null){
+            data = notFound
+          }
+          displayData(data.price, data.change)
+          keepData(data)
+          if(runIcons){
+            loadIconStop()
+          }
+    });
+    if(runIcons){
+      loadIconStart()
+    }
+  }
+  else{
+    displayData(stockdata.price, stockdata.change)
+  }
+}
+
+$(document).ready(function(){
+    $("#submitTicker").click(function(){
+      getPrice(true)
+    });
 });
 
 function keepData(ndata){

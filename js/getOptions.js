@@ -4,6 +4,7 @@ var chainticker, chaindata;
     $("#chain").click(function(){
       if(chainticker != $("#ticker").val()){
         chainticker=$("#ticker").val();
+        getPrice(false)
         $.post("/chain",{ticker: chainticker}, function(data){
           //do things with data returned from app js
           console.log(data)
