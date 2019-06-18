@@ -1,4 +1,4 @@
-var chainticker, chaindata, savedInnerHTML;
+var chainticker, chaindata, savedInnerHTML, lastLoad;
  $(document).ready(function(){
   
     $('#calculateOptions').click(function(){
@@ -6,7 +6,7 @@ var chainticker, chaindata, savedInnerHTML;
     })
 
     $("#chain").click(function(){
-      if(chainticker != $("#ticker").val()){
+      if(chainticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
         chainticker=$("#ticker").val();
         getPrice(false)
         $.post("/chain",{ticker: chainticker}, function(data){
@@ -18,6 +18,7 @@ var chainticker, chaindata, savedInnerHTML;
           }
           else{
             addOptionsChain(data, function(){
+              lastLoad = new Date()
               loadIconStop()
               keepInnerHTML()
               $("#modal").css("display", "block")
@@ -38,6 +39,10 @@ var chainticker, chaindata, savedInnerHTML;
     });
 
 });
+
+function minutesSinceLastLoad(){
+  return (new Date() - lastLoad) / (1000*60)
+}
 
 function keepChain(ndata){
   chaindata = ndata;
