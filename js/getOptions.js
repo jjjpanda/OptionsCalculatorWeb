@@ -1,4 +1,4 @@
-var chainticker, chaindata, savedInnerHTML, lastLoad;
+var chainticker, chaindata, savedInnerHTML;
  $(document).ready(function(){
   
     $('#calculateOptions').click(function(){
@@ -18,7 +18,6 @@ var chainticker, chaindata, savedInnerHTML, lastLoad;
           }
           else{
             addOptionsChain(data, function(){
-              lastLoad = new Date()
               loadIconStop()
               keepInnerHTML()
               $("#modal").css("display", "block")
@@ -39,10 +38,6 @@ var chainticker, chaindata, savedInnerHTML, lastLoad;
     });
 
 });
-
-function minutesSinceLastLoad(){
-  return (new Date() - lastLoad) / (1000*60)
-}
 
 function keepChain(ndata){
   chaindata = ndata;
