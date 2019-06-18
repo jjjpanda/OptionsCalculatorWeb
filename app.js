@@ -16,7 +16,6 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(bodyParser.json());
 
-app.use('/html', exp.static(path.join(__dirname, '/html')));
 app.use('/js', exp.static(path.join(__dirname, '/js')));
 app.use('/jsLib', exp.static(path.join(__dirname, '/jsLib')));
 app.use('/css', exp.static(path.join(__dirname, '/css')));
