@@ -1,0 +1,20 @@
+#bottomRows > div{
+    width: 100%;
+}
+
+#bottomRows div{
+    display: inline-block
+}
+
+#bottomRows > div > .optionName{
+    width:25%
+}
+
+#bottomRows .quantity, #bottomRows .limitPrice, #bottomRows .removeLeg{
+    width:12%
+}
+
+#bottomRows .ivOfOption{
+    float: right;
+    width:12%
+}

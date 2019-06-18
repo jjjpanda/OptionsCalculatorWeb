@@ -210,8 +210,8 @@ function addOptionsRow(){
   $(".bottomRow"+a).load('/js/html/optionDetailRow.html', function(){
     $(".bottomRow"+a)[0].children[0].children[0].id += a
     $(".bottomRow"+a)[0].children[0].children[1].htmlFor += a
-    $(".bottomRow"+a)[0].children[5].id += a
-    addOptionRowListener($(".bottomRow"+a)[0].children[5], $(".bottomRow"+a)[0])
+    $(".bottomRow"+a)[0].children[6].id += a
+    addOptionRowListener($(".bottomRow"+a)[0].children[6], $(".bottomRow"+a)[0])
     a++;
   })
 }
