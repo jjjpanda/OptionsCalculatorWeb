@@ -165,7 +165,7 @@ function addCollapsers(){
         content.style.display = "none";
       } else {
         content.style.display = "block";
-        closeEverythingBut(i)
+        closeEverythingBut(this)
       }
     });
   }
@@ -174,7 +174,7 @@ function addCollapsers(){
 function closeEverythingBut(index){
   var coll = document.getElementsByClassName("collapse");
   for (i = 0; i < coll.length; i++) {
-    if(i != index){
+    if(coll[i] != index){
       coll[i].classList.toggle("active");
       coll[i].nextSibling.style.display = 'none';
     }

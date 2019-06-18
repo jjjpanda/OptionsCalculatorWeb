@@ -50,8 +50,10 @@
 #options{
     background-color: #fefefe;
     margin: auto;
+    overflow: auto;
     padding: 10px;
     border: 1px solid #888;
+    height: 80%;
     width: 80%;
 }
 
