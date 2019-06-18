@@ -1,4 +1,4 @@
-var chainticker, chaindata;
+var chainticker, chaindata, savedInnerHTML;
  $(document).ready(function(){
     
     $("#chain").click(function(){
@@ -15,6 +15,7 @@ var chainticker, chaindata;
           else{
             addOptionsChain(data, function(){
               loadIconStop()
+              keepInnerHTML()
               $("#modal").css("display", "block")
             })
           }
@@ -24,7 +25,7 @@ var chainticker, chaindata;
       }
       else{
         loadIconStart()
-        addOptionsChain(chaindata, function(){
+        addOptionsChainFromSaved(function(){
           loadIconStop()
           $("#modal").css("display", "block")
         })
@@ -36,6 +37,17 @@ var chainticker, chaindata;
 
 function keepChain(ndata){
   chaindata = ndata;
+}
+
+function keepInnerHTML(){
+  savedInnerHTML = getOptionsMenu().innerHTML;
+}
+
+function addOptionsChainFromSaved(callback){
+  getOptionsMenu().innerHTML = savedInnerHTML
+  addCollapsers()
+  addCloseListener()
+  callback()
 }
 
 function addOptionsChain(data, callback){
