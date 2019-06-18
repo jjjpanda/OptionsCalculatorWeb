@@ -1,6 +1,10 @@
 var chainticker, chaindata, savedInnerHTML;
  $(document).ready(function(){
-    
+  
+    $('#calculateOptions').click(function(){
+      addOptionsRow()
+    })
+
     $("#chain").click(function(){
       if(chainticker != $("#ticker").val()){
         chainticker=$("#ticker").val();
@@ -178,4 +182,33 @@ function addCloseListener(){
     }
   })
   */
+}
+
+function individualOptionRow(){
+  ele = document.createElement('div')
+  ele.className = "bottomRow"+a
+  return ele;
+}
+
+var a = 0;
+
+function addOptionsRow(){
+  $("#bottomRows")[0].appendChild(individualOptionRow())
+  $("#bottomRows")[0].appendChild(document.createElement("br"))
+  //var num = ($("#bottomRows")[0].children.length-2)/2
+  $(".bottomRow"+a).load('/js/html/optionDetailRow.html', function(){
+    $(".bottomRow"+a)[0].children[0].children[0].id += a
+    $(".bottomRow"+a)[0].children[0].children[1].htmlFor += a
+    $(".bottomRow"+a)[0].children[5].id += a
+    addOptionRowListener($(".bottomRow"+a)[0].children[5], $(".bottomRow"+a)[0])
+    a++;
+  })
+}
+
+function addOptionRowListener(btnPointer, rowPointer){
+  btnPointer.addEventListener("click", function(){
+    rowPointer.nextSibling.remove()
+    rowPointer.remove();
+  })
+
 }

@@ -1,4 +1,5 @@
 .onoffswitch {
+    display: inline-block;
     position: relative; width: 87px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
