@@ -1,9 +1,5 @@
 var chainticker, chaindata, savedInnerHTML;
  $(document).ready(function(){
-  
-    $('#calculateOptions').click(function(){
-      addOptionsRow()
-    })
 
     $("#chain").click(function(){
       if(chainticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
@@ -122,8 +118,11 @@ function anchorCreator(inner){
 
 function addAnchorListener(pointer){
   pointer.addEventListener("click", function(){
-    console.log(pointer.parentElement.parentElement.className)
-    console.log(pointer.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].innerText)
+    price = pointer.innerText
+    type = $(pointer.parentElement).index()
+    strike = pointer.parentElement.parentElement.className
+    expiry = pointer.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].innerText
+  
   })
 }
 
