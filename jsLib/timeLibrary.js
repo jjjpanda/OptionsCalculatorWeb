@@ -12,5 +12,10 @@ function timeTillExpiry(expiry){
 
 function expiryConvertToDate(strDate){
     strDate = strDate.split("-")
-    return new Date(strDate[0], (strDate[1]+1), strDate[2])
+    return new Date(strDate[0], (strDate[1]-1), strDate[2])
+}
+
+function expiryToString(strDate){
+    strDate = strDate.split("-")
+    return strDate[1]+"/"+strDate[2]+"/"+strDate[0]
 }

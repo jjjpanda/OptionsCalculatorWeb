@@ -1,4 +1,6 @@
-var chainticker, chaindata, savedInnerHTML;
+var chainticker, chaindata; 
+var optionsSelected = []
+
  $(document).ready(function(){
 
     $("#chain").click(function(){
@@ -15,7 +17,6 @@ var chainticker, chaindata, savedInnerHTML;
           else{
             addOptionsChain(data, function(){
               loadIconStop()
-              keepInnerHTML()
               $("#modal").css("display", "block")
             })
           }
@@ -25,7 +26,7 @@ var chainticker, chaindata, savedInnerHTML;
       }
       else{
         loadIconStart()
-        addOptionsChainFromSaved(function(){
+        addOptionsChain(chaindata, function(){
           loadIconStop()
           $("#modal").css("display", "block")
         })
@@ -37,17 +38,6 @@ var chainticker, chaindata, savedInnerHTML;
 
 function keepChain(ndata){
   chaindata = ndata;
-}
-
-function keepInnerHTML(){
-  savedInnerHTML = getOptionsMenu().innerHTML;
-}
-
-function addOptionsChainFromSaved(callback){
-  getOptionsMenu().innerHTML = savedInnerHTML
-  addCollapsers()
-  addCloseListener()
-  callback()
 }
 
 function addOptionsChain(data, callback){
@@ -120,9 +110,18 @@ function addAnchorListener(pointer){
   pointer.addEventListener("click", function(){
     price = pointer.innerText
     type = $(pointer.parentElement).index()
+    if(type in [0,1,2]){
+      type = 'Call'
+    }
+    else if (type in [4,5,6]){
+      type = 'Put'
+    }
     strike = pointer.parentElement.parentElement.className
     expiry = pointer.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].innerText
-  
+    $("#close").click()
+    if(type != 3){
+      addOptionsRow(price, type, strike, expiry)
+    }
   })
 }
 
@@ -210,27 +209,32 @@ function addCloseListener(){
 
 function individualOptionRow(){
   ele = document.createElement('div')
-  ele.className = "bottomRow"+a
+  ele.id = a;
+  ele.className = "bottomRow"
   return ele;
 }
 
 var a = 0;
 
-function addOptionsRow(){
+function addOptionsRow(price, type, strike, expiry){
   $("#bottomRows")[0].appendChild(individualOptionRow())
   $("#bottomRows")[0].appendChild(document.createElement("br"))
   //var num = ($("#bottomRows")[0].children.length-2)/2
-  $(".bottomRow"+a).load('/js/html/optionDetailRow.html', function(){
-    $(".bottomRow"+a)[0].children[0].children[0].id += a
-    $(".bottomRow"+a)[0].children[0].children[1].htmlFor += a
-    $(".bottomRow"+a)[0].children[6].id += a
-    addOptionRowListener($(".bottomRow"+a)[0].children[6], $(".bottomRow"+a)[0])
+  $("#"+a).load('/js/html/optionDetailRow.html', function(){
+    $("#"+a)[0].children[0].children[0].id += a
+    $("#"+a)[0].children[0].children[1].htmlFor += a
+    $("#"+a)[0].children[6].id += a
+    $("#"+a)[0].children[1].value = expiryToString(expiry) + " $" + strike + " " + type
+    $("#"+a)[0].children[5].value = price
+    optionsSelected.push({'expiry':expiry, 'strike':strike, 'type':type, 'price':price})
+    addOptionRowListener($("#"+a)[0].children[6], $("#"+a)[0])
     a++;
   })
 }
 
 function addOptionRowListener(btnPointer, rowPointer){
   btnPointer.addEventListener("click", function(){
+    optionsSelected.splice($(rowPointer).index()/2, 1)
     rowPointer.nextSibling.remove()
     rowPointer.remove();
   })
