@@ -113,6 +113,20 @@ function createHeaderRow(){
   return row;
 }
 
+function anchorCreator(inner){
+  var ele = document.createElement('a');
+  ele.innerText = inner;
+  addAnchorListener(ele)
+  return ele;
+}
+
+function addAnchorListener(pointer){
+  pointer.addEventListener("click", function(){
+    console.log(pointer.parentElement.parentElement.className)
+    console.log(pointer.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].innerText)
+  })
+}
+
 function addToRow(table, optionObj){
   if(table.getElementsByClassName(optionObj.strike).length == 0){
     var row = document.createElement('tr')
@@ -121,29 +135,29 @@ function addToRow(table, optionObj){
       row.appendChild(document.createElement('td'))
     }
     if(optionObj.type == "call"){
-      row.children[0].innerText = optionObj.bid
-      row.children[1].innerText = ((optionObj.bid+optionObj.ask)/2).toFixed(2)
-      row.children[2].innerText = optionObj.ask
+      row.children[0].appendChild(anchorCreator(optionObj.bid))
+      row.children[1].appendChild(anchorCreator(((optionObj.bid+optionObj.ask)/2).toFixed(2)))
+      row.children[2].appendChild(anchorCreator(optionObj.ask))
     }
     else if(optionObj.type == "put"){
-      row.children[4].innerText = optionObj.bid
-      row.children[5].innerText = ((optionObj.bid+optionObj.ask)/2).toFixed(2)
-      row.children[6].innerText = optionObj.ask
+      row.children[4].appendChild(anchorCreator(optionObj.bid))
+      row.children[5].appendChild(anchorCreator(((optionObj.bid+optionObj.ask)/2).toFixed(2)))
+      row.children[6].appendChild(anchorCreator(optionObj.ask))
     }
-    row.children[3].innerText=optionObj.strike;
+    row.children[3].appendChild(anchorCreator(optionObj.strike));
     table.appendChild(row)
   }
   else{
     row = table.getElementsByClassName(optionObj.strike)[0]
     if(optionObj.type == "call"){
-      row.children[0].innerText = optionObj.bid
-      row.children[1].innerText = ((optionObj.bid+optionObj.ask)/2).toFixed(2)
-      row.children[2].innerText = optionObj.ask
+      row.children[0].appendChild(anchorCreator(optionObj.bid))
+      row.children[1].appendChild(anchorCreator(((optionObj.bid+optionObj.ask)/2).toFixed(2)))
+      row.children[2].appendChild(anchorCreator(optionObj.ask))
     }
     else if(optionObj.type == "put"){
-      row.children[4].innerText = optionObj.bid
-      row.children[5].innerText = ((optionObj.bid+optionObj.ask)/2).toFixed(2)
-      row.children[6].innerText = optionObj.ask
+      row.children[4].appendChild(anchorCreator(optionObj.bid))
+      row.children[5].appendChild(anchorCreator(((optionObj.bid+optionObj.ask)/2).toFixed(2)))
+      row.children[6].appendChild(anchorCreator(optionObj.ask))
     }
   }
 }
