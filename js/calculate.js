@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $("#calculateOptions").click(function(){
         loadIconStart()
+        $('#jsonOutput').empty()
         getOptionsData(optionsSelected, function(){
             loadIconStop()
         })
@@ -21,31 +22,50 @@ function getOptionsData(arrayOfOptions, callback){
 function calculate(options){
     //boughtAt, expiry, isLong, price, quantity, strike, type
     for(option of options){
+        Object.keys(option).forEach(function(e){
+            if(e != 'expiry' && !isNaN(parseFloat(option[e]))){
+                option[e] = parseFloat(option[e])
+            }
+        })
         option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
         option = {...option, ...calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)}
         console.log(option)
-        calculateProfit(0,20, 1, option.boughtAt, expiry, stockdata.price, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
+        option.profit = calculateProfit(stockdata.price*0.9 , stockdata.price*1.1 , stockdata.price*0.01, option.boughtAt, expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
+        console.log(option.profit)
+
+        jsonContainer = document.createElement('pre')
+        jsonContainer.innerText = expiryToString(option.expiry) + " $" + option.strike + " " + option.type + "\n" + JSON.stringify(option.profit, undefined, 2)
+        $('#jsonOutput')[0].appendChild(jsonContainer)
     }
-    
 }
 
-function calculateProfit(minPrice, maxPrice, interval, initialCost, expiry, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
-    profitJSON = []
+function calculateProfit(minPrice, maxPrice, interval, initialCost, expiry, strike, isCall, isLong, r, divYield, iv){
+    profitJSON = {}
 
     var rangeOfPrices = {}
+
+    //EACH UNDERLYING IN RANGE
     for(i = minPrice; i < maxPrice; i+=interval){
-        rangeOfPrices[i] = initialCost
+        rangeOfPrices[i] = isLong ? -1*initialCost : 1*initialCost
     }
 
-    console.log(rangeOfPrices)
-    
+    //PROFIT BEFORE EXPIRY
     d = getCurrentDate()
     while(timeBetweenDates(expiryConvertToDate(expiry), d) > 0){
-        profitJSON.push( {[d] : {...rangeOfPrices}} );
+        profitJSON[d] = {...rangeOfPrices};
+        for(price of Object.keys(rangeOfPrices)){
+            profitJSON[d][price] += calculateOptionsPrice(percentageOfYear(timeBetweenDates(expiryConvertToDate(expiry), d)), price, strike, isCall, isLong, r, divYield, iv)
+        }
         d = incrementOneDay(d)
     }
+    
+    //PROFIT AT EXPIRY
+    profitJSON[d] = {};
+    for(price of Object.keys(rangeOfPrices)){    
+        profitJSON[d][price] = calculateProfitAtExpiry(initialCost, price, strike, isCall, isLong)
+    }
 
-    console.log(profitJSON)
+    return profitJSON
 }
 
 function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
@@ -83,16 +103,16 @@ function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, divYield
 function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYield){
     var iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying
     var priceOfOptionTheoretical, vega;
-    priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, r, divYield, iv)
-    while (loss(priceOfOption, priceOfOptionTheoretical) > 0.00001 || loss(priceOfOption, priceOfOptionTheoretical) < -0.00001){
+    priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true,  r, divYield, iv)
+    while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000005){
         if(loss(priceOfOption, priceOfOptionTheoretical) > priceOfOption / 10){
             if (priceOfOption > priceOfOptionTheoretical)
             {
-                iv += 0.075 + Math.random()/20;
+                iv += 0.075 + Math.random()/15;
             }
             if (priceOfOption < priceOfOptionTheoretical)
             {
-                iv -= 0.075 + Math.random()/20;
+                iv -= 0.075 + Math.random()/15;
             }
         }
         else{
@@ -119,4 +139,29 @@ function calculateOptionsPrice(t, priceUnderlying, strike, isCall, isLong, r, di
         priceOfOptionTheoretical *= -1
     }
     return priceOfOptionTheoretical
+}
+
+function calculateProfitAtExpiry(initialCost, priceUnderlying, strike, isCall, isLong){
+    if (isCall)
+    {
+        if (isLong)
+        {
+            return Math.max(((-1 * initialCost) + (priceUnderlying - strike)), (-1 * initialCost));
+        }
+        else if (!isLong)
+        {
+            return Math.min((initialCost - (priceUnderlying - strike)), initialCost);                             
+        }
+    }
+    else if (!isCall)
+    {
+        if (isLong)
+        { 
+            return Math.max(((-1 * initialCost) + (-1 * priceUnderlying + strike)), (-1 * initialCost));
+        }
+        else if (!isLong)
+        {
+            return Math.min((initialCost - (-1 * priceUnderlying + strike)), initialCost);
+        }
+    }
 }

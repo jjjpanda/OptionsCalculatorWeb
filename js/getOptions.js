@@ -5,6 +5,10 @@ var optionsSelected = []
 
     $("#chain").click(function(){
       if(chainticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
+        if(chainticker != $("#ticker").val()){
+          $("#bottomRows").empty()
+          optionsSelected = []
+        }
         chainticker=$("#ticker").val();
         getPrice(false)
         $.post("/chain",{ticker: chainticker}, function(data){

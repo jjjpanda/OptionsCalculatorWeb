@@ -10,9 +10,13 @@ function timeBetweenDates(a, b){
     return (Math.floor((utc1-utc2)/ ms_per_day))
 }
 
+function percentageOfYear(t){
+    return t/365.0  //returned as percentage of year
+}
+
 function timeTillExpiry(expiry){
     var current = getCurrentDate()
-    return timeBetweenDates(expiry, current)/365.0 //returned as percentage of year
+    return percentageOfYear(timeBetweenDates(expiry, current)) 
 }
 
 function incrementOneDay(d){
