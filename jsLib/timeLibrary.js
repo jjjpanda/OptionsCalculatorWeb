@@ -1,13 +1,27 @@
 const ms_per_day = 1000*60*60*24
-var current
+
 function getCurrentDate(){
-    current = new Date()
+    return new Date()
+}
+
+function timeBetweenDates(a, b){
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+    return (Math.floor((utc1-utc2)/ ms_per_day))
 }
 
 function timeTillExpiry(expiry){
-    const utc1 = Date.UTC(expiry.getFullYear(), expiry.getMonth(), expiry.getDate());
-    const utc2 = Date.UTC(current.getFullYear(), current.getMonth(), current.getDate());
-    return Math.floor((utc1-utc2)/ ms_per_day)
+    var current = getCurrentDate()
+    return timeBetweenDates(expiry, current)/365.0 //returned as percentage of year
+}
+
+function incrementOneDay(d){
+    d.setDate(d.getDate()+1)
+    return d
+}
+
+function dateToString(d){
+    return(d.getFullYear()+"-"+d.getMonth()+1+"-"+d.getDate())
 }
 
 function expiryConvertToDate(strDate){

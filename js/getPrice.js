@@ -7,7 +7,7 @@ function getPrice(runIcons){
     $.post("/price",{ticker: stockticker}, function(data){
           //do things with data returned from app js
           console.log(data)
-          if('error' in data || 'unmatched_symbols' in data || data == null){
+          if( data == null || data.hasOwnProperty('error') || data.hasOwnProperty('unmatched_symbols' )){
             data = notFound
           }
           displayData(data.price, data.change)

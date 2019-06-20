@@ -10,7 +10,7 @@ var optionsSelected = []
         $.post("/chain",{ticker: chainticker}, function(data){
           //do things with data returned from app js
           console.log(data)
-          if('error' in data || data == null || data == undefined){
+          if(data == null || data == undefined || data.hasOwnProperty('error')){
             data = 'NOT FOUND'
             loadIconStop()
           }
@@ -110,11 +110,13 @@ function addAnchorListener(pointer){
   pointer.addEventListener("click", function(){
     price = pointer.innerText
     type = $(pointer.parentElement).index()
-    if(type in [0,1,2]){
+    if([0,1,2].includes(type)){
       type = 'Call'
+      price = pointer.parentElement.parentElement.children[1].innerText
     }
-    else if (type in [4,5,6]){
+    if ([4,5,6].includes(type)){
       type = 'Put'
+      price = pointer.parentElement.parentElement.children[5].innerText
     }
     strike = pointer.parentElement.parentElement.className
     expiry = pointer.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].innerText
