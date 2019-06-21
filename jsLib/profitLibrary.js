@@ -1,13 +1,3 @@
-$(document).ready(function(){
-    $("#calculateOptions").click(function(){
-        loadIconStart()
-        $('#jsonOutput').empty()
-        getOptionsData(optionsSelected, function(){
-            loadIconStop()
-        })
-    });
-});
-
 function getOptionsData(arrayOfOptions, callback){
     arrayOfRows = $(".bottomRow")
     for(i = 0; i < arrayOfRows.length; i++){
