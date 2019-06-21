@@ -1,6 +1,12 @@
 var stockticker, stockdata, lastLoad;
 var notFound = {'price':'NOT FOUND', 'change':'NOT FOUND'}
 
+$(document).ready(function(){
+  $("#submitTicker").click(function(){
+    getPrice(true)
+  });
+});
+
 function getPrice(runIcons){
   if(stockticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
     stockticker=$("#ticker").val();
@@ -11,7 +17,7 @@ function getPrice(runIcons){
             data = notFound
           }
           displayData(data.price, data.change)
-          keepData(data)
+          keepStockData(data)
           lastLoad = new Date()
           if(runIcons){
             loadIconStop()
@@ -26,13 +32,7 @@ function getPrice(runIcons){
   }
 }
 
-$(document).ready(function(){
-    $("#submitTicker").click(function(){
-      getPrice(true)
-    });
-});
-
-function keepData(ndata){
+function keepStockData(ndata){
   stockdata = ndata
 }
 

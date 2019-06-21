@@ -1,44 +1,47 @@
 var chainticker, chaindata; 
 var optionsSelected = []
 
- $(document).ready(function(){
+$(document).ready(function(){
 
     $("#chain").click(function(){
-      if(chainticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
-        if(chainticker != $("#ticker").val()){
-          $("#bottomRows").empty()
-          optionsSelected = []
-        }
-        chainticker=$("#ticker").val();
-        getPrice(false)
-        $.post("/chain",{ticker: chainticker}, function(data){
-          //do things with data returned from app js
-          console.log(data)
-          if(data == null || data == undefined || data.hasOwnProperty('error')){
-            data = 'NOT FOUND'
-            loadIconStop()
-          }
-          else{
-            addOptionsChain(data, function(){
-              loadIconStop()
-              $("#modal").css("display", "block")
-            })
-          }
-          keepChain(data)
-        });
-        loadIconStart()
-      }
-      else{
-        loadIconStart()
-        addOptionsChain(chaindata, function(){
-          loadIconStop()
-          $("#modal").css("display", "block")
-        })
-      }
-     
+      addLegClick(chaindata, chainticker)
     });
 
 });
+
+function addLegClick(chaindata, chainticker){
+  if(chainticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
+      if(chainticker != $("#ticker").val()){
+          $("#bottomRows").empty()
+          optionsSelected = []
+      }
+      chainticker=$("#ticker").val();
+      getPrice(false)
+      $.post("/chain",{ticker: chainticker}, function(data){
+      //do things with data returned from app js
+      console.log(data)
+      if(data == null || data == undefined || data.hasOwnProperty('error')){
+          data = 'NOT FOUND'
+          loadIconStop()
+      }
+      else{
+          addOptionsChain(data, function(){
+          loadIconStop()
+          $("#modal").css("display", "block")
+          })
+      }
+      keepChain(data)
+      });
+      loadIconStart()
+  }
+  else{
+  loadIconStart()
+  addOptionsChain(chaindata, function(){
+      loadIconStop()
+      $("#modal").css("display", "block")
+  })
+  }
+}
 
 function keepChain(ndata){
   chaindata = ndata;
@@ -110,27 +113,6 @@ function anchorCreator(inner){
   return ele;
 }
 
-function addAnchorListener(pointer){
-  pointer.addEventListener("click", function(){
-    price = pointer.innerText
-    type = $(pointer.parentElement).index()
-    if([0,1,2].includes(type)){
-      type = 'Call'
-      price = pointer.parentElement.parentElement.children[1].innerText
-    }
-    if ([4,5,6].includes(type)){
-      type = 'Put'
-      price = pointer.parentElement.parentElement.children[5].innerText
-    }
-    strike = pointer.parentElement.parentElement.className
-    expiry = pointer.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].innerText
-    $("#close").click()
-    if(type != 3){
-      addOptionsRow(price, type, strike, expiry)
-    }
-  })
-}
-
 function addToRow(table, optionObj){
   if(table.getElementsByClassName(optionObj.strike).length == 0){
     var row = document.createElement('tr')
@@ -172,23 +154,6 @@ function sortedChain(arr){
   });
 }
 
-function addCollapsers(){
-  var coll = document.getElementsByClassName("collapse");
-  var i;
-  for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var content = this.nextSibling
-      if (content.style.display === "block") {
-        content.style.display = "none";
-      } else {
-        content.style.display = "block";
-        closeEverythingBut(this)
-      }
-    });
-  }
-}
-
 function closeEverythingBut(index){
   var coll = document.getElementsByClassName("collapse");
   for (i = 0; i < coll.length; i++) {
@@ -197,20 +162,6 @@ function closeEverythingBut(index){
       coll[i].nextSibling.style.display = 'none';
     }
   }
-}
-
-function addCloseListener(){
-  $("#close").click(function(){
-    $("#modal").css("display", "none")
-  });  
-
-  /*
-  $("#modal").click(function(){
-    if($("#modal").css("display") == "block"){
-      $("#modal").css("display", "none") 
-    }
-  })
-  */
 }
 
 function individualOptionRow(){
@@ -236,13 +187,4 @@ function addOptionsRow(price, type, strike, expiry){
     addOptionRowListener($("#"+a)[0].children[6], $("#"+a)[0])
     a++;
   })
-}
-
-function addOptionRowListener(btnPointer, rowPointer){
-  btnPointer.addEventListener("click", function(){
-    optionsSelected.splice($(rowPointer).index()/2, 1)
-    rowPointer.nextSibling.remove()
-    rowPointer.remove();
-  })
-
 }
