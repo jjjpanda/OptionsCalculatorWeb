@@ -30,7 +30,7 @@ function addLegClick(chaindata, chainticker){
           $("#modal").css("display", "block")
           })
       }
-      keepChain(data)
+      keepChain(data, chainticker)
       });
       loadIconStart()
   }
@@ -43,8 +43,9 @@ function addLegClick(chaindata, chainticker){
   }
 }
 
-function keepChain(ndata){
+function keepChain(ndata, nchainticker){
   chaindata = ndata;
+  chainticker = nchainticker
 }
 
 function addOptionsChain(data, callback){
