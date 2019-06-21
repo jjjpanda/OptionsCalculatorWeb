@@ -60,33 +60,11 @@ function calculateProfit(minPrice, maxPrice, interval, initialCost, expiry, stri
 
 function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
     greeks = {}
-    if(isCall){
-        greeks.delta = Math.exp(-1 * divYield * t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv));
-        greeks.gamma = Math.exp(-1 * divYield * t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (priceUnderlying * iv * Math.sqrt(t));
-        greeks.theta = (-(ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (2 * Math.sqrt(t)) * priceUnderlying * iv * Math.exp(-1 * divYield * t)) +
-            (divYield * priceUnderlying * Math.exp(-1 * divYield * t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv))) -
-            (r * strike * Math.exp(-1 * r * t) * ndf(d2(priceUnderlying, strike, t, divYield, r, iv)))
-            ) / 365;
-        greeks.vega = priceUnderlying / 100 * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
-        greeks.rho = t / 100 * Math.exp(-1 * r * t) * strike * cndf(d2(priceUnderlying, strike, t, divYield, r, iv));                    
-    }
-    else if(!isCall){
-        greeks.delta = Math.exp(-1 * divYield * t) * (cndf(d1(priceUnderlying, strike, t, divYield, r, iv)) - 1);
-        greeks.gamma = Math.exp(-1 * divYield * t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (priceUnderlying * iv * Math.sqrt(t));
-        greeks.theta = (-(ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (2 * Math.sqrt(t)) * priceUnderlying * iv * Math.exp(-1 * divYield * t)) -
-            (divYield * priceUnderlying * Math.exp(-1 * divYield * t) * cndf(-1 * d1(priceUnderlying, strike, t, divYield, r, iv))) -
-            (r * strike * Math.exp(-1 * r * t) * ndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv)))
-            ) / 365;
-        greeks.vega = priceUnderlying / 100 * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
-        greeks.rho = t / -100 * Math.exp(-1 * r * t) * strike * cndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv));     
-    }
-    if(!isLong){
-        greeks.delta *= -1
-        greeks.gamma *= -1
-        greeks.theta *= -1
-        greeks.vega *= -1
-        greeks.rho *= -1
-    }
+    greeks.delta = delta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv)
+    greeks.gamma = gamma(t, priceUnderlying, strike, isLong, r, divYield, iv)
+    greeks.theta = theta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv)
+    greeks.vega = vega(t, priceUnderlying, strike, isLong, r, divYield, iv)
+    greeks.rho = rho(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv)
     return greeks
 }
 
