@@ -6,8 +6,8 @@ function getOptionsData(arrayOfOptions, callback){
         arrayOfOptions[i].quantity = arrayOfRows[i].children[3].value
     }
     calculatedOptionsData = calculate(arrayOfOptions)
-    calculatedOptionsData.push(getTotalsOfOptions(calculatedOptionsData))
-    callback(calculatedOptionsData)
+    mergedData =  getTotalsOfOptions(calculatedOptionsData)
+    callback(calculatedOptionsData, mergedData)
 }
 
 function getTotalsOfOptions(options){
@@ -21,9 +21,25 @@ function getTotalsOfOptions(options){
         mergedData.greeks.vega += option.greeks.vega * option.quantity
         mergedData.greeks.rho += option.greeks.rho * option.quantity
 
-        
     }
+    
+    optionsProfits = Object.create(options.map(o => o.profit))
+    mergedData.profit = optionsProfits.reduce(reduceObject);    
     return mergedData
+}
+
+var reduceObject = (a,b) => {
+    for (prop in b){
+        if(a.hasOwnProperty(prop)){
+            if(a[prop] instanceof Object || b[prop] instanceof Object){
+                a[prop] = [a[prop], b[prop]].reduce(reduceObject);
+            }
+            else{
+                a[prop] = (a[prop] || 0) + (b[prop] || 0)
+            }
+        }
+    }
+    return a;
 }
 
 function calculate(options){
@@ -36,7 +52,8 @@ function calculate(options){
         })
         option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
         option.greeks = calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)
-        option.profit = calculateProfit(stockdata.price*0.9 , stockdata.price*1.1 , stockdata.price*0.01, option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
+        //option.profit = calculateProfit(stockdata.price*0.9 , stockdata.price*1.1 , stockdata.price*0.01, option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
+        option.profit = calculateProfit(stockdata.price-1 , stockdata.price+1 , 0.5, option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
 
         jsonContainer = document.createElement('pre')
         jsonContainer.innerText = expiryToString(option.expiry) + " $" + option.strike + " " + option.type + "\n" + JSON.stringify(option.profit, undefined, 2)
