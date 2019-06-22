@@ -5,8 +5,25 @@ function getOptionsData(arrayOfOptions, callback){
         arrayOfOptions[i].isLong = arrayOfRows[i].children[0].children[0].checked
         arrayOfOptions[i].quantity = arrayOfRows[i].children[3].value
     }
-    calculate(arrayOfOptions)
-    callback()
+    calculatedOptionsData = calculate(arrayOfOptions)
+    calculatedOptionsData.push(getTotalsOfOptions(calculatedOptionsData))
+    callback(calculatedOptionsData)
+}
+
+function getTotalsOfOptions(options){
+    mergedData = {'boughtAt':0, 'expiry':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}
+    for (option of options){
+        mergedData.boughtAt += (option.isLong ? 1 : -1) * option.boughtAt * option.quantity
+
+        mergedData.greeks.delta += option.greeks.delta * option.quantity
+        mergedData.greeks.gamma += option.greeks.gamma * option.quantity
+        mergedData.greeks.theta += option.greeks.theta * option.quantity
+        mergedData.greeks.vega += option.greeks.vega * option.quantity
+        mergedData.greeks.rho += option.greeks.rho * option.quantity
+
+        
+    }
+    return mergedData
 }
 
 function calculate(options){
@@ -18,18 +35,17 @@ function calculate(options){
             }
         })
         option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
-        option = {...option, ...calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)}
-        console.log(option)
-        option.profit = calculateProfit(stockdata.price*0.9 , stockdata.price*1.1 , stockdata.price*0.01, option.boughtAt, expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
-        console.log(option.profit)
+        option.greeks = calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)
+        option.profit = calculateProfit(stockdata.price*0.9 , stockdata.price*1.1 , stockdata.price*0.01, option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
 
         jsonContainer = document.createElement('pre')
         jsonContainer.innerText = expiryToString(option.expiry) + " $" + option.strike + " " + option.type + "\n" + JSON.stringify(option.profit, undefined, 2)
         $('#jsonOutput')[0].appendChild(jsonContainer)
     }
+    return options
 }
 
-function calculateProfit(minPrice, maxPrice, interval, initialCost, expiry, strike, isCall, isLong, r, divYield, iv){
+function calculateProfit(minPrice, maxPrice, interval, initialCost, quantity, expiry, strike, isCall, isLong, r, divYield, iv){
     profitJSON = {}
 
     var rangeOfPrices = {}
@@ -45,6 +61,7 @@ function calculateProfit(minPrice, maxPrice, interval, initialCost, expiry, stri
         profitJSON[d] = {...rangeOfPrices};
         for(price of Object.keys(rangeOfPrices)){
             profitJSON[d][price] += calculateOptionsPrice(percentageOfYear(timeBetweenDates(expiryConvertToDate(expiry), d)), price, strike, isCall, isLong, r, divYield, iv)
+            profitJSON[d][price] *= quantity
         }
         d = incrementOneDay(d)
     }
@@ -52,7 +69,7 @@ function calculateProfit(minPrice, maxPrice, interval, initialCost, expiry, stri
     //PROFIT AT EXPIRY
     profitJSON[d] = {};
     for(price of Object.keys(rangeOfPrices)){    
-        profitJSON[d][price] = calculateProfitAtExpiry(initialCost, price, strike, isCall, isLong)
+        profitJSON[d][price] = quantity * calculateProfitAtExpiry(initialCost, price, strike, isCall, isLong)
     }
 
     return profitJSON
