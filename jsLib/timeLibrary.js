@@ -25,7 +25,7 @@ function incrementOneDay(d){
 }
 
 function dateToString(d){
-    return(d.getFullYear()+"-"+d.getMonth()+1+"-"+d.getDate())
+    return(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())
 }
 
 function expiryConvertToDate(strDate){

@@ -12,6 +12,7 @@ function getOptionsData(arrayOfOptions, callback){
 
 function getTotalsOfOptions(options){
     mergedData = {'boughtAt':0, 'expiry':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}
+    
     for (option of options){
         mergedData.boughtAt += (option.isLong ? 1 : -1) * option.boughtAt * option.quantity
 
@@ -20,26 +21,42 @@ function getTotalsOfOptions(options){
         mergedData.greeks.theta += option.greeks.theta * option.quantity
         mergedData.greeks.vega += option.greeks.vega * option.quantity
         mergedData.greeks.rho += option.greeks.rho * option.quantity
-
     }
     
-    optionsProfits = Object.create(options.map(o => o.profit))
-    mergedData.profit = optionsProfits.reduce(reduceObject);    
+    optionsProfits = options.map(o => o.profit)
+
+    mergedData.expiry = dateToString(options.map( o => expiryConvertToDate(o.expiry) ).sort(timeBetweenDates)[0])
+    mergedData.profit = mergeProfits(stockdata.price-1 , stockdata.price+1 , 0.5, optionsProfits, mergedData.expiry)    
     return mergedData
 }
 
-var reduceObject = (a,b) => {
-    for (prop in b){
-        if(a.hasOwnProperty(prop)){
-            if(a[prop] instanceof Object || b[prop] instanceof Object){
-                a[prop] = [a[prop], b[prop]].reduce(reduceObject);
-            }
-            else{
-                a[prop] = (a[prop] || 0) + (b[prop] || 0)
-            }
-        }
+function mergeProfits(minPrice, maxPrice, interval, optionsProfits, expiry){
+    profitJSON = {}
+
+    var rangeOfPrices = {}
+
+    //EACH UNDERLYING IN RANGE
+    for(i = minPrice; i < maxPrice; i+=interval){
+        rangeOfPrices[i] = 0
     }
-    return a;
+
+    for(profitSet of optionsProfits){
+        console.log(profitSet)
+    }
+    console.log(expiry)
+
+    d = getCurrentDate()
+    while(timeBetweenDates(expiryConvertToDate(expiry), d) > 0){
+        profitJSON[d] = {...rangeOfPrices};
+        for(price of Object.keys(rangeOfPrices)){
+            for(profitSet of optionsProfits){
+                profitJSON[d][price] += profitSet[d][price]
+            } 
+        }
+        d = incrementOneDay(d)
+    }
+
+    return profitJSON
 }
 
 function calculate(options){
