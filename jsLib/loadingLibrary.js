@@ -7,5 +7,4 @@ function loadIconStop(){
         $("#loadingIcon").css('display','inline')
         $("#loadingIcon").css('visibility','hidden')
     })
-    
 }

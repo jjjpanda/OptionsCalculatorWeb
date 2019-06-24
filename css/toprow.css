@@ -2,7 +2,7 @@
     display:inline-block;
 }
 
-#ticker-div, .text-div, #ivFactor-div, #submitTicker{
+#ticker-div, .text-div, #percentInterval-div, #numberOfIntervals-div, #ivFactor-div, #submitTicker{
     width: 12%
 }
  
@@ -15,6 +15,10 @@
     float: left;
 }
 
-#ivFactor-div{
+#percentInterval-div, #numberOfIntervals-div, #ivFactor-div{
     float: right;
+}
+
+#percentInterval{
+    width: 60%
 }

@@ -54,6 +54,16 @@
 
         <img src="/img/logoTransparent.png" class="cycle loading" id = "loadingIcon" style="visibility: hidden"/>
         
+        <div id="percentInterval-div">
+            <label for="price">Interval Size</label>
+            <input type='number' class = "text" id ="percentInterval" value = 1> % 
+        </div>
+
+        <div id="numberOfIntervals-div">
+            <label for="price">Number of Intervals</label>
+            <input type='text' class = "text" id ="numberOfIntervals" value = 10>
+        </div>
+
         <div id="ivFactor-div">
             <label for="ivFactor">IV Factor</label>
             <input type="text" id ="ivFactor" value = 1>
@@ -69,6 +79,7 @@
     <span id="submitRow">
         <button type="button" id = "chain">ADD LEG</button>
         <button type="button" id = "calculateOptions">CALCULATE</button>
+
         <div id = "modal">
             <div id = "options">
             </div>

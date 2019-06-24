@@ -5,9 +5,26 @@ function getOptionsData(arrayOfOptions, callback){
         arrayOfOptions[i].isLong = arrayOfRows[i].children[0].children[0].checked
         arrayOfOptions[i].quantity = arrayOfRows[i].children[3].value
     }
+
+    percentInterval = $('#percentInterval').val()
+    numberOfIntervals = $('#numberOfIntervals').val()
+
     calculatedOptionsData = calculate(arrayOfOptions)
     mergedData =  getTotalsOfOptions(calculatedOptionsData)
+
     callback(calculatedOptionsData, mergedData)
+}
+
+var percentInterval, numberOfIntervals
+
+function getRangeOfPrices(priceUnderlying, percentInterval, numOfIntervals, initialCost){
+    var rangeOfPrices = {}
+    min = priceUnderlying/Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
+    max = priceUnderlying*Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
+    for(i = min; i < max; i *= (1+(percentInterval/100))){
+        rangeOfPrices[roundTwoPlaces(i)] = initialCost
+    } 
+    return rangeOfPrices
 }
 
 function getTotalsOfOptions(options){
@@ -26,19 +43,14 @@ function getTotalsOfOptions(options){
     optionsProfits = options.map(o => o.profit)
 
     mergedData.expiry = dateToString(options.map( o => expiryConvertToDate(o.expiry) ).sort(timeBetweenDates)[0])
-    mergedData.profit = mergeProfits(stockdata.price-1 , stockdata.price+1 , 0.5, optionsProfits, mergedData.expiry)    
+    mergedData.profit = mergeProfits(optionsProfits, mergedData.expiry)    
     return mergedData
 }
 
-function mergeProfits(minPrice, maxPrice, interval, optionsProfits, expiry){
+function mergeProfits(optionsProfits, expiry){
     profitJSON = {}
 
-    var rangeOfPrices = {}
-
-    //EACH UNDERLYING IN RANGE
-    for(i = minPrice; i < maxPrice; i+=interval){
-        rangeOfPrices[i] = 0
-    }
+    var rangeOfPrices = getRangeOfPrices(stockdata.price, percentInterval, numberOfIntervals, 0)
 
     for(profitSet of optionsProfits){
         console.log(profitSet)
@@ -46,7 +58,7 @@ function mergeProfits(minPrice, maxPrice, interval, optionsProfits, expiry){
     console.log(expiry)
 
     d = getCurrentDate()
-    while(timeBetweenDates(expiryConvertToDate(expiry), d) > 0){
+    while(timeBetweenDates(expiryConvertToDate(expiry), d) > -1){ //NEGATIVE 1 to INCLUDE EXPIRY
         profitJSON[d] = {...rangeOfPrices};
         for(price of Object.keys(rangeOfPrices)){
             for(profitSet of optionsProfits){
@@ -69,8 +81,7 @@ function calculate(options){
         })
         option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
         option.greeks = calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)
-        //option.profit = calculateProfit(stockdata.price*0.9 , stockdata.price*1.1 , stockdata.price*0.01, option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
-        option.profit = calculateProfit(stockdata.price-1 , stockdata.price+1 , 0.5, option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
+        option.profit = calculateProfit(option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
 
         jsonContainer = document.createElement('pre')
         jsonContainer.innerText = expiryToString(option.expiry) + " $" + option.strike + " " + option.type + "\n" + JSON.stringify(option.profit, undefined, 2)
@@ -79,16 +90,11 @@ function calculate(options){
     return options
 }
 
-function calculateProfit(minPrice, maxPrice, interval, initialCost, quantity, expiry, strike, isCall, isLong, r, divYield, iv){
+function calculateProfit(initialCost, quantity, expiry, strike, isCall, isLong, r, divYield, iv){
     profitJSON = {}
 
-    var rangeOfPrices = {}
-
-    //EACH UNDERLYING IN RANGE
-    for(i = minPrice; i < maxPrice; i+=interval){
-        rangeOfPrices[i] = isLong ? -1*initialCost : 1*initialCost
-    }
-
+    var rangeOfPrices = getRangeOfPrices(stockdata.price, percentInterval, numberOfIntervals, (isLong ? -1*initialCost : 1*initialCost))
+    console.log(rangeOfPrices)
     //PROFIT BEFORE EXPIRY
     d = getCurrentDate()
     while(timeBetweenDates(expiryConvertToDate(expiry), d) > 0){
@@ -184,3 +190,4 @@ function calculateProfitAtExpiry(initialCost, priceUnderlying, strike, isCall, i
         }
     }
 }
+
