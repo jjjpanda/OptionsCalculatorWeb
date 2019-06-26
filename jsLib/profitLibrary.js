@@ -82,10 +82,6 @@ function calculate(options){
         option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
         option.greeks = calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)
         option.profit = calculateProfit(option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
-
-        jsonContainer = document.createElement('pre')
-        jsonContainer.innerText = expiryToString(option.expiry) + " $" + option.strike + " " + option.type + "\n" + JSON.stringify(option.profit, undefined, 2)
-        $('#jsonOutput')[0].appendChild(jsonContainer)
     }
     return options
 }
