@@ -10,8 +10,8 @@ $(document).ready(function(){
 });
 
 function profitToTable(calculatedOptions, mergedOptions){
-    console.log(calculatedOptions)
-    console.log(mergedOptions)
+    //console.log(calculatedOptions)
+    //console.log(mergedOptions)
 
     profitTable = document.createElement('table')
     profitTableHead = document.createElement("thead")
