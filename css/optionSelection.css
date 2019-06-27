@@ -30,7 +30,7 @@
 .collapse{
     width: 100%;
     background-color:#00ff0040;
-    color: black;
+    color: white;
 }
 
 #modal {
@@ -48,7 +48,7 @@
 }
 
 #options{
-    background-color: #fefefe;
+    background-color: #000000;
     margin: auto;
     overflow: auto;
     padding: 10px;
