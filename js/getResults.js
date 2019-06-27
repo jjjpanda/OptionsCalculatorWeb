@@ -11,7 +11,7 @@ $(document).ready(function(){
 
 function profitToTable(calculatedOptions, mergedOptions){
     //console.log(calculatedOptions)
-    //console.log(mergedOptions)
+    console.log(mergedOptions)
 
     profitTable = document.createElement('table')
     profitTableHead = document.createElement("thead")
@@ -78,7 +78,6 @@ function addProfitInDateRows(pointer, profits, initialCost){
 }
 
 function hexColorFromPercent(i){
-    console.log(i)
     if(i <= 0){
         return colorToHex(80, 0, 0)
     }

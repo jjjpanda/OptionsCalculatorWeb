@@ -90,7 +90,7 @@ function calculateProfit(initialCost, quantity, expiry, strike, isCall, isLong, 
     profitJSON = {}
 
     var rangeOfPrices = getRangeOfPrices(stockdata.price, percentInterval, numberOfIntervals, (isLong ? -1*initialCost : 1*initialCost))
-    console.log(rangeOfPrices)
+    
     //PROFIT BEFORE EXPIRY
     d = getCurrentDate()
     while(timeBetweenDates(expiryConvertToDate(expiry), d) > 0){
