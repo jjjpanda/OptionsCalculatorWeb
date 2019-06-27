@@ -24,8 +24,10 @@ function profitToTable(calculatedOptions, mergedOptions){
     addOptionDateRows(profitTableBody, Object.keys(mergedOptions.profit))
     addProfitInDateRows(profitTableBody, mergedOptions.profit, mergedOptions.boughtAt)
 
+    $('#jsonToTable')[0].innerHTML = ""
     $('#jsonToTable')[0].appendChild(profitTable)
 
+    /*
     jsonContainer = document.createElement('pre')
     jsonContainer.innerText = expiryToString(mergedOptions.expiry) + "\n" + JSON.stringify(mergedOptions.profit, undefined, 2)
     $('#jsonOutput')[0].appendChild(jsonContainer)
@@ -35,7 +37,7 @@ function profitToTable(calculatedOptions, mergedOptions){
         jsonContainer.innerText = expiryToString(option.expiry) + " $" + option.strike + " " + option.type + "\n" + JSON.stringify(option.profit, undefined, 2)
         $('#jsonOutput')[0].appendChild(jsonContainer)
     }
-
+    */
 }
 
 function addOptionHeaderRow(pointer, prices){
@@ -69,7 +71,7 @@ function addProfitInDateRows(pointer, profits, initialCost){
 
         for(price of Object.keys(profits[$(row).data('date')])){
             priceObj = document.createElement('td')
-            priceObj.style.border = hexColorFromPercent((profits[$(row).data('date')][price]+initialCost)/initialCost )            
+            priceObj.style.border = hexColorFromPercent(( (profits[$(row).data('date')][price]+Math.abs(initialCost)) / Math.abs(initialCost )))
             priceObj.innerText = roundTwoPlaces(profits[$(row).data('date')][price]) //* 100 + "%"
             row.appendChild(priceObj)
         }
