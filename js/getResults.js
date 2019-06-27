@@ -100,7 +100,7 @@ function hexColorFromPercent(i){
 }
 
 function colorToHex(r,g,b){
-    return '5px solid rgb('+Math.round(r)+","+Math.round(g)+","+Math.round(b)+")"
+    return '2px solid rgb('+Math.round(r)+","+Math.round(g)+","+Math.round(b)+")"
 }
 
 function lossPercentToColorCode(i){
