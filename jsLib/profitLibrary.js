@@ -21,7 +21,7 @@ function getRangeOfPrices(priceUnderlying, percentInterval, numOfIntervals, init
     var rangeOfPrices = {}
     min = priceUnderlying/Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
     max = priceUnderlying*Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
-    for(i = min; i <= max; i *= (1+(percentInterval/100))){
+    for(i = min; i < max * (1+(percentInterval/200)); i *= (1+(percentInterval/100))){
         //rangeOfPrices[roundTwoPlaces(i)] = initialCost
         rangeOfPrices[i] = initialCost
     } 
