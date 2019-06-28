@@ -46,10 +46,13 @@ function addOptionHeaderRow(pointer, prices){
     priceInRow = document.createElement('th')
     priceInRow.innerText = "-----"
     topRow.appendChild(priceInRow)
-
+    console.log(prices.sort())
+    for(price of prices.sort()){
+        console.log(price)
+    }
     for(price of prices.sort()){
         priceInRow = document.createElement('th')
-        priceInRow.innerText = price
+        priceInRow.innerText = roundTwoPlaces(price)
         topRow.appendChild(priceInRow)
     }
     pointer.appendChild(topRow)
