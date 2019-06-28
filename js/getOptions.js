@@ -180,7 +180,7 @@ function addOptionsRow(price, type, strike, expiry){
     $("#"+anchorID)[0].children[6].id += anchorID
     $("#"+anchorID)[0].children[1].value = expiryToString(expiry) + " $" + strike + " " + type
     $("#"+anchorID)[0].children[5].value = price
-    optionsSelected.push({'expiry':expiry, 'strike':strike, 'type':type, 'price':price})
+    optionsSelected.push({'expiry':expiry, 'strike':strike, 'type':type, 'price':price, 'pointerToRow':$("#"+anchorID)[0]})
     addOptionRowListener($("#"+anchorID)[0].children[6], $("#"+anchorID)[0])
     anchorID++;
   })

@@ -21,7 +21,7 @@ function getRangeOfPrices(priceUnderlying, percentInterval, numOfIntervals, init
     var rangeOfPrices = {}
     min = priceUnderlying/Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
     max = priceUnderlying*Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
-    for(i = min; i < max; i *= (1+(percentInterval/100))){
+    for(i = min; i <= max; i *= (1+(percentInterval/100))){
         //rangeOfPrices[roundTwoPlaces(i)] = initialCost
         rangeOfPrices[i] = initialCost
     } 
@@ -80,7 +80,8 @@ function calculate(options){
                 option[e] = parseFloat(option[e])
             }
         })
-        option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
+        option.iv = $('#ivFactor').val() * calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
+        option.pointerToRow.children[7].value = roundPlaces(100 * option.iv, 2) + "%"
         option.greeks = calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)
         option.profit = calculateProfit(option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
     }

@@ -46,13 +46,9 @@ function addOptionHeaderRow(pointer, prices){
     priceInRow = document.createElement('th')
     priceInRow.innerText = "-----"
     topRow.appendChild(priceInRow)
-    console.log(prices.sort())
-    for(price of prices.sort()){
-        console.log(price)
-    }
     for(price of prices.sort()){
         priceInRow = document.createElement('th')
-        priceInRow.innerText = roundTwoPlaces(price)
+        priceInRow.innerText = roundPlaces(price, 2)
         topRow.appendChild(priceInRow)
     }
     pointer.appendChild(topRow)
@@ -75,7 +71,7 @@ function addProfitInDateRows(pointer, profits, initialCost){
         for(price of Object.keys(profits[$(row).data('date')])){
             priceObj = document.createElement('td')
             priceObj.style.border = hexColorFromPercent(( (profits[$(row).data('date')][price]+Math.abs(initialCost)) / Math.abs(initialCost )))
-            priceObj.innerText = roundTwoPlaces(profits[$(row).data('date')][price]) //* 100 + "%"
+            priceObj.innerText = roundPlaces(profits[$(row).data('date')][price], 2) //* 100 + "%"
             row.appendChild(priceObj)
         }
 

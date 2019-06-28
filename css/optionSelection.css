@@ -27,6 +27,15 @@
     text-align: center;
 }
 
+.collapseContent td{
+    border: 1px solid rgb(50, 50, 50)
+}
+
+a:hover, a:focus{
+    color: greenyellow;
+    border: 1px solid greenyellow
+}
+
 .collapse{
     width: 100%;
     background-color:#00ff0040;
@@ -57,7 +66,6 @@
     width: 80%;
 }
 
-
 #close {
     color: #aaaaaa;
     float: right;
@@ -72,6 +80,7 @@
 }
 
 ::-webkit-scrollbar {
+    height: 5px;
     width: 5px;
 }
 

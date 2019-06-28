@@ -43,6 +43,6 @@ function d2(p, x, t, q, r, sigma){
     return (Math.log(p / x) + t * (r - q + (sigma * sigma) / 2)) / (sigma * Math.sqrt(t)) - (sigma * Math.sqrt(t));
 }
 
-function roundTwoPlaces(i){
-    return Math.round( i * 100) / 100
+function roundPlaces(i, x){
+    return Math.round( i * Math.pow(10,x)) / Math.pow(10,x)
 }
