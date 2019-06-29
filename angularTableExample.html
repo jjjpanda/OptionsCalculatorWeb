@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<script src="jsLib/angularSavedCDN.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="customersCtrl"> 
+
+<table>
+  <tr ng-repeat="x in bruh">
+    <td class = {{x.id}} ng-if="$odd" style="background-color:#f1f1f1">{{ x.n }}</td>
+    <td class = {{x.id}} ng-if="$even">{{ x.n }}</td>
+    <td class = {{x.id}} ng-if="$odd" style="background-color:#f1f1f1">{{ x.c }}</td>
+    <td class = {{x.id}} ng-if="$even">{{ x.c }}</td>
+  </tr>
+</table>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope) {
+    $scope.bruh = [{'n':'THIS','c':'So basically this should be a fully functional example', 'id': "bruh1"},
+                    {'n':'IS','c':'I hope this pans out in the long run', 'id': "bruh2"},
+                    {'n':'GOOD','c':'if it doesnt that will be quite depressing', 'id': "bruh3"}];
+});
+</script>
+
+</body>
+</html>
