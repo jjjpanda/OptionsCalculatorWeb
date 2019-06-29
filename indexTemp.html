@@ -6,7 +6,7 @@
     <link rel="icon" href="/img/bruhlogo.png"></link>
 
 </head>
-<body>
+<body ang-app="angApp" ng-controller="angController">
 
     <!--LOGO-->
     <span> 
@@ -61,17 +61,45 @@
     <!--LEG ROWS-->
     <div id ="legRows"></div>
     <br/>
-
-    <!--OPTIONS SELECTION MODAL-->
-    <div id = "optionsModal">
-        <div id = "optionsSelection">
-        </div>
-    </div>
-    <br/>
-    <br/>
     
     <!--ADD LEG OR SUBMIT-->
     <div id = "submitLegRows">
+        <button type="button" id = "displayOptionsChain">ADD LEG</button>
+        <button type="button" id = "calculateOptions">CALCULATE</button>
+
+        <!--OPTIONS SELECTION MODAL-->
+        <div id = "optionsModal">
+            <div id = "optionsSelection">
+                <span id="close">&times;</span>
+                <div ng-repeat="chain in chains" class = 'chain'>
+                    <button class="collapse">{{chain}}</button>
+                    <table class="collapseContent">
+                        <thead>
+                            <tr>
+                                <th>Bid</th>
+                                <th>Call</th>
+                                <th>Ask</th>
+                                <th>Strike</th>
+                                <th>Bid</th>
+                                <th>Put</th>
+                                <th>Ask</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="option in chains[{{chain}}]">
+                            <tr class="{{option.strike}}">
+                                <td><a ng-click="myFunction()">{{option.callBid}}</a></td>
+                                <td><a ng-click="myFunction()">{{option.call}}</a></td>
+                                <td><a ng-click="myFunction()">{{option.callAsk}}</a></td>
+                                <td><a ng-click="myFunction()">{{option.strike}}</a></td>
+                                <td><a ng-click="myFunction()">{{option.putBid}}</a></td>
+                                <td><a ng-click="myFunction()">{{option.put}}</a></td>
+                                <td><a ng-click="myFunction()">{{option.putAsk}}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     <br/>
 
