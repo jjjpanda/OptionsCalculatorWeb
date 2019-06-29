@@ -36,7 +36,7 @@
     <!--TOP ROW-->
     <div id = "topRow">
         <div class="left">
-            <div>
+            <div class="ticker-div">
                 <label for="ticker">Symbol</label>
                 <input type = "text" id = "ticker">
             </div>
@@ -50,7 +50,7 @@
 
             <div class="text-div">
                 <label for="stockPercentChange">Percent Change</label>
-                <input type='number' class = "text" id="stockPercentChange" readonly>
+                <input type='text' class = "text" id="stockPercentChange" readonly>
             </div> 
         </div>
 
@@ -106,13 +106,13 @@
                         </thead>
                         <tbody ng-repeat="option in chains[{{chain}}]">
                             <tr class="{{option.strike}}">
-                                <td><a ng-click="myFunction()">{{option.callBid}}</a></td>
-                                <td><a ng-click="myFunction()">{{option.call}}</a></td>
-                                <td><a ng-click="myFunction()">{{option.callAsk}}</a></td>
-                                <td><a ng-click="myFunction()">{{option.strike}}</a></td>
-                                <td><a ng-click="myFunction()">{{option.putBid}}</a></td>
-                                <td><a ng-click="myFunction()">{{option.put}}</a></td>
-                                <td><a ng-click="myFunction()">{{option.putAsk}}</a></td>
+                                <td><a ng-click="myFunction($event)">{{option.callBid}}</a></td>
+                                <td><a ng-click="myFunction($event)">{{option.call}}</a></td>
+                                <td><a ng-click="myFunction($event)">{{option.callAsk}}</a></td>
+                                <td><a ng-click="myFunction($event)">{{option.strike}}</a></td>
+                                <td><a ng-click="myFunction($event)">{{option.putBid}}</a></td>
+                                <td><a ng-click="myFunction($event)">{{option.put}}</a></td>
+                                <td><a ng-click="myFunction($event)">{{option.putAsk}}</a></td>
                             </tr>
                         </tbody>
                     </table>
