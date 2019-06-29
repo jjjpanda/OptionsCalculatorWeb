@@ -1,0 +1,87 @@
+<html>
+<head>
+
+    <title>Options Calculator</title>
+
+    <link rel="icon" href="/img/bruhlogo.png"></link>
+
+</head>
+<body>
+
+    <!--LOGO-->
+    <span> 
+        <img src="/img/bruhlogo.png" id="logo"/>
+    </span>
+    <hr style="height:5px;border:none;color:#333;background-color:#333;" />
+    
+    <!--TOP ROW-->
+    <div id = "topRow">
+        <div class="left">
+            <div>
+                <label for="ticker">Symbol</label>
+                <input type = "text" id = "ticker">
+            </div>
+
+            <button type = "button" id="submitTicker">Get Price</button>
+
+            <div class="text-div">
+                <label for="stockPrice">Price</label>
+                <input type='number' class = "text" id ="stockPrice" readonly>
+            </div>
+
+            <div class="text-div">
+                <label for="stockPercentChange">Percent Change</label>
+                <input type='number' class = "text" id="stockPercentChange" readonly>
+            </div> 
+        </div>
+
+        <div class="middle">
+            <img src="/img/bruhlogo.png" class="cycle loading" id = "loadingIcon" style="visibility: hidden"/>
+        </div>
+
+        <div class="right">
+            <div id="percentInterval-div">
+                <label for="percentInterval">Interval Size</label>
+                <input type='number' class = "text" id ="percentInterval" value = 1> % 
+            </div>
+
+            <div id="numberOfIntervals-div">
+                <label for="numberOfIntervals">Number of Intervals</label>
+                <input type='text' class = "text" id ="numberOfIntervals" value = 10>
+            </div>
+
+            <div id="ivFactor-div">
+                <label for="ivFactor">IV Factor</label>
+                <input type="text" id ="ivFactor" value = 1>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <!--LEG ROWS-->
+    <div id ="legRows"></div>
+    <br/>
+
+    <!--OPTIONS SELECTION MODAL-->
+    <div id = "optionsModal">
+        <div id = "optionsSelection">
+        </div>
+    </div>
+    <br/>
+    <br/>
+    
+    <!--ADD LEG OR SUBMIT-->
+    <div id = "submitLegRows">
+    </div>
+    <br/>
+
+    <!--OPTIONS PROFIT TABLE-->
+    <div id = "optionsProfitTable">
+
+    </div>
+    <br/>
+
+
+
+</body>
+</html>
