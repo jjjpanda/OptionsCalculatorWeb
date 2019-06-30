@@ -1,7 +1,7 @@
 $(document).ready(function(){
-    $("#calculateOptions").click(function(){
+    $(calcOptionsButton).click(function(){
         loadIconStart()
-        $('#jsonOutput').empty()
+        $(jsonOutput).empty()
         getOptionsData(optionsSelected, function(calculatedOptions, mergedOptions){
             profitToTable(calculatedOptions, mergedOptions)
             loadIconStop()
@@ -24,18 +24,18 @@ function profitToTable(calculatedOptions, mergedOptions){
     addOptionDateRows(profitTableBody, Object.keys(mergedOptions.profit))
     addProfitInDateRows(profitTableBody, mergedOptions.profit, mergedOptions.boughtAt)
 
-    $('#jsonToTable')[0].innerHTML = ""
-    $('#jsonToTable')[0].appendChild(profitTable)
+    $(jsonToTable)[0].innerHTML = ""
+    $(jsonToTable)[0].appendChild(profitTable)
 
     /*
     jsonContainer = document.createElement('pre')
     jsonContainer.innerText = expiryToString(mergedOptions.expiry) + "\n" + JSON.stringify(mergedOptions.profit, undefined, 2)
-    $('#jsonOutput')[0].appendChild(jsonContainer)
+    $(jsonOutput)[0].appendChild(jsonContainer)
 
     for(option of calculatedOptions){
         jsonContainer = document.createElement('pre')
         jsonContainer.innerText = expiryToString(option.expiry) + " $" + option.strike + " " + option.type + "\n" + JSON.stringify(option.profit, undefined, 2)
-        $('#jsonOutput')[0].appendChild(jsonContainer)
+        $(jsonOutput)[0].appendChild(jsonContainer)
     }
     */
 }

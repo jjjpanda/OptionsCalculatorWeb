@@ -3,19 +3,19 @@ var optionsSelected = []
 
 $(document).ready(function(){
 
-    $("#chain").click(function(){
+    $(addLegButton).click(function(){
       addLegClick(chaindata, chainticker)
     });
 
 });
 
 function addLegClick(chaindata, chainticker){
-  if(chainticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
-      if(chainticker != $("#ticker").val()){
-          $("#bottomRows").empty()
+  if(chainticker != $(tickerTextInput).val() || minutesSinceLastLoad() > 5){
+      if(chainticker != $(tickerTextInput).val()){
+          $(bottomRows).empty()
           optionsSelected = []
       }
-      chainticker=$("#ticker").val();
+      chainticker=$(tickerTextInput).val();
       getPrice(false)
       $.post("/chain",{ticker: chainticker}, function(data){
       //do things with data returned from app js
@@ -27,7 +27,7 @@ function addLegClick(chaindata, chainticker){
       else{
           addOptionsChain(data, function(){
           loadIconStop()
-          $("#modal").css("display", "block")
+          $(modalDiv).css("display", "block")
           })
       }
       keepChain(data, chainticker)
@@ -38,7 +38,7 @@ function addLegClick(chaindata, chainticker){
   loadIconStart()
   addOptionsChain(chaindata, function(){
       loadIconStop()
-      $("#modal").css("display", "block")
+      $(modalDiv).css("display", "block")
   })
   }
 }
@@ -50,9 +50,9 @@ function keepChain(ndata, nchainticker){
 
 function addOptionsChain(data, callback){
   expiries = Object.keys(data);
-  $("#options")[0].innerHTML = "<span id=\"close\">&times;</span>";
+  $(optionsChainDIV)[0].innerHTML = "<span id=\"close\">&times;</span>";
   for(expiry of expiries){
-    $("#options")[0].appendChild(createChainDiv(expiry, data[expiry]))
+    $(optionsChainDIV)[0].appendChild(createChainDiv(expiry, data[expiry]))
   }
   addCollapsers()
   addCloseListener()
@@ -171,9 +171,9 @@ function individualOptionRow(){
 var anchorID = 0;
 
 function addOptionsRow(price, type, strike, expiry){
-  $("#bottomRows")[0].appendChild(individualOptionRow())
-  $("#bottomRows")[0].appendChild(document.createElement("br"))
-  //var num = ($("#bottomRows")[0].children.length-2)/2
+  $(bottomRows)[0].appendChild(individualOptionRow())
+  $(bottomRows)[0].appendChild(document.createElement("br"))
+  //var num = ($(bottomRows)[0].children.length-2)/2
   $("#"+anchorID).load('/js/html/optionDetailRow.html', function(){
     $("#"+anchorID)[0].children[0].children[0].id += anchorID
     $("#"+anchorID)[0].children[0].children[1].htmlFor += anchorID
@@ -204,14 +204,14 @@ for (i = 0; i < coll.length; i++) {
 }
 
 function addCloseListener(){
-    $("#close").click(function(){
-        $("#modal").css("display", "none")
+    $(closeButton).click(function(){
+        $(modalDiv).css("display", "none")
     });  
 
     /*
-    $("#modal").click(function(){
-        if($("#modal").css("display") == "block"){
-        $("#modal").css("display", "none") 
+    $(modalDiv).click(function(){
+        if($(modalDiv).css("display") == "block"){
+        $(modalDiv).css("display", "none") 
         }
     })
     */
@@ -231,7 +231,7 @@ function addAnchorListener(pointer){
         }
             strike = pointer.parentElement.parentElement.className
             expiry = pointer.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].innerText
-        $("#close").click()
+        $(closeButton).click()
         if(type != 3){
             addOptionsRow(price, type, strike, expiry)
         }

@@ -2,14 +2,14 @@ var stockticker, stockdata, lastLoad;
 var notFound = {'price':'NOT FOUND', 'change':'NOT FOUND'}
 
 $(document).ready(function(){
-  $("#submitTicker").click(function(){
+  $(submitButton).click(function(){
     getPrice(true)
   });
 });
 
 function getPrice(runIcons){
-  if(stockticker != $("#ticker").val() || minutesSinceLastLoad() > 5){
-    stockticker=$("#ticker").val();
+  if(stockticker != $(tickerTextInput).val() || minutesSinceLastLoad() > 5){
+    stockticker=$(tickerTextInput).val();
     $.post("/price",{ticker: stockticker}, function(data){
           //do things with data returned from app js
           console.log(data)
@@ -37,8 +37,8 @@ function keepStockData(ndata){
 }
 
 function displayData(price, change){
-  $("#price").val(price)
-  $("#percentChange").val(change + " %")
+  $(priceOutput).val(price)
+  $(percentChangeOutput).val(change + " %")
 }
 
 function minutesSinceLastLoad(){
