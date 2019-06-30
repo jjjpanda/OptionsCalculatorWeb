@@ -1,13 +1,13 @@
 function getOptionsData(arrayOfOptions, callback){
-    arrayOfRows = $(".bottomRow")
+    arrayOfRows = $(bottomRow)
     for(i = 0; i < arrayOfRows.length; i++){
         arrayOfOptions[i].boughtAt = arrayOfRows[i].children[5].value
         arrayOfOptions[i].isLong = arrayOfRows[i].children[0].children[0].checked
         arrayOfOptions[i].quantity = arrayOfRows[i].children[3].value
     }
 
-    percentInterval = $('#percentInterval').val()
-    numberOfIntervals = $('#numberOfIntervals').val()
+    percentInterval = $(percentIntervalInput).val()
+    numberOfIntervals = $(numberOfIntervalsInput).val()
 
     calculatedOptionsData = calculate(arrayOfOptions)
     mergedData =  getTotalsOfOptions(calculatedOptionsData)
@@ -80,7 +80,7 @@ function calculate(options){
                 option[e] = parseFloat(option[e])
             }
         })
-        option.iv = $('#ivFactor').val() * calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
+        option.iv = $(ivFactor).val() * calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, stockdata.price, option.strike, option.type == 'Call', 0, 0)
         option.pointerToRow.children[7].value = roundPlaces(100 * option.iv, 2) + "%"
         option.greeks = calculateGreeks(timeTillExpiry(expiryConvertToDate(option.expiry)), stockdata.price, option.strike, option.type === "Call", option.isLong, 0, 0, option.iv)
         option.profit = calculateProfit(option.boughtAt, option.quantity, option.expiry, option.strike, option.type === "Call", option.isLong, 0,0,option.iv)
