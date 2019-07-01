@@ -139,7 +139,10 @@
                 <th ng-repeat="(expiry, value) in mergedOptions.profit">{{expiry}}</th>
             </thead>
             <tbody>
-                <tr></tr>
+                <tr ng-repeat="(expiry, value) in mergedOptions.profit">
+                    <td><a>{{expiry}}</a></td>
+                    <td ng-repeat="profit in value"><a>{{profit}}</a></td>
+                </tr>
             </tbody>
         </table>
     </div>

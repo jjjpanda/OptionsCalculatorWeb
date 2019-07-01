@@ -16,7 +16,7 @@ app.controller("appController", function($scope){
 
     $scope.stock = {'price':'', 'percentChange':''}
     $scope.selectedOptions = []
-    $scope.mergedOptions = {}
+    $scope.mergedOptions = {"profit":{'date1':{1:2,2:4,3:8}, 'date2':{1:3,2:6, 3:9}}}
 
     $scope.getPrice = () => {
         $.post("/price",{ticker: $scope.stock.tickerSymbol}, function(data){
