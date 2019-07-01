@@ -1,0 +1,102 @@
+.collapseContent{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.collapseContent tbody{
+    display:block;
+    width: 100%;
+    overflow: auto;
+    height: 66%;
+}
+
+.collapseContent thead {
+    background: black;
+    color:#fff;
+}
+
+.collapseContent tr, .collapseContent tr{
+    width: 100%;
+    table-layout: fixed;
+    display: table;
+}
+
+.collapseContent th, .collapseContent td {
+    padding: 1px;
+    text-align: center;
+}
+
+.collapseContent td{
+    border: 1px solid rgb(50, 50, 50)
+}
+
+a:hover, a:focus{
+    color: greenyellow;
+    border: 1px solid greenyellow
+}
+
+.collapse{
+    width: 100%;
+    background-color:#00ff0040;
+    color: white;
+}
+
+#modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.frozenColumn{
+    position: absolute;
+    left:0;
+}
+
+#options{
+    background-color: #000000;
+    margin: auto;
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid #888;
+    height: 80%;
+    width: 80%;
+}
+
+#close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#close:hover, #close:focus {
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: white; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: black; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background:green; 
+}

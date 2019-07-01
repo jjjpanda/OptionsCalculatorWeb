@@ -1,0 +1,155 @@
+<html>
+<head>
+
+    <title>Options Calculator</title>
+
+    <link rel="icon" href="/img/bruhlogo.png"></link>
+
+    <link rel="stylesheet" href="/css/pictures.css"></link>
+    <link rel="stylesheet" href="/css/switch.css"></link>
+    
+    <link rel="stylesheet" href="/css/optionSelection.css"></link>
+
+    <script src="/jsLib/jQuerySavedCDN.js"></script>
+    <script src="/jsLib/angularSavedCDN.js"></script>
+    
+</head>
+<body>
+<div ng-app="angApp" ng-controller="appController">
+
+    <!--LOGO-->
+    <span> 
+        <img src="/img/bruhlogo.png" id="logo"/>
+    </span>
+    <hr style="height:5px;border:none;color:#333;background-color:#333;" />
+    
+    <!--TOP ROW-->
+    <div id = "topRow">
+
+        <div id="ticker-div">
+            <label for="ticker">Symbol</label>
+            <input type = "text" id = "ticker" ng-model="stock.tickerSymbol">
+        </div>
+
+        <div id="divYield-div">
+            <label for="ticker">Dividend Yield</label>
+            <input type = "text" id = "divYield" ng-model="stock.divYield">
+        </div>
+
+        <div id="freeRate-div">
+            <label for="ticker">Risk Free Interest Rate</label>
+            <input type = "text" id = "freeRate" ng-model="stock.freeRate">
+        </div>
+
+        <button type = "button" id="submitTicker" ng-click="getPrice()">Get Price</button>
+
+        <div class="text-div">
+            <label for="stockPrice">Price</label>
+            <input type='text' class = "text" id ="stockPrice" value = '{{stock.price}}' readonly>
+        </div>
+
+        <div class="text-div">
+            <label for="stockPercentChange">Percent Change</label>
+            <input type='text' class = "text" id="stockPercentChange" value = '{{stock.percentChange}}' readonly> %
+        </div> 
+    
+        <img src="/img/bruhlogo.png" class="cycle loading" id = "loadingIcon" style="visibility: hidden"/>
+
+    </div>
+    <br/>
+
+    <!--LEG ROWS-->
+    <div id ="legRows">
+        <div ng-repeat="option in selectedOptions">
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ng-checked = {{option.isLong}}>
+                <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+            <input type='text' class="optionName" value = {{option.name}} readonly>
+            <div class="symbol">&times;</div>
+            <input type='text' class="quantity" value = {{option.quantity}} >
+            <div class="symbol">@</div>
+            <input type='text' class="limitPrice" value = {{option.boughtAt}} >
+            <button type="button" class="editLeg">EDIT LEG</button>
+            <span id="removeLeg">&times;</span>
+            <input type='text' class="ivOfOption" value = {{option.iv}} readonly>
+        </div>
+    </div>
+    <br/>
+    
+    <!--ADD LEG OR SUBMIT-->
+    <div id = "submitRow">
+
+        <button type="button" id = "displayOptionsChain" ng-click="getOptionsChain()">ADD LEG</button>
+        <button type="button" id = "calculateOptions">CALCULATE</button>
+
+        <div id="percentInterval-div">
+            <label for="percentInterval">Interval Size</label>
+            <input type='number' class = "text" id ="percentInterval" value = 1> % 
+        </div>
+
+        <div id="numberOfIntervals-div">
+            <label for="numberOfIntervals">Number of Intervals</label>
+            <input type='text' class = "text" id ="numberOfIntervals" value = 10>
+        </div>
+
+        <!--OPTIONS SELECTION MODAL-->
+        <div id = "optionsModal">
+            <div id = "optionsSelection">
+                <span id="close">&times;</span>
+                <div ng-repeat="(expiry, chain) in chains" class = 'chain'>
+                    <button class="collapse">{{expiry}}</button>
+                    <table class="collapseContent"> 
+                        <thead>
+                            <tr>
+                                <th>Bid</th>
+                                <th>Call</th>
+                                <th>Ask</th>
+                                <th>Strike</th>
+                                <th>Bid</th>
+                                <th>Put</th>
+                                <th>Ask</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="option in chain">
+                            <tr class="{{option.strike}}">
+                                <td><a ng-click="selectOption($event, option.call, option.strike, expiry)">{{option.callBid}}</a></td>
+                                <td><a ng-click="selectOption($event, option.call, option.strike, expiry)">{{option.call}}</a></td>
+                                <td><a ng-click="selectOption($event, option.call, option.strike, expiry)">{{option.callAsk}}</a></td>
+                                <td><a>{{option.strike}}</a></td>
+                                <td><a ng-click="selectOption($event, option.put, option.strike, expiry)">{{option.putBid}}</a></td>
+                                <td><a ng-click="selectOption($event, option.put, option.strike, expiry)">{{option.put}}</a></td>
+                                <td><a ng-click="selectOption($event, option.put, option.strike, expiry)">{{option.putAsk}}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <!--OPTIONS PROFIT TABLE-->
+    <div id = "optionsProfitTable">
+        <table>
+            <thead>
+                <th ng-repeat="(expiry, value) in mergedOptions.profit">{{expiry}}</th>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+
+
+</div>
+<script src="/js/script.js"></script>
+</body>
+
+
+
+</html>
