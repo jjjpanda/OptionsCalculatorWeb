@@ -1,4 +1,5 @@
 const loadingIcon = "#loadingIcon"
+var currentBiggestID = 0
 
 function loadIconStart(){
     $(loadingIcon).css('visibility', 'visible')
@@ -60,16 +61,29 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLeg = () => {
-        //modal
+        $scope.getOptionsChain()
+        console.log('CREATE MODAL')
     }
 
     $scope.expandExpiry = () => {
         //collapse all expiries
     }
 
-    $scope.selectOption = () => {
-        //add option to options selected
-        //call close modal
+    $scope.selectOption = ($event, price, strike, expiry, isCall) => {
+        var option = {}
+        option.price = parseFloat(price)
+        option.boughtAt = parseFloat(price)
+        option.strike = parseFloat(strike)
+        option.expiry = expiry
+        option.quantity = 1
+        option.isCall = isCall
+        option.isLong = true;
+        option.id = currentBiggestID++
+        option.iv = 0
+        option.ivEdited = 0
+
+        console.log(option)
+        $scope.selectedOptions.push(option)
     }
 
     $scope.closeModal = () => {
@@ -84,12 +98,14 @@ app.controller("appController", function($scope){
         //calculate profits
     }
 
-    $scope.removeLeg = () => {
-        //remove from options selected
+    $scope.removeLeg = (id) => {
+        $scope.selectedOptions.splice($scope.selectedOptions.findIndex(x => x.id == id), 1)
+        console.log($scope.selectedOptions)
     }
 
-    $scope.editLeg = () => {
-        //call remove leg and then add leg
+    $scope.editLeg = (id) => {
+        $scope.selectedOptions.splice($scope.selectedOptions.findIndex(x => x.id == id), 1)
+        $scope.addLeg()
     }
 
     $scope.displayProfit = () => {

@@ -10,6 +10,8 @@
 
     <script src="/jsLib/jQuerySavedCDN.js"></script>
     <script src="/jsLib/angularSavedCDN.js"></script>
+    <script src="/js/optionsLibrary.js"></script>
+    <script src="/js/timeLibrary.js"></script>
 
 </head>
 
@@ -61,27 +63,27 @@
     <div id = "selectedOptions">
         <div ng-repeat="option in selectedOptions">
             <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ng-checked = {{option.isLong}}>
-                <label class="onoffswitch-label" for="myonoffswitch">
+                <input type="checkbox" class="onoffswitch-checkbox" ng-attr-id={{"myonoffswitch"+option.id}} ng-checked = {{option.isLong}}>
+                <label class="onoffswitch-label" ng-attr-for={{"myonoffswitch"+option.id}}>
                     <span class="onoffswitch-inner"></span>
                     <span class="onoffswitch-switch"></span>
                 </label>
             </div>
-            <input type='text' class="optionName" value = {{option.name}} readonly>
+            <input type='text' class="optionName" value = {{option.strike}} readonly>
             <div class="symbol">&times;</div>
-            <input type='text' class="quantity" value = {{option.quantity}} >
+            <input type='text' class="quantity" ng-model = "option.quantity" >
             <div class="symbol">@</div>
-            <input type='text' class="limitPrice" value = {{option.initialCost}} ng-model="option.boughtAt">
-            <button type="button" class="editLeg()" ng-click="editLeg()">EDIT LEG</button>
-            <span id="removeLeg" ng-click="removeLeg()">&times;</span>
-            <input type='text' class="ivOfOption" value = {{option.iv}} ng-model = "option.ivEdited">
+            <input type='text' class="limitPrice" ng-model="option.boughtAt">
+            <button type="button" class="editLeg()" ng-click="editLeg(option.id)">EDIT LEG</button>
+            <span class="removeLeg" ng-click="removeLeg(option.id)">&times;</span>
+            <input type='text' class="ivOfOption" ng-model = "option.ivEdited">
         </div>
     </div>
     <br/>
 
     <!--SUBMIT OPTIONS-->
     <div id = "submitRow">
-        <button type="button" id = "displayOptionsChain" ng-click="getOptionsChain()">ADD LEG</button>
+        <button type="button" id = "addLeg" ng-click="addLeg()">ADD LEG</button>
         <button type="button" id = "calculateOptions">CALCULATE</button>
 
         <div id="percentInterval-div">
@@ -124,13 +126,13 @@
                     </thead>
                     <tbody ng-repeat="option in chain">
                         <tr class="{{option.strike}}">
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry)">{{option.callBid}}</a></td>
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry)">{{option.call}}</a></td>
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry)">{{option.callAsk}}</a></td>
+                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry, isCall = true)">{{option.callBid}}</a></td>
+                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry, isCall = true)">{{option.call}}</a></td>
+                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry, isCall = true)">{{option.callAsk}}</a></td>
                             <td><a>{{option.strike}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry)">{{option.putBid}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry)">{{option.put}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry)">{{option.putAsk}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry, isCall = false)">{{option.putBid}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry, isCall = false)">{{option.put}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry, isCall = false)">{{option.putAsk}}</a></td>
                         </tr>
                     </tbody>
                 </table>
