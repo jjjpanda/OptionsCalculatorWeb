@@ -60,15 +60,7 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLeg = () => {
-        //open modal
-    }
-
-    $scope.removeLeg = () => {
-        //remove from options selected
-    }
-
-    $scope.editLeg = () => {
-        //call remove leg and then add leg
+        //modal
     }
 
     $scope.expandExpiry = () => {
@@ -84,16 +76,26 @@ app.controller("appController", function($scope){
         //close modal
     }
 
-    $scope.calculateProfits = () => {
-        //calculate profits
-    }
-
     $scope.mergeProfits = () => {
         //create merged strategy data
     }
 
-    $scope.f = () => {
+    $scope.calculateProfits = () => {
+        //calculate profits
+    }
+
+    $scope.removeLeg = () => {
+        //remove from options selected
+    }
+
+    $scope.editLeg = () => {
+        //call remove leg and then add leg
+    }
+
+    $scope.displayProfit = () => {
 
     }
+
+    
 
 })
