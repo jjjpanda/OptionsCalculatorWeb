@@ -39,7 +39,10 @@ app.controller("appController", function($scope){
             }
             $scope.stock.price = data.price
             $scope.stock.percentChange = data.change
-            if(showLoadingIcon) {loadIconStop()}
+            if(showLoadingIcon) {
+                loadIconStop()
+                $scope.fillRangeOfPrices()
+            }
             $scope.$apply()
         });
         if(showLoadingIcon) {loadIconStart()}  
@@ -126,9 +129,10 @@ app.controller("appController", function($scope){
         $scope.rangeOfPrices = []
         min = $scope.stock.price/Math.pow(1+($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
         max = $scope.stock.price*Math.pow(1+($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
-        for(i = min; i < max * (1+($scope.submitDetails.percentInterval/200)); i *= (1+($scope.submitDetails.percentInterval/200))){
+        for(i = min; i < max * (1+($scope.submitDetails.percentInterval/200)); i *= (1+($scope.submitDetails.percentInterval/100))){
             $scope.rangeOfPrices.push([i, 0])
         }
+        console.log($scope.rangeOfPrices)
     }
 
     $scope.mergeProfits = () => {
@@ -138,9 +142,14 @@ app.controller("appController", function($scope){
     $scope.calculateProfits = (callback) => {
         for(option of $scope.selectedOptions){
             option.greeks = calculateGreeks(option.timeTillExpiry, $scope.stock.price, option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.iv)
+            option.profit = []
             d = getCurrentDate()
             while(timeBetweenDates(expiryConvertToDate(option.expiry), d) > -1){
-                option.profit.push({...$scope.rangeOfPrices})
+                option.profit.push([dateToString(d),[...$scope.rangeOfPrices]]) //its not creating a deep copy pls fix
+                for(price of option.profit[option.profit.length-1][1]){
+                    price[1] = calculateOptionsPrice(percentageOfYear(timeBetweenDates(expiryConvertToDate(option.expiry), d)), price[0], option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.ivEdited) - option.boughtAt
+                }
+                d = incrementOneDay(d)
             }
         }
         console.log($scope.selectedOptions)
@@ -153,6 +162,10 @@ app.controller("appController", function($scope){
         })
     }
 
-    
+    $scope.init = () => {
+        //Things to do on init
+    }
+
+    $scope.init()
 
 })
