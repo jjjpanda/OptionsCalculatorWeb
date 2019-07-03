@@ -25,6 +25,7 @@ app.controller("appController", function($scope){
 
     $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':'', 'freeRate':''}
     $scope.submitDetails = {'percentInterval':'', "numberOfIntervals":""}
+    $scope.modal = {"optionsSelection":false, "expandedExpiries":{}}
     $scope.selectedOptions = []
     $scope.mergedOptions = []
 
@@ -43,7 +44,7 @@ app.controller("appController", function($scope){
         loadIconStart()  
     }
     
-    $scope.getOptionsChain = () => {
+    $scope.getOptionsChain = (callback) => {
         $.post("/chain",{ticker: $scope.stock.tickerSymbol}, function(data){
             //do things with data returned from app js
             console.log(data)
@@ -53,20 +54,35 @@ app.controller("appController", function($scope){
             }
             else{
                 $scope.chains = data;
-                $scope.$apply()
+                $scope.collapseAllExpiries()
+                callback()
                 loadIconStop()
+                $scope.$apply()
             }
         });
         loadIconStart()
     }
 
     $scope.addLeg = () => {
-        $scope.getOptionsChain()
-        console.log('CREATE MODAL')
+        $scope.getOptionsChain(() => {
+            $scope.modal.optionsSelection = true;
+        })
     }
 
-    $scope.expandExpiry = () => {
-        //collapse all expiries
+    $scope.collapseAllExpiries = () => {
+        $scope.chains.forEach(x => {
+            $scope.modal.expandedExpiries[x[0]] = false;
+        })
+    }
+
+    $scope.expandExpiry = (index) => {
+        if($scope.modal.expandedExpiries[index] == true){
+            $scope.modal.expandedExpiries[index] = false
+        }
+        else{
+            $scope.collapseAllExpiries()
+            $scope.modal.expandedExpiries[index] = true
+        }
     }
 
     $scope.selectOption = ($event, price, strike, expiry, isCall) => {
@@ -79,15 +95,18 @@ app.controller("appController", function($scope){
         option.isCall = isCall
         option.isLong = true;
         option.id = currentBiggestID++
-        option.iv = 0
-        option.ivEdited = 0
+        option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, $scope.stock.price, option.strike, option.isCall, 0, 0)
+        option.ivEdited = option.iv
 
         console.log(option)
         $scope.selectedOptions.push(option)
+        $scope.closeModal()
     }
 
     $scope.closeModal = () => {
         //close modal
+        $scope.modal.optionsSelection = false;
+
     }
 
     $scope.mergeProfits = () => {

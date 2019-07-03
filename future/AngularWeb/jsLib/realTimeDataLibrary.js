@@ -51,10 +51,10 @@ getExpiries: function (apikey, ticker, callback){
             if(body != null && body.date != undefined){
                 body = body.date;
                 bodyLen = body.length;
-                var fullChain = {}
+                var fullChain = []
                 index = 0;
                 function clback(data){
-                    fullChain[body[index]] = data;
+                    fullChain.push([body[index], data]);
                     index++;
                     if(index >= bodyLen){   // 1 works but not any more than 1
                         callback(fullChain)
@@ -111,7 +111,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
             //REFACTOR
             newData = []
             strikes = []
-            for(option of data){
+            for(option of data.sort((a,b)=> {a.strike-b.strike})){
                 if(!strikes.includes(option.strike)){
                     strikes.push(option.strike)
                     newData.push({'strike':option.strike, [option.type+"Bid"]:option.bid, [option.type]:(option.bid+option.ask)/2, [option.type+"Ask"]:option.ask})
