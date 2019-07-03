@@ -34,15 +34,15 @@
 
         <div id="divYield-div">
             <label for="ticker">Dividend Yield</label>
-            <input type = "text" id = "divYield" ng-model="stock.divYield">
+            <input type = "text" id = "divYield" ng-model="stock.divYield">%
         </div>
 
         <div id="freeRate-div">
             <label for="ticker">Risk Free Interest Rate</label>
-            <input type = "text" id = "freeRate" ng-model="stock.freeRate">
+            <input type = "text" id = "freeRate" ng-model="stock.freeRate">%
         </div>
 
-        <button type = "button" id="submitTicker" ng-click="getPrice()">Get Price</button>
+        <button type = "button" id="submitTicker" ng-click="getPrice(true)">Get Price</button>
 
         <div class="text-div">
             <label for="stockPrice">Price</label>
@@ -85,35 +85,35 @@
     <div id = "submitRow">
         <button type="button" id = "addLeg" ng-click="addLeg()">ADD LEG</button>
        
-        <button type="button" id = "calculateOptions">CALCULATE</button>
+        <button type="button" id = "calculateOptions" ng-click="displayProfit()">CALCULATE</button>
 
         <div id="percentInterval-div">
             <label for="percentInterval">Interval Size</label>
-            <input type='number' class = "text" id ="percentInterval" value = 1> % 
+            <input type='number' class = "text" id ="percentInterval" ng-model="submitDetails.percentInterval" ng-change = "fillRangeOfPrices()"> % 
         </div>
 
         <div id="numberOfIntervals-div">
             <label for="numberOfIntervals">Number of Intervals</label>
-            <input type='text' class = "text" id ="numberOfIntervals" value = 10>
+            <input type='text' class = "text" id ="numberOfIntervals" ng-model="submitDetails.numberOfIntervals" ng-change = "fillRangeOfPrices()">
         </div>
     </div>
     <br/>
 
     <!--TABLE OUTPUT-->
-    <div>
-
+    <div id = "profitTable"  ng-show="display.profitTable">
+        
     </div>
     <br/>
     
     <!--MODALS-->
 
     <!--OPTIONS SELECTION MODAL-->
-    <div id = "optionsModal" ng-show="modal.optionsSelection">
+    <div id = "optionsModal" ng-show="display.optionsSelection">
         <div id = "optionsSelection" >
             <span id="closeModal" ng-click="closeModal()">&times;</span>
             <div ng-repeat="expiry in chains" class = 'chain'>
                 <button class="collapse" ng-click = "expandExpiry(expiry[0])">{{expiry[0]}}</button>
-                <table class="collapseContent" ng-show="modal.expandedExpiries[expiry[0]]"> 
+                <table class="collapseContent" ng-show="display.expandedExpiries[expiry[0]]"> 
                     <thead>
                         <tr>
                             <th>Bid</th>

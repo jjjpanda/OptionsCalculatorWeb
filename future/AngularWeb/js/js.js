@@ -23,13 +23,14 @@ function objectToMap(object){
 var app = angular.module("angApp", []);
 app.controller("appController", function($scope){
 
-    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':'', 'freeRate':''}
-    $scope.submitDetails = {'percentInterval':'', "numberOfIntervals":""}
-    $scope.modal = {"optionsSelection":false, "expandedExpiries":{}}
+    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0}
+    $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":10}
+    $scope.display = {"optionsSelection":false, "expandedExpiries":{}, "profitTable":false}
     $scope.selectedOptions = []
     $scope.mergedOptions = []
+    $scope.rangeOfPrices = []
 
-    $scope.getPrice = () => {
+    $scope.getPrice = (showLoadingIcon) => {
         $.post("/price",{ticker: $scope.stock.tickerSymbol}, function(data){
             //do things with data returned from app js
             console.log(data)
@@ -38,10 +39,10 @@ app.controller("appController", function($scope){
             }
             $scope.stock.price = data.price
             $scope.stock.percentChange = data.change
-            loadIconStop()
+            if(showLoadingIcon) {loadIconStop()}
             $scope.$apply()
         });
-        loadIconStart()  
+        if(showLoadingIcon) {loadIconStart()}  
     }
     
     $scope.getOptionsChain = (callback) => {
@@ -64,24 +65,25 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLeg = () => {
+        $scope.getPrice(false)
         $scope.getOptionsChain(() => {
-            $scope.modal.optionsSelection = true;
+            $scope.display.optionsSelection = true;
         })
     }
 
     $scope.collapseAllExpiries = () => {
         $scope.chains.forEach(x => {
-            $scope.modal.expandedExpiries[x[0]] = false;
+            $scope.display.expandedExpiries[x[0]] = false;
         })
     }
 
     $scope.expandExpiry = (index) => {
-        if($scope.modal.expandedExpiries[index] == true){
-            $scope.modal.expandedExpiries[index] = false
+        if($scope.display.expandedExpiries[index] == true){
+            $scope.display.expandedExpiries[index] = false
         }
         else{
             $scope.collapseAllExpiries()
-            $scope.modal.expandedExpiries[index] = true
+            $scope.display.expandedExpiries[index] = true
         }
     }
 
@@ -91,11 +93,12 @@ app.controller("appController", function($scope){
         option.boughtAt = parseFloat(price)
         option.strike = parseFloat(strike)
         option.expiry = expiry
+        option.timeTillExpiry = timeTillExpiry(expiryConvertToDate(option.expiry))
         option.quantity = 1
         option.isCall = isCall
         option.isLong = true;
         option.id = currentBiggestID++
-        option.iv = calculateIV(timeTillExpiry(expiryConvertToDate(option.expiry)), option.price, $scope.stock.price, option.strike, option.isCall, 0, 0)
+        option.iv = calculateIV(option.timeTillExpiry, option.price, $scope.stock.price, option.strike, option.isCall, $scope.stock.freeRate, $scope.stock.divYield)
         option.ivEdited = option.iv
 
         console.log(option)
@@ -104,17 +107,9 @@ app.controller("appController", function($scope){
     }
 
     $scope.closeModal = () => {
-        //close modal
-        $scope.modal.optionsSelection = false;
+        //close display
+        $scope.display.optionsSelection = false;
 
-    }
-
-    $scope.mergeProfits = () => {
-        //create merged strategy data
-    }
-
-    $scope.calculateProfits = () => {
-        //calculate profits
     }
 
     $scope.removeLeg = (id) => {
@@ -127,8 +122,35 @@ app.controller("appController", function($scope){
         $scope.addLeg()
     }
 
-    $scope.displayProfit = () => {
+    $scope.fillRangeOfPrices = () => {
+        $scope.rangeOfPrices = []
+        min = $scope.stock.price/Math.pow(1+($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
+        max = $scope.stock.price*Math.pow(1+($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
+        for(i = min; i < max * (1+($scope.submitDetails.percentInterval/200)); i *= (1+($scope.submitDetails.percentInterval/200))){
+            $scope.rangeOfPrices.push([i, 0])
+        }
+    }
 
+    $scope.mergeProfits = () => {
+        //create merged strategy data
+    }
+
+    $scope.calculateProfits = (callback) => {
+        for(option of $scope.selectedOptions){
+            option.greeks = calculateGreeks(option.timeTillExpiry, $scope.stock.price, option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.iv)
+            d = getCurrentDate()
+            while(timeBetweenDates(expiryConvertToDate(option.expiry), d) > -1){
+                option.profit.push({...$scope.rangeOfPrices})
+            }
+        }
+        console.log($scope.selectedOptions)
+        callback()
+    }
+
+    $scope.displayProfit = () => {
+        $scope.calculateProfits(() => {
+            $scope.display.profitTable = true;
+        })
     }
 
     
