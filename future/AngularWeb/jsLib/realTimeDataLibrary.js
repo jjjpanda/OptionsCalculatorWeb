@@ -111,7 +111,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
             //REFACTOR
             newData = []
             strikes = []
-            for(option of data.sort((a,b)=> {a.strike-b.strike})){
+            for(option of data){
                 if(!strikes.includes(option.strike)){
                     strikes.push(option.strike)
                     newData.push({'strike':option.strike, [option.type+"Bid"]:option.bid, [option.type]:(option.bid+option.ask)/2, [option.type+"Ask"]:option.ask})
@@ -123,7 +123,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
                 }
             }
             //CHANGED DATA TO NEWDATA
-            callback(newData); 
+            callback(newData.sort((a,b)=>{return a.strike-b.strike})); 
         } 
         else{
             callback({'error':error, 'response':response.statusCode});

@@ -12,6 +12,14 @@ function loadIconStop(){
     })
 }
 
+function mapToObject(map) {
+    let obj = Object.create(null);
+    for ([k,v] of map) {
+        obj[k] = v;
+    }
+    return obj;
+}
+
 function objectToMap(object){
     var map = Object.entries(object)
     for(value of map){
@@ -27,7 +35,7 @@ app.controller("appController", function($scope){
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":10}
     $scope.display = {"optionsSelection":false, "expandedExpiries":{}, "profitTable":false}
     $scope.selectedOptions = []
-    $scope.mergedOptions = []
+    $scope.mergedOptions = {}
     $scope.rangeOfPrices = []
 
     $scope.getPrice = (showLoadingIcon) => {
@@ -39,10 +47,8 @@ app.controller("appController", function($scope){
             }
             $scope.stock.price = data.price
             $scope.stock.percentChange = data.change
-            if(showLoadingIcon) {
-                loadIconStop()
-                $scope.fillRangeOfPrices()
-            }
+            $scope.fillRangeOfPrices()
+            if(showLoadingIcon) {loadIconStop()}
             $scope.$apply()
         });
         if(showLoadingIcon) {loadIconStart()}  
@@ -135,8 +141,43 @@ app.controller("appController", function($scope){
         console.log($scope.rangeOfPrices)
     }
 
-    $scope.mergeProfits = () => {
-        //create merged strategy data
+    $scope.mergeProfits = (optionsProfits, expiry) => {
+        profitMap = []
+        console.log(optionsProfits)
+        d = getCurrentDate()
+        while(timeBetweenDates(expiryConvertToDate(expiry), d) > -1){
+            profitMap.push([dateToString(d),$scope.rangeOfPrices.map(function(arr) {return arr.slice();})])
+            for(price of profitMap[profitMap.length-1][1]){
+                for(profitSet of optionsProfits){
+                    console.log(mapToObject(profitSet))
+                    price[1] = mapToObject(mapToObject(profitSet)[dateToString(d)])[price[0]]
+                }
+            }
+            d = incrementOneDay(d)
+        }
+        return profitMap
+    }
+
+    $scope.mergeOptions = (callback) => {
+        $scope.mergedOptions = {'boughtAt':0, 'expiry':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}
+        
+        for (option of $scope.selectedOptions){
+            $scope.mergedOptions.boughtAt += (option.isLong ? 1 : -1) * option.boughtAt * option.quantity
+    
+            $scope.mergedOptions.greeks.delta += option.greeks.delta * option.quantity
+            $scope.mergedOptions.greeks.gamma += option.greeks.gamma * option.quantity
+            $scope.mergedOptions.greeks.theta += option.greeks.theta * option.quantity
+            $scope.mergedOptions.greeks.vega += option.greeks.vega * option.quantity
+            $scope.mergedOptions.greeks.rho += option.greeks.rho * option.quantity
+        }
+        
+        optionsProfits = $scope.selectedOptions.map(o => o.profit)
+
+        $scope.mergedOptions.expiry = dateToString($scope.selectedOptions.map( o => expiryConvertToDate(o.expiry) ).sort(timeBetweenDates)[0])
+        console.log($scope.mergedOptions)
+        $scope.mergedOptions.profit = $scope.mergeProfits(optionsProfits, $scope.mergedOptions.expiry)    
+        console.log($scope.mergedOptions)
+        callback()
     }
 
     $scope.calculateProfits = (callback) => {
@@ -144,20 +185,29 @@ app.controller("appController", function($scope){
             option.greeks = calculateGreeks(option.timeTillExpiry, $scope.stock.price, option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.iv)
             option.profit = []
             d = getCurrentDate()
-            while(timeBetweenDates(expiryConvertToDate(option.expiry), d) > -1){
-                option.profit.push([dateToString(d),[...$scope.rangeOfPrices]]) //its not creating a deep copy pls fix
+            while(timeBetweenDates(expiryConvertToDate(option.expiry), d) > 0){
+                option.profit.push([dateToString(d),$scope.rangeOfPrices.map(function(arr) {return arr.slice();})])
                 for(price of option.profit[option.profit.length-1][1]){
                     price[1] = calculateOptionsPrice(percentageOfYear(timeBetweenDates(expiryConvertToDate(option.expiry), d)), price[0], option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.ivEdited) - option.boughtAt
                 }
                 d = incrementOneDay(d)
             }
+
+            //PROFIT AT EXPIRY
+            option.profit.push([dateToString(d),$scope.rangeOfPrices.map(function(arr) {return arr.slice();})])
+            for(price of option.profit[option.profit.length-1][1]){
+                price[1] = calculateProfitAtExpiry(option.boughtAt, price[0], option.strike, option.isCall, option.isLong)
+            }
+            ////////////////
         }
         console.log($scope.selectedOptions)
-        callback()
+        $scope.mergeOptions(callback)
     }
 
     $scope.displayProfit = () => {
+        loadIconStart()
         $scope.calculateProfits(() => {
+            loadIconStop()
             $scope.display.profitTable = true;
         })
     }
