@@ -1,17 +1,6 @@
 const loadingIcon = "#loadingIcon"
 var currentBiggestID = 0
 
-function loadIconStart(){
-    $(loadingIcon).css('visibility', 'visible')
-}
-
-function loadIconStop(){
-    $(loadingIcon).fadeOut(200, function(){
-        $(loadingIcon).css('display','inline')
-        $(loadingIcon).css('visibility','hidden')
-    })
-}
-
 function mapToObject(map) {
     let obj = Object.create(null);
     for ([k,v] of map) {
@@ -31,9 +20,9 @@ function objectToMap(object){
 var app = angular.module("angApp", ['n3-line-chart']);
 app.controller("appController", function($scope){
 
-    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0}
+    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChanged": false}
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":10}
-    $scope.display = {"optionsSelection":false, "expandedExpiries":{}, "profitTable":false}
+    $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false}
     $scope.selectedOptions = []
     $scope.mergedOptions = {}
     $scope.rangeOfPrices = []
@@ -91,8 +80,16 @@ app.controller("appController", function($scope){
         axes: {x: {key: "x", type: "date", ticks: "dataset0".length}}
       };
 
+    $scope.loadIconStart = () => {
+        $scope.display.loadingIcon = true;
+    }
+
+    $scope.loadIconStop = () => {
+        $scope.display.loadingIcon = false;
+    }
+
     $scope.getPrice = (showLoadingIcon) => {
-        if(isNaN(minutesSinceLastPriceLoad()) || minutesSinceLastPriceLoad() > 5){
+        if($scope.stock.tickerChanged || isNaN(minutesSinceLastPriceLoad()) || minutesSinceLastPriceLoad() > 5){
             $.post("/price",{ticker: $scope.stock.tickerSymbol}, function(data){
                 //do things with data returned from app js
                 console.log(data)
@@ -102,11 +99,12 @@ app.controller("appController", function($scope){
                 $scope.stock.price = data.price
                 $scope.stock.percentChange = data.change
                 $scope.fillRangeOfPrices()
-                if(showLoadingIcon) {loadIconStop()}
+                if(showLoadingIcon) {$scope.loadIconStop()}
                 lastPriceLoad = new Date()
                 $scope.$apply()
             });
-            if(showLoadingIcon) {loadIconStart()} 
+            if(showLoadingIcon) {$scope.loadIconStart()} 
+            $scope.stock.tickerChanged = false;
         } 
     }
     
@@ -116,22 +114,27 @@ app.controller("appController", function($scope){
             console.log(data)
             if(data == null || data == undefined || data.hasOwnProperty('error')){
                 data = 'NOT FOUND'
-                loadIconStop()
+                $scope.loadIconStop()
             }
             else{
                 $scope.chains = data;
                 $scope.collapseAllExpiries()
                 callback()
-                loadIconStop()
+                $scope.loadIconStop()
                 lastOptionsLoad = new Date()
                 $scope.$apply()
             }
         });
-        loadIconStart()
+        $scope.loadIconStart()
     }
 
     $scope.addLeg = () => {
-        if(isNaN(minutesSinceLastOptionsLoad()) || minutesSinceLastOptionsLoad() > 5){
+        if($scope.stock.tickerChanged || isNaN(minutesSinceLastOptionsLoad()) || minutesSinceLastOptionsLoad() > 5){
+            
+            $scope.selectedOptions = []
+            $scope.mergedOptions = {}
+            $scope.display.profitTable = false;
+            
             $scope.getPrice(false)
             $scope.getOptionsChain(() => {
                 $scope.display.optionsSelection = true;
@@ -288,10 +291,11 @@ app.controller("appController", function($scope){
     }
 
     $scope.displayProfit = () => {
-        loadIconStart()
+        $scope.loadIconStart()
+        
         $scope.calculateProfits(() => {
             $scope.display.profitTable = true;
-            loadIconStop()
+            $scope.loadIconStop()
         })
     }
 
