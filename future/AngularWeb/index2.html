@@ -12,6 +12,7 @@
     <script src="/jsLib/angularSavedCDN.js"></script>
     <script src="/js/optionsLibrary.js"></script>
     <script src="/js/timeLibrary.js"></script>
+    <script src="/js/colorLibrary.js"></script>
 
 </head>
 
@@ -107,9 +108,9 @@
                 <th ng-repeat="day in mergedOptions.profit"><a>{{day[0]}}</a></th>
             </thead>
             <tbody>
-                <tr ng-repeat="price in rangeOfPrices">
+                <tr ng-repeat="price in rangeOfPrices | orderBy:'-'">
                     <td><a>{{price[0]}}</a></td>
-                    <td ng-repeat="day in mergedOptions.profit"><a>{{day[1][$parent.$index][1]}}</a></td>
+                    <td ng-repeat="day in mergedOptions.profit" ng-style="{'border':mergedOptions.percentProfit[$index][1][rangeOfPrices.length - $parent.$index -1 ][2]}"><a>{{day[1][rangeOfPrices.length - $parent.$index - 1][1]}}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -124,7 +125,7 @@
             <tbody>
                 <tr ng-repeat="day in mergedOptions.roundedProfit">
                     <td><a>{{day[0]}}</a></td>
-                    <td ng-repeat="price in mergedOptions.roundedProfit[0][1]"><a>{{day[1][$index][1]}}</a></td>
+                    <td ng-repeat="price in mergedOptions.roundedProfit[0][1]" ng-style="{'border':mergedOptions.percentProfit[$parent.$index][1][$index][2]}"><a>{{day[1][$index][1]}}</a></td>
                 </tr>
             </tbody>
         </table>

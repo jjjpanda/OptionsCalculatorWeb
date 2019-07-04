@@ -174,6 +174,7 @@ app.controller("appController", function($scope){
 
         $scope.mergedOptions.expiry = dateToString($scope.selectedOptions.map( o => expiryConvertToDate(o.expiry) ).sort(timeBetweenDates)[0])
         //console.log($scope.mergedOptions)
+
         $scope.mergedOptions.roundedProfit = []
         $scope.mergedOptions.profit = $scope.mergeProfits(optionsProfits, $scope.mergedOptions.expiry) 
         for(day of $scope.mergedOptions.profit){
@@ -182,6 +183,18 @@ app.controller("appController", function($scope){
                 $scope.mergedOptions.roundedProfit[$scope.mergedOptions.roundedProfit.length-1][1].push([roundPlaces(price[0], 2),roundPlaces(price[1], 2)])
             }
         }
+
+        $scope.mergedOptions.percentProfit = []
+        $scope.mergedOptions.profit = $scope.mergeProfits(optionsProfits, $scope.mergedOptions.expiry) 
+        for(day of $scope.mergedOptions.profit){
+            $scope.mergedOptions.percentProfit.push([day[0], []])
+            for(price of day[1]){
+                $scope.mergedOptions.percentProfit[$scope.mergedOptions.percentProfit.length-1][1].push([roundPlaces(price[0], 2)
+                    ,(roundPlaces(price[1], 2)+$scope.mergedOptions.boughtAt)/Math.abs($scope.mergedOptions.boughtAt)
+                    ,hexColorFromPercent( (roundPlaces(price[1], 2)+$scope.mergedOptions.boughtAt)/Math.abs($scope.mergedOptions.boughtAt)  ) ])
+            }
+        }
+
         console.log($scope.mergedOptions)
         callback()
     }
