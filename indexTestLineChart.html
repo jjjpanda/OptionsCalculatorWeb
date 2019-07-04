@@ -9,7 +9,7 @@
   </head>
   <body ng-controller='MainCtrl'>
     <div class="my-chart">
-      <linechart data="data" options="options"></linechart>
+      <linechart data="dataForChart" options="lineChartOptions"></linechart>
     </div>
 
     <script type="text/javascript">
@@ -18,7 +18,7 @@
         .module('app', ['n3-line-chart'])
 
         .controller('MainCtrl', function($scope) {
-          $scope.data = {
+          $scope.dataForChart = {
             dataset0: [
               {x: 0, val_0: 0, val_1: 0, val_2: 0, val_3: 0},
               {x: 1, val_0: 0.993, val_1: 3.894, val_2: 8.47, val_3: 14.347},
@@ -31,16 +31,25 @@
             ]
           };
 
-          $scope.options = {
+          $scope.lineChartOptions = {
             series: [
               {
                 axis: "y",
                 dataset: "dataset0",
                 key: "val_0",
-                label: "An area series",
+                label: "An area series 1",
                 color: "#1f77b4",
                 type: ['line', 'dot', 'area'],
-                id: 'mySeries0'
+                id: 'mySeries1'
+              }, 
+              {
+                axis: "y",
+                dataset: "dataset0",
+                key: "val_1",
+                label: "An area series 2",
+                color: "#1f77b4",
+                type: ['line', 'dot', 'area'],
+                id: 'mySeries2'
               }
             ],
             axes: {x: {key: "x"}}
