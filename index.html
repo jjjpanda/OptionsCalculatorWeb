@@ -105,12 +105,12 @@
         <table id = "profitTable">
             <thead>
                 <th>---</th>
-                <th ng-repeat="day in mergedOptions.profit"><a>{{day[0]}}</a></th>
+                <th ng-repeat="day in mergedOptions.roundedProfit"><a>{{day[0]}}</a></th>
             </thead>
             <tbody>
-                <tr ng-repeat="price in rangeOfPrices | orderBy:'-'">
+                <tr ng-repeat="price in mergedOptions.roundedProfit[0][1] | orderBy:'-'">
                     <td><a>{{price[0]}}</a></td>
-                    <td ng-repeat="day in mergedOptions.profit" ng-style="{'border':mergedOptions.percentProfit[$index][1][rangeOfPrices.length - $parent.$index -1 ][2]}"><a>{{day[1][rangeOfPrices.length - $parent.$index - 1][1]}}</a></td>
+                    <td ng-repeat="day in mergedOptions.roundedProfit" ng-style="{'border':mergedOptions.percentProfit[$index][1][rangeOfPrices.length - $parent.$index -1 ][2]}"><a>{{day[1][rangeOfPrices.length - $parent.$index - 1][1]}}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -166,7 +166,7 @@
                 </table>
             </div>
         </div>
-</div>
+    </div>
 
 </div>
 
