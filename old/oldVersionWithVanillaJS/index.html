@@ -1,0 +1,101 @@
+<html>
+<head>
+    <title>Options Calculator</title>
+
+    <link rel="icon" href="/img/bruhlogo.png"></link>
+    
+    <link rel="stylesheet" href="/css/bodyRows.css"></link>
+    <link rel="stylesheet" href="/css/optionSelection.css"></link>
+    <link rel="stylesheet" href="/css/pictures.css"></link>
+    <link rel="stylesheet" href="/css/switch.css"></link>
+    <link rel="stylesheet" href="/css/topRow.css"></link>
+
+    <script src="/jsLib/jQuerySavedCDN.js"></script>
+    
+    <script src="/jsLib/constDOMCodex.js"></script>
+    <script src="/jsLib/loadingLibrary.js"></script>
+    <script src="/jsLib/optionsLibrary.js"></script>
+    <script src="/jsLib/timeLibrary.js"></script>
+    <script src="/jsLib/profitLibrary.js"></script>
+    <script src="jsLib/greeksLibrary.js"></script>
+    
+    <script src="/js/getPrice.js"></script>
+    <script src="/js/getOptions.js"></script>
+    <script src="/js/getResults.js"></script>
+    
+</head>
+
+<body>
+
+    <!--LOGO-->
+    <span> 
+        <img src="/img/bruhlogo.png" class="logo"/>
+    </span>
+    <hr style="height:5px;border:none;color:#333;background-color:#333;" />
+
+    <!--TOP ROW-->
+    <div style="display:inline-block;" class="topRow">
+
+        <div id= "ticker-div">
+            <label for="ticker">Symbol</label>
+            <input type="text" id ="ticker">
+        </div>
+        
+        <button type="button" id = "submitTicker">GET PRICE</button>
+    
+        <div class="text-div">
+            <label for="price">Price</label>
+            <input type='text' class = "text" id ="price" readonly>
+        </div>
+        
+        <div class="text-div">
+            <label for="percentChange">Percent Change</label>
+            <input type='text' class = "text" id="percentChange" readonly>
+        </div> 
+
+        <img src="/img/bruhlogo.png" class="cycle loading" id = "loadingIcon" style="visibility: hidden"/>
+        
+        <div id="percentInterval-div">
+            <label for="percentInterval">Interval Size</label>
+            <input type='number' class = "text" id ="percentInterval" value = 1> % 
+        </div>
+
+        <div id="numberOfIntervals-div">
+            <label for="numberOfIntervals">Number of Intervals</label>
+            <input type='text' class = "text" id ="numberOfIntervals" value = 10>
+        </div>
+
+        <div id="ivFactor-div">
+            <label for="ivFactor">IV Factor</label>
+            <input type="text" id ="ivFactor" value = 1>
+        </div>
+        
+    </div>
+    <br/>
+
+    <!--SUBSEQUENT ROWS-->
+    <div id= "bottomRows"></div>
+
+    <!--ADD LEG OR SUBMIT-->
+    <span id="submitRow">
+        <button type="button" id = "chain">ADD LEG</button>
+        <button type="button" id = "calculateOptions">CALCULATE</button>
+
+        <div id = "modal">
+            <div id = "options">
+            </div>
+        </div>
+    </span>
+    <br/>
+
+    <div id ="jsonToTable"> 
+
+    </div>
+    <br/>
+
+    <div id = 'jsonOutput'>
+
+    </div>
+
+</body>
+</html>

@@ -9,8 +9,8 @@ const realTimeOptions = require('./jsLib/realTimeDataLibrary.js')
 
 const app = exp()
 
-//port
-//key
+const port = process.env.PORT;
+const key = process.env.tradier;
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -37,6 +37,7 @@ app.post('/chain', function(req, res){
         res.json(data);
     });
 })
+
 
 app.listen(port, () => console.log("Server running at http://localhost:%d", port));
 

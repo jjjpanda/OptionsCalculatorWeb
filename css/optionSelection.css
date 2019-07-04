@@ -56,6 +56,11 @@ a:hover, a:focus{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+.frozenColumn{
+    position: absolute;
+    left:0;
+}
+
 #options{
     background-color: #000000;
     margin: auto;
