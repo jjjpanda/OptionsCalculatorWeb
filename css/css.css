@@ -214,8 +214,11 @@ a:hover, a:focus{
 }
 
 .collapse{
+    height: 7%;
+    font-size: 100%;
+    font-weight: bold;
     width: 100%;
-    background-color:#00ff0040;
+    background-color:#805077;
     color: white;
 }
 
