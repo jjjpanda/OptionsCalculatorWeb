@@ -5,13 +5,6 @@ body{
 }
 
 
-.my-chart .axis .tick text{
-    fill:white;
-    font-size: 130%
-}
-
-
-
 
 
 
@@ -283,4 +276,16 @@ a:hover, a:focus{
 
 
 
+.my-chart .axis .tick text{
+    fill:white;
+    font-size: 130%
+}
+
+.chart{
+    height: 50%;
+}
+
+.container {
+    height: 100%;
+}
 
