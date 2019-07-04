@@ -63,7 +63,7 @@
     <div id = "selectedOptions">
         <div ng-repeat="option in selectedOptions">
             <div class="onoffswitch">
-                <input type="checkbox" class="onoffswitch-checkbox" ng-attr-id={{"myonoffswitch"+option.id}} ng-checked = {{option.isLong}}>
+                <input type="checkbox" class="onoffswitch-checkbox" ng-attr-id={{"myonoffswitch"+option.id}} ng-model = "option.isLong">
                 <label class="onoffswitch-label" ng-attr-for={{"myonoffswitch"+option.id}}>
                     <span class="onoffswitch-inner"></span>
                     <span class="onoffswitch-switch"></span>
@@ -100,8 +100,34 @@
     <br/>
 
     <!--TABLE OUTPUT-->
-    <div id = "profitTable"  ng-show="display.profitTable">
-        
+    <div id = "profitTable-div"  ng-show="display.profitTable">
+        <table id = "profitTable">
+            <thead>
+                <th>---</th>
+                <th ng-repeat="day in mergedOptions.profit"><a>{{day[0]}}</a></th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="price in rangeOfPrices">
+                    <td><a>{{price[0]}}</a></td>
+                    <td ng-repeat="day in mergedOptions.profit"><a>{{day[1][$parent.$index][1]}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+
+        <table id = "profitTable2">
+            <thead>
+                <th>---</th>
+                <th ng-repeat="price in mergedOptions.roundedProfit[0][1]"><a>{{price[0]}}</a></th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="day in mergedOptions.roundedProfit">
+                    <td><a>{{day[0]}}</a></td>
+                    <td ng-repeat="price in mergedOptions.roundedProfit[0][1]"><a>{{day[1][$index][1]}}</a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <br/>
     

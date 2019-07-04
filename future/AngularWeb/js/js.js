@@ -143,14 +143,13 @@ app.controller("appController", function($scope){
 
     $scope.mergeProfits = (optionsProfits, expiry) => {
         profitMap = []
-        console.log(optionsProfits)
+        //console.log(optionsProfits)
         d = getCurrentDate()
         while(timeBetweenDates(expiryConvertToDate(expiry), d) > -1){
             profitMap.push([dateToString(d),$scope.rangeOfPrices.map(function(arr) {return arr.slice();})])
             for(price of profitMap[profitMap.length-1][1]){
                 for(profitSet of optionsProfits){
-                    console.log(mapToObject(profitSet))
-                    price[1] = mapToObject(mapToObject(profitSet)[dateToString(d)])[price[0]]
+                    price[1] += mapToObject(mapToObject(profitSet)[dateToString(d)])[price[0]]
                 }
             }
             d = incrementOneDay(d)
@@ -174,8 +173,15 @@ app.controller("appController", function($scope){
         optionsProfits = $scope.selectedOptions.map(o => o.profit)
 
         $scope.mergedOptions.expiry = dateToString($scope.selectedOptions.map( o => expiryConvertToDate(o.expiry) ).sort(timeBetweenDates)[0])
-        console.log($scope.mergedOptions)
-        $scope.mergedOptions.profit = $scope.mergeProfits(optionsProfits, $scope.mergedOptions.expiry)    
+        //console.log($scope.mergedOptions)
+        $scope.mergedOptions.roundedProfit = []
+        $scope.mergedOptions.profit = $scope.mergeProfits(optionsProfits, $scope.mergedOptions.expiry) 
+        for(day of $scope.mergedOptions.profit){
+            $scope.mergedOptions.roundedProfit.push([day[0], []])
+            for(price of day[1]){
+                $scope.mergedOptions.roundedProfit[$scope.mergedOptions.roundedProfit.length-1][1].push([roundPlaces(price[0], 2),roundPlaces(price[1], 2)])
+            }
+        }
         console.log($scope.mergedOptions)
         callback()
     }
@@ -188,7 +194,9 @@ app.controller("appController", function($scope){
             while(timeBetweenDates(expiryConvertToDate(option.expiry), d) > 0){
                 option.profit.push([dateToString(d),$scope.rangeOfPrices.map(function(arr) {return arr.slice();})])
                 for(price of option.profit[option.profit.length-1][1]){
-                    price[1] = calculateOptionsPrice(percentageOfYear(timeBetweenDates(expiryConvertToDate(option.expiry), d)), price[0], option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.ivEdited) - option.boughtAt
+                    price[1] = calculateOptionsPrice(percentageOfYear(timeBetweenDates(expiryConvertToDate(option.expiry), d)), price[0], option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.ivEdited) 
+                    price[1] -= option.boughtAt * (option.isLong?1:-1)
+                    price[1] *= option.quantity
                 }
                 d = incrementOneDay(d)
             }
