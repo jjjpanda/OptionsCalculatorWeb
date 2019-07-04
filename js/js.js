@@ -290,8 +290,8 @@ app.controller("appController", function($scope){
     $scope.displayProfit = () => {
         loadIconStart()
         $scope.calculateProfits(() => {
-            loadIconStop()
             $scope.display.profitTable = true;
+            loadIconStop()
         })
     }
 
