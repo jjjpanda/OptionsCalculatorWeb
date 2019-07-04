@@ -28,7 +28,7 @@ function objectToMap(object){
     return map
 }
 
-var app = angular.module("angApp", []);
+var app = angular.module("angApp", ['n3-line-chart']);
 app.controller("appController", function($scope){
 
     $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0}
@@ -39,19 +39,22 @@ app.controller("appController", function($scope){
     $scope.rangeOfPrices = []
 
     $scope.getPrice = (showLoadingIcon) => {
-        $.post("/price",{ticker: $scope.stock.tickerSymbol}, function(data){
-            //do things with data returned from app js
-            console.log(data)
-            if( data == null || data.hasOwnProperty('error') || data.hasOwnProperty('unmatched_symbols' )){
-                data = notFound
-            }
-            $scope.stock.price = data.price
-            $scope.stock.percentChange = data.change
-            $scope.fillRangeOfPrices()
-            if(showLoadingIcon) {loadIconStop()}
-            $scope.$apply()
-        });
-        if(showLoadingIcon) {loadIconStart()}  
+        if(isNaN(minutesSinceLastPriceLoad()) || minutesSinceLastPriceLoad() > 5){
+            $.post("/price",{ticker: $scope.stock.tickerSymbol}, function(data){
+                //do things with data returned from app js
+                console.log(data)
+                if( data == null || data.hasOwnProperty('error') || data.hasOwnProperty('unmatched_symbols' )){
+                    data = notFound
+                }
+                $scope.stock.price = data.price
+                $scope.stock.percentChange = data.change
+                $scope.fillRangeOfPrices()
+                if(showLoadingIcon) {loadIconStop()}
+                lastPriceLoad = new Date()
+                $scope.$apply()
+            });
+            if(showLoadingIcon) {loadIconStart()} 
+        } 
     }
     
     $scope.getOptionsChain = (callback) => {
@@ -67,6 +70,7 @@ app.controller("appController", function($scope){
                 $scope.collapseAllExpiries()
                 callback()
                 loadIconStop()
+                lastOptionsLoad = new Date()
                 $scope.$apply()
             }
         });
@@ -74,10 +78,15 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLeg = () => {
-        $scope.getPrice(false)
-        $scope.getOptionsChain(() => {
+        if(isNaN(minutesSinceLastOptionsLoad()) || minutesSinceLastOptionsLoad() > 5){
+            $scope.getPrice(false)
+            $scope.getOptionsChain(() => {
+                $scope.display.optionsSelection = true;
+            })
+        }
+        else{
             $scope.display.optionsSelection = true;
-        })
+        }
     }
 
     $scope.collapseAllExpiries = () => {

@@ -1,5 +1,5 @@
 const ms_per_day = 1000*60*60*24
-var lastLoad;
+var lastPriceLoad, lastOptionsLoad;
 
 function getCurrentDate(){
     return new Date()
@@ -39,6 +39,10 @@ function expiryToString(strDate){
     return strDate[1]+"/"+strDate[2]+"/"+strDate[0]
 }
 
-function minutesSinceLastLoad(){
-    return (new Date() - lastLoad) / (1000*60)
-  }
+function minutesSinceLastPriceLoad(){
+    return (getCurrentDate() - lastPriceLoad) / (1000*60)
+}
+
+function minutesSinceLastOptionsLoad(){
+    return (getCurrentDate() - lastOptionsLoad) / (1000*60)
+}
