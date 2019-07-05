@@ -114,12 +114,12 @@
         <table id = "profitTable">
             <thead>
                 <th>---</th>
-                <th ng-repeat="day in mergedOptions.roundedProfit"><a>{{day[0]}}</a></th>
+                <th ng-repeat="day in mergedOptions.profit"><a>{{day[0]}}</a></th>
             </thead>
             <tbody>
-                <tr ng-repeat="price in mergedOptions.roundedProfit[0][1] | orderBy:'-'">
-                    <td><a>{{price[0]}}</a></td>
-                    <td ng-repeat="day in mergedOptions.roundedProfit" ng-style="{'border':mergedOptions.percentProfit[$index][1][rangeOfPrices.length - $parent.$index -1 ][2]}"><a>{{day[1][rangeOfPrices.length - $parent.$index - 1][1]}}</a></td>
+                <tr ng-repeat="price in mergedOptions.profit[0][1] | orderBy:'-'">
+                    <td><a>{{roundPlaces(price[0],2)}}</a></td>
+                    <td ng-repeat="day in mergedOptions.profit" ng-style="{'border':mergedOptions.percentProfit[$index][1][rangeOfPrices.length - $parent.$index -1 ][2]}"><a>{{roundPlaces(day[1][rangeOfPrices.length - $parent.$index - 1][1],2)}}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -130,12 +130,12 @@
         <table id = "profitTable2">
             <thead>
                 <th>---</th>
-                <th ng-repeat="price in mergedOptions.roundedProfit[0][1]"><a>{{price[0]}}</a></th>
+                <th ng-repeat="price in mergedOptions.profit[0][1]"><a>{{roundPlaces(price[0],2)}}</a></th>
             </thead>
             <tbody>
-                <tr ng-repeat="day in mergedOptions.roundedProfit">
+                <tr ng-repeat="day in mergedOptions.profit">
                     <td><a>{{day[0]}}</a></td>
-                    <td ng-repeat="price in mergedOptions.roundedProfit[0][1]" ng-style="{'border':mergedOptions.percentProfit[$parent.$index][1][$index][2]}"><a>{{day[1][$index][1]}}</a></td>
+                    <td ng-repeat="price in mergedOptions.profit[0][1]" ng-style="{'border':mergedOptions.percentProfit[$parent.$index][1][$index][2]}"><a>{{roundPlaces(day[1][$index][1],2)}}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -169,9 +169,9 @@
                             <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.call, 2)}}</a></td>
                             <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callAsk, 2)}}</a></td>
                             <td><a>{{option.strike}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlace(option.putBid, 2)}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlace(option.put, 2)}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlace(option.putAsk, 2)}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.putBid, 2)}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.put, 2)}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.putAsk, 2)}}</a></td>
                         </tr>
                     </tbody>
                 </table>
