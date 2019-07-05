@@ -7,6 +7,19 @@ body{
 
 
 
+input{
+    background-color: #222233;
+    color: whitesmoke;
+    border-color:#ddffdd;
+}
+
+button{
+    background-color: #555555;
+    color: whitesmoke;
+    border-color:#ffdddd;
+}
+
+
 
 
 
