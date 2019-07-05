@@ -240,6 +240,8 @@ app.controller("appController", function($scope){
     }
 
     $scope.displayProfit = () => {
+        $scope.dataForChart = {};
+        $scope.lineChartOptions.series = [];
         $scope.loadIconStart()
         
         $scope.calculateProfits(() => {
