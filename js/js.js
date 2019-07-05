@@ -130,9 +130,7 @@ app.controller("appController", function($scope){
     }
 
     $scope.closeModal = () => {
-        //close display
         $scope.display.optionsSelection = false;
-
     }
 
     $scope.removeLeg = (id) => {
@@ -161,7 +159,6 @@ app.controller("appController", function($scope){
 
     $scope.mergeProfits = (optionsProfits, expiry) => {
         profitMap = []
-        //console.log(optionsProfits)
         d = getCurrentDate()
         while(timeBetweenDates(expiryConvertToDate(expiry), d) > -1){
             profitMap.push([dateToString(d),$scope.rangeOfPrices.map(function(arr) {return arr.slice();})])
@@ -191,8 +188,7 @@ app.controller("appController", function($scope){
         optionsProfits = $scope.selectedOptions.map(o => o.profit)
 
         $scope.mergedOptions.expiry = dateToString($scope.selectedOptions.map( o => expiryConvertToDate(o.expiry) ).sort(timeBetweenDates)[0])
-        //console.log($scope.mergedOptions)
-
+       
         ///THIS MAY BE DELETED 
         /*
         $scope.mergedOptions.roundedProfit = []
@@ -268,7 +264,7 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLineChartData = () =>{
-        interval = Math.round($scope.mergedOptions.profit.length/8)
+        interval = Math.ceil($scope.mergedOptions.profit.length/7)
         interval = interval > 0 ? interval : 1
         
         for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=interval){
@@ -332,25 +328,23 @@ app.controller("appController", function($scope){
     $scope.lineChartOptions = {
         series: [],
         tooltipHook: function(d){
-            return false
-            /*
+            //return false
             if(d == undefined){}
             else {
                 return {
                 abscissas: "Profit from Present to Expiry",
                 rows:  
-                    d.map(function(s){
-                        if(s.series.label !== "intermediate"){
+                    d.filter(s => (s.series.label !== "intermediate")).map(function(s){
+                        
                             return {
-                                label: s.row.x + " => ",
-                                value: s.row.y1,
-                                color: s.series.color
+                                label: s.series.label + " & " + $scope.roundPlaces(s.row.x,2) + " => ",
+                                value: "$ " + s.row.y1,
+                                color: ""
                             }
-                        }
+                        
                     })
                 }
             }
-            */
         },
         axes: {x: {key: "x" //, ticks: "dataset".length
         },  y: {key: 'y',tickFormat: (value) => {
