@@ -289,3 +289,6 @@ a:hover, a:focus{
     height: 100%;
 }
 
+.chart-legend {
+    display: none;
+  }

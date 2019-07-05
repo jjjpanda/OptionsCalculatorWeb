@@ -81,6 +81,8 @@ app.controller("appController", function($scope){
             $scope.selectedOptions = []
             $scope.mergedOptions = {}
             $scope.display.profitTable = false;
+            $scope.dataForChart = {};
+            $scope.lineChartOptions.series = [];
             
             $scope.getPrice(false)
             $scope.getOptionsChain(() => {
@@ -242,42 +244,45 @@ app.controller("appController", function($scope){
         
         $scope.calculateProfits(() => {
             $scope.display.profitTable = true;
-            $scope.dataForChart.dataset0 = $scope.mergedOptions.profit[ $scope.mergedOptions.profit.length - 1 ][1].map((x)=> {return {"x":x[0], "y":x[1]}})
-            console.log($scope.dataForChart.dataset0)
+            $scope.addLineChartData()
             $scope.loadIconStop()
         })
     }
 
-    $scope.dataForChart = {
-        dataset0: [
-        ]
-      };
+    $scope.addLineChartData = () =>{
+        for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=5){
+            $scope.dataForChart["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
+            $scope.lineChartOptions.series.push({
+                axis: "y",
+                dataset: "dataset"+i,
+                key: "y",
+                label: "",
+                color: "rgb(" + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
+                type: ['line', 'dot'],
+                id: 'profitAtExpiry'+i
+            })
+        }
+    }
 
-      $scope.lineChartOptions = {
+    $scope.dataForChart = {};
+
+    $scope.lineChartOptions = {
         series: [
-          {
-            axis: "y",
-            dataset: "dataset0",
-            key: "y",
-            label: "Bruh",
-            color: "rgb(255,255,255)",
-            type: ['line', 'dot'],
-            id: 'profitAtExpiry'
-          }
         ],
         tooltipHook: function(d){
             return {
               abscissas: "",
               rows:  d.map(function(s){
                 return {
-                  label: s.series.label + " => " + s.row.x + " ==> ",
+                  label: s.row.x + " ==> ",
                   value: s.row.y1,
                   color: s.series.color
                 }
               })
             }
           },
-        axes: {x: {key: "x", ticks: "dataset0".length}}
+        axes: {x: {key: "x" //, ticks: "dataset".length
+                }}
       };
 
     $scope.init = () => {
