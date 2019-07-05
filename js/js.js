@@ -81,8 +81,7 @@ app.controller("appController", function($scope){
             $scope.selectedOptions = []
             $scope.mergedOptions = {}
             $scope.display.profitTable = false;
-            $scope.dataForChart = {};
-            $scope.lineChartOptions.series = [];
+            $scope.resetCharts()
             
             $scope.getPrice(false)
             $scope.getOptionsChain(() => {
@@ -249,8 +248,9 @@ app.controller("appController", function($scope){
     }
 
     $scope.displayProfit = () => {
-        $scope.dataForChart = {};
-        $scope.lineChartOptions.series = [];
+
+        $scope.resetCharts()
+
         $scope.loadIconStart()
         
         $scope.calculateProfits(() => {
@@ -260,12 +260,19 @@ app.controller("appController", function($scope){
         })
     }
 
+    $scope.resetCharts = () => {
+        $scope.dataForChart = {};
+        $scope.lineChartOptions.series = [];
+        $scope.dataForChart2 = {};
+        $scope.lineChartOptions2.series = [];
+    }
+
     $scope.addLineChartData = () =>{
         interval = Math.round($scope.mergedOptions.profit.length/8)
         interval = interval > 0 ? interval : 1
         
         for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=interval){
-            /*
+            
             k = 0
             for(j = 0; j < $scope.mergedOptions.profit[i][1].length; j++){
                 if(j==0 || Math.sign($scope.mergedOptions.profit[i][1][j-1][1]) != Math.sign($scope.mergedOptions.profit[i][1][j][1]) ){
@@ -301,12 +308,10 @@ app.controller("appController", function($scope){
                     }
                 }
                 $scope.dataForChart["dataset"+[i]+" "+[k]].push( {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]} )   
-            }
-            */            
+            }       
 
-            
-            $scope.dataForChart["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
-            $scope.lineChartOptions.series.push({
+            $scope.dataForChart2["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
+            $scope.lineChartOptions2.series.push({
                 axis: "y",
                 dataset: "dataset"+i,
                 key: "y",
@@ -318,11 +323,11 @@ app.controller("appController", function($scope){
             
         }
         $scope.lineChartOptions.series = $scope.lineChartOptions.series.reverse()
-        console.log($scope.dataForChart)
-        console.log($scope.lineChartOptions.series)
+        $scope.lineChartOptions2.series = $scope.lineChartOptions2.series.reverse()
     }
 
     $scope.dataForChart = {};
+    $scope.dataForChart2 = {};
 
     $scope.lineChartOptions = {
         series: [],
@@ -348,7 +353,11 @@ app.controller("appController", function($scope){
             */
         },
         axes: {x: {key: "x" //, ticks: "dataset".length
-        }},
+        },  y: {key: 'y',tickFormat: (value) => {
+                return "$"+value
+            }
+        }
+        },
         symbols: [{
             type: 'hline',
             value: 0,
@@ -359,7 +368,42 @@ app.controller("appController", function($scope){
             x: false,
             y: false
         }
-      };
+    };
+    $scope.lineChartOptions2 = {
+        series: [],
+        tooltipHook: function(d){
+            if(d == undefined){}
+            else {
+                return {
+                abscissas: "Profit from Present to Expiry",
+                rows:  
+                    d.map(function(s){
+                        return {
+                            label: $scope.roundPlaces(s.row.x,2) + " => ",
+                            value: "$ " + s.row.y1,
+                            color: s.series.color
+                        }
+                    })
+                }
+            }
+        },
+        axes: {x: {key: "x" //, ticks: "dataset".length
+        },  y: {key: 'y',tickFormat: (value) => {
+                return "$"+value
+            }
+        }
+        },
+        symbols: [{
+            type: 'hline',
+            value: 0,
+            color: 'rgb(255,255,255)',
+            axis: 'y'
+        }],
+        grid: {
+            x: false,
+            y: false
+        }
+    };
 
     $scope.init = () => {
         //Things to do on init

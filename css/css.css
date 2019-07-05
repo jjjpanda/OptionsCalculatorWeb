@@ -274,9 +274,42 @@ a:hover, a:focus{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .profitTable-div{
-    overflow-x:scroll;
+    overflow-x:auto;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -290,7 +323,7 @@ a:hover, a:focus{
 }
 
 .chart{
-    height: 50%;
+    height: 20em;
 }
 
 .container {
@@ -298,12 +331,12 @@ a:hover, a:focus{
 }
 
 /*
-
 .my-chart line{
     fill:grey;
 }
+*/
 
-.chart-legend {
+#chart .chart-legend {
     display: none;
 }
-*/
+
