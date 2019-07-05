@@ -334,14 +334,12 @@ app.controller("appController", function($scope){
                 return {
                 abscissas: "Profit from Present to Expiry",
                 rows:  
-                    d.filter(s => (s.series.label !== "intermediate")).map(function(s){
-                        
-                            return {
-                                label: s.series.label + " & " + $scope.roundPlaces(s.row.x,2) + " => ",
-                                value: "$ " + s.row.y1,
-                                color: ""
-                            }
-                        
+                    d.filter(s => (s.series.label !== "intermediate")).map(function(s){  
+                        return {
+                            label: s.series.label + " & " + $scope.roundPlaces(s.row.x,2) + " => ",
+                            value: "$ " + s.row.y1,
+                            color: ""
+                        }
                     })
                 }
             }
