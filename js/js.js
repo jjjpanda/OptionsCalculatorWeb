@@ -252,14 +252,16 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLineChartData = () =>{
-        for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=5){
+        interval = Math.round($scope.mergedOptions.profit.length/8)
+        interval = interval > 0 ? interval : 1
+        for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=interval){
             $scope.dataForChart["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
             $scope.lineChartOptions.series.push({
                 axis: "y",
                 dataset: "dataset"+i,
                 key: "y",
                 label: "",
-                color: "rgb(" + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
+                color: "rgb(" + Math.round(140 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
                 type: ['line', 'dot'],
                 id: 'profitAtExpiry'+i
             })
@@ -269,8 +271,7 @@ app.controller("appController", function($scope){
     $scope.dataForChart = {};
 
     $scope.lineChartOptions = {
-        series: [
-        ],
+        series: [],
         tooltipHook: function(d){
             return {
               abscissas: "",
@@ -282,9 +283,9 @@ app.controller("appController", function($scope){
                 }
               })
             }
-          },
+        },
         axes: {x: {key: "x" //, ticks: "dataset".length
-                }}
+        }}
       };
 
     $scope.init = () => {
