@@ -21,7 +21,7 @@ var app = angular.module("angApp", ['n3-line-chart']);
 app.controller("appController", function($scope){
 
     $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChanged": false}
-    $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":10}
+    $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":15}
     $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false}
     $scope.selectedOptions = []
     $scope.mergedOptions = {}
@@ -120,6 +120,7 @@ app.controller("appController", function($scope){
         option.quantity = 1
         option.isCall = isCall
         option.isLong = true;
+        option.name = expiryToString(option.expiry) + " $" + option.strike + " " + (option.isCall ? "Call" : "Put")
         option.id = currentBiggestID++
         option.iv = calculateIV(option.timeTillExpiry, option.price, $scope.stock.price, option.strike, option.isCall, $scope.stock.freeRate, $scope.stock.divYield)
         option.ivEdited = option.iv
@@ -266,6 +267,7 @@ app.controller("appController", function($scope){
                 id: 'profitAtExpiry'+i
             })
         }
+        $scope.lineChartOptions.series = $scope.lineChartOptions.series.reverse()
     }
 
     $scope.dataForChart = {};
@@ -274,10 +276,10 @@ app.controller("appController", function($scope){
         series: [],
         tooltipHook: function(d){
             return {
-              abscissas: "",
+              abscissas: "Price from Present to Expiry",
               rows:  d.map(function(s){
                 return {
-                  label: s.row.x + " ==> ",
+                  label: s.row.x + " => ",
                   value: s.row.y1,
                   color: s.series.color
                 }
