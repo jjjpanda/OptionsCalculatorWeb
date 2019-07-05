@@ -233,6 +233,7 @@ app.controller("appController", function($scope){
             option.profit.push([dateToString(d),$scope.rangeOfPrices.map(function(arr) {return arr.slice();})])
             for(price of option.profit[option.profit.length-1][1]){
                 price[1] = calculateProfitAtExpiry(option.boughtAt, price[0], option.strike, option.isCall, option.isLong)
+                price[1] *= option.quantity
             }
             ////////////////
         }
