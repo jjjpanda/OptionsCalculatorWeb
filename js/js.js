@@ -27,59 +27,6 @@ app.controller("appController", function($scope){
     $scope.mergedOptions = {}
     $scope.rangeOfPrices = []
 
-    $scope.dataForChart = {
-        dataset0: [
-          {x: expiryConvertToDate('2019-7-4'), val_0: 0.993, val_1: 3.894},
-          {x: expiryConvertToDate('2019-7-5'), val_0: 1.947, val_1: 7.174},
-          {x: expiryConvertToDate('2019-7-6'), val_0: 2.823, val_1: 9.32},
-          {x: expiryConvertToDate('2019-7-7'), val_0: 3.587, val_1: 9.996},
-          {x: expiryConvertToDate('2019-7-8'), val_0: 4.207, val_1: 9.093},
-          {x: expiryConvertToDate('2019-7-9'), val_0: 4.66, val_1: 6.7553},
-          {x: expiryConvertToDate('2019-7-10'), val_0: 4.927, val_1: 3.3525},
-          {x: expiryConvertToDate('2019-7-11'), val_0: 4.41, val_1: 3.3525},
-          {x: expiryConvertToDate('2019-7-12'), val_0: 4.51437, val_1: 3.125},
-          {x: expiryConvertToDate('2019-7-13'), val_0: 2.927, val_1: 3.23425},
-          {x: expiryConvertToDate('2019-7-14'), val_0: 4.243, val_1: 3.1525},
-          {x: expiryConvertToDate('2019-7-15'), val_0: 3.927, val_1: 3.3252},
-        ]
-      };
-
-      $scope.lineChartOptions = {
-        series: [
-          {
-            axis: "y",
-            dataset: "dataset0",
-            key: "val_0",
-            label: "An area series 1",
-            color: "#1f77b4",
-            type: ['line', 'dot'],
-            id: 'mySeries1'
-          }, 
-          {
-            axis: "y",
-            dataset: "dataset0",
-            key: "val_1",
-            label: "An area series 2",
-            color: "#ff0000",
-            type: ['line', 'dot'],
-            id: 'mySeries2'
-          }
-        ],
-        tooltipHook: function(d){
-            return {
-              abscissas: "",
-              rows:  d.map(function(s){
-                return {
-                  label: s.series.label + " => " + dateToString(s.row.x) + " - ",
-                  value: s.row.y1,
-                  color: s.series.color
-                }
-              })
-            }
-          },
-        axes: {x: {key: "x", type: "date", ticks: "dataset0".length}}
-      };
-
     $scope.loadIconStart = () => {
         $scope.display.loadingIcon = true;
     }
@@ -295,9 +242,43 @@ app.controller("appController", function($scope){
         
         $scope.calculateProfits(() => {
             $scope.display.profitTable = true;
+            $scope.dataForChart.dataset0 = $scope.mergedOptions.profit[ $scope.mergedOptions.profit.length - 1 ][1].map((x)=> {return {"x":x[0], "y":x[1]}})
+            console.log($scope.dataForChart.dataset0)
             $scope.loadIconStop()
         })
     }
+
+    $scope.dataForChart = {
+        dataset0: [
+        ]
+      };
+
+      $scope.lineChartOptions = {
+        series: [
+          {
+            axis: "y",
+            dataset: "dataset0",
+            key: "y",
+            label: "Bruh",
+            color: "rgb(255,255,255)",
+            type: ['line', 'dot'],
+            id: 'profitAtExpiry'
+          }
+        ],
+        tooltipHook: function(d){
+            return {
+              abscissas: "",
+              rows:  d.map(function(s){
+                return {
+                  label: s.series.label + " => " + s.row.x + " ==> ",
+                  value: s.row.y1,
+                  color: s.series.color
+                }
+              })
+            }
+          },
+        axes: {x: {key: "x", ticks: "dataset0".length}}
+      };
 
     $scope.init = () => {
         //Things to do on init
