@@ -345,7 +345,8 @@ app.controller("appController", function($scope){
             }
         },
         axes: {x: {key: "x" //, ticks: "dataset".length
-        },  y: {key: 'y',tickFormat: (value) => {
+        },  y: {key: 'y', interpolation: { mode: "bundle", tension: 0.7}, 
+                tickFormat: (value) => {
                 return "$"+value
             }
         }
@@ -380,7 +381,7 @@ app.controller("appController", function($scope){
             }
         },
         axes: {x: {key: "x" //, ticks: "dataset".length
-        },  y: {key: 'y',tickFormat: (value) => {
+        },  y: {key: 'y', interpolation: { mode: "bundle", tension: 0.7}, tickFormat: (value) => {
                 return "$"+value
             }
         }
