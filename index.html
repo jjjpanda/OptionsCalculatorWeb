@@ -165,13 +165,13 @@
                     </thead>
                     <tbody ng-repeat="option in expiry[1]">
                         <tr class="{{option.strike}}">
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{option.callBid}}</a></td>
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{option.call}}</a></td>
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{option.callAsk}}</a></td>
+                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callBid, 2)}}</a></td>
+                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.call, 2)}}</a></td>
+                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callAsk, 2)}}</a></td>
                             <td><a>{{option.strike}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{option.putBid}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{option.put}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{option.putAsk}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlace(option.putBid, 2)}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlace(option.put, 2)}}</a></td>
+                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlace(option.putAsk, 2)}}</a></td>
                         </tr>
                     </tbody>
                 </table>

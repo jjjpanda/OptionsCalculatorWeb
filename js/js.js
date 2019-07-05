@@ -146,6 +146,10 @@ app.controller("appController", function($scope){
         $scope.addLeg()
     }
 
+    $scope.roundPlaces = (i, x) => {
+        return Math.round( i * Math.pow(10,x)) / Math.pow(10,x)
+    }
+
     $scope.fillRangeOfPrices = () => {
         $scope.rangeOfPrices = []
         min = $scope.stock.price/Math.pow(1+($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
@@ -195,7 +199,7 @@ app.controller("appController", function($scope){
         for(day of $scope.mergedOptions.profit){
             $scope.mergedOptions.roundedProfit.push([day[0], []])
             for(price of day[1]){
-                $scope.mergedOptions.roundedProfit[$scope.mergedOptions.roundedProfit.length-1][1].push([roundPlaces(price[0], 2),roundPlaces(price[1], 2)])
+                $scope.mergedOptions.roundedProfit[$scope.mergedOptions.roundedProfit.length-1][1].push([$scope.roundPlaces(price[0], 2),$scope.roundPlaces(price[1], 2)])
             }
         }
 
@@ -204,9 +208,9 @@ app.controller("appController", function($scope){
         for(day of $scope.mergedOptions.profit){
             $scope.mergedOptions.percentProfit.push([day[0], []])
             for(price of day[1]){
-                $scope.mergedOptions.percentProfit[$scope.mergedOptions.percentProfit.length-1][1].push([roundPlaces(price[0], 2)
-                    ,(roundPlaces(price[1], 2)+$scope.mergedOptions.boughtAt)/Math.abs($scope.mergedOptions.boughtAt)
-                    ,hexColorFromPercent( (roundPlaces(price[1], 2)+ Math.abs($scope.mergedOptions.boughtAt))/Math.abs($scope.mergedOptions.boughtAt)  ) ])
+                $scope.mergedOptions.percentProfit[$scope.mergedOptions.percentProfit.length-1][1].push([$scope.roundPlaces(price[0], 2)
+                    ,($scope.roundPlaces(price[1], 2)+$scope.mergedOptions.boughtAt)/Math.abs($scope.mergedOptions.boughtAt)
+                    ,hexColorFromPercent( ($scope.roundPlaces(price[1], 2)+ Math.abs($scope.mergedOptions.boughtAt))/Math.abs($scope.mergedOptions.boughtAt)  ) ])
             }
         }
 

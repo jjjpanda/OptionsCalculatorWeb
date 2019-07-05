@@ -43,16 +43,11 @@ function d2(p, x, t, q, r, sigma){
     return (Math.log(p / x) + t * (r - q + (sigma * sigma) / 2)) / (sigma * Math.sqrt(t)) - (sigma * Math.sqrt(t));
 }
 
-function roundPlaces(i, x){
-    return Math.round( i * Math.pow(10,x)) / Math.pow(10,x)
-}
-
 function getRangeOfPrices(priceUnderlying, percentInterval, numOfIntervals, initialCost){
     var rangeOfPrices = {}
     min = priceUnderlying/Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
     max = priceUnderlying*Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
     for(i = min; i < max * (1+(percentInterval/200)); i *= (1+(percentInterval/100))){
-        //rangeOfPrices[roundTwoPlaces(i)] = initialCost
         rangeOfPrices[i] = initialCost
     } 
     return rangeOfPrices
