@@ -107,7 +107,7 @@ body{
 .onoffswitch {
     display: inline-block;
     position: relative; 
-    width: 12%;
+    width: 5em;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
@@ -122,8 +122,8 @@ body{
     transition: margin 0.3s ease-in 0s;
 }
 .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 29px; padding: 0; line-height: 25px;
-    font-size: 17px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    display: block; float: left; width: 50%; height: inherit; padding: 0;
+    font-size: 100%; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
     box-sizing: border-box;
     border: 2px solid transparent;
     background-clip: padding-box;
