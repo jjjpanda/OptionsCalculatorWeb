@@ -297,6 +297,13 @@ a:hover, a:focus{
     height: 100%;
 }
 
+/*
+
+.my-chart line{
+    fill:grey;
+}
+
 .chart-legend {
     display: none;
-  }
+}
+*/

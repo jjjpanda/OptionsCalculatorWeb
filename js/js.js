@@ -263,19 +263,63 @@ app.controller("appController", function($scope){
     $scope.addLineChartData = () =>{
         interval = Math.round($scope.mergedOptions.profit.length/8)
         interval = interval > 0 ? interval : 1
+        
         for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=interval){
+            /*
+            k = 0
+            for(j = 0; j < $scope.mergedOptions.profit[i][1].length; j++){
+                if(j==0 || Math.sign($scope.mergedOptions.profit[i][1][j-1][1]) != Math.sign($scope.mergedOptions.profit[i][1][j][1]) ){
+                    k++
+                    $scope.dataForChart["dataset"+[i]+" "+[k]] = []
+                    $scope.lineChartOptions.series.push({
+                        axis: "y",
+                        dataset: "dataset"+i+" "+k,
+                        key: "y",
+                        label: $scope.mergedOptions.profit[i][0],
+                        color: (Math.sign($scope.mergedOptions.profit[i][1][j][1]) == 1) ? ("rgb(" + Math.round(100 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + ")") : ("rgb(" + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + ")"),
+                        defined: function(value) {
+                            return value != undefined || value.y != undefined;
+                        },
+                        type: ['line', 'dot'],
+                        id: 'profitAtExpiry'+i+" "+k
+                    })
+                    if(k > 0 && j>0 && j < $scope.mergedOptions.profit[i][1].length){
+                        $scope.dataForChart["dataset"+[i]+" "+[k+0.5]] = [{"x":$scope.mergedOptions.profit[i][1][j-1][0] , "y":$scope.mergedOptions.profit[i][1][j-1][1]},
+                                                                    {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]}]
+                        $scope.lineChartOptions.series.push({
+                            axis: "y",
+                            dataset: "dataset"+i+" "+(k+0.5),
+                            key: "y",
+                            label: "intermediate",
+                            color: "rgb(" + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
+                            defined: function(value) {
+                                return value != undefined || value.y != undefined;
+                            },
+                            type: ['line', 'dot'],
+                            id: 'profitAtExpiry'+i+" "+(k+0.5)
+                        })
+                    }
+                }
+                $scope.dataForChart["dataset"+[i]+" "+[k]].push( {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]} )   
+            }
+            */            
+
+            
             $scope.dataForChart["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
             $scope.lineChartOptions.series.push({
                 axis: "y",
                 dataset: "dataset"+i,
                 key: "y",
-                label: "",
+                label: $scope.mergedOptions.profit[i][0],
                 color: "rgb(" + Math.round(140 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
                 type: ['line', 'dot'],
                 id: 'profitAtExpiry'+i
             })
+            
         }
         $scope.lineChartOptions.series = $scope.lineChartOptions.series.reverse()
+        console.log($scope.dataForChart)
+        console.log($scope.lineChartOptions.series)
     }
 
     $scope.dataForChart = {};
@@ -283,19 +327,38 @@ app.controller("appController", function($scope){
     $scope.lineChartOptions = {
         series: [],
         tooltipHook: function(d){
-            return {
-              abscissas: "Profit from Present to Expiry",
-              rows:  d.map(function(s){
+            return false
+            /*
+            if(d == undefined){}
+            else {
                 return {
-                  label: s.row.x + " => ",
-                  value: s.row.y1,
-                  color: s.series.color
+                abscissas: "Profit from Present to Expiry",
+                rows:  
+                    d.map(function(s){
+                        if(s.series.label !== "intermediate"){
+                            return {
+                                label: s.row.x + " => ",
+                                value: s.row.y1,
+                                color: s.series.color
+                            }
+                        }
+                    })
                 }
-              })
             }
+            */
         },
         axes: {x: {key: "x" //, ticks: "dataset".length
-        }}
+        }},
+        symbols: [{
+            type: 'hline',
+            value: 0,
+            color: 'rgb(255,255,255)',
+            axis: 'y'
+        }],
+        grid: {
+            x: false,
+            y: false
+        }
       };
 
     $scope.init = () => {
