@@ -284,7 +284,7 @@ app.controller("appController", function($scope){
         series: [],
         tooltipHook: function(d){
             return {
-              abscissas: "Price from Present to Expiry",
+              abscissas: "Profit from Present to Expiry",
               rows:  d.map(function(s){
                 return {
                   label: s.row.x + " => ",
