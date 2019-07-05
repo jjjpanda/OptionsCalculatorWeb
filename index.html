@@ -163,8 +163,8 @@
                             <th>Ask</th>
                         </tr>
                     </thead>
-                    <tbody ng-repeat="option in expiry[1]">
-                        <tr class="{{option.strike}}">
+                    <tbody>
+                        <tr ng-repeat="option in expiry[1]" class="{{option.strike}}">
                             <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callBid, 2)}}</a></td>
                             <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.call, 2)}}</a></td>
                             <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callAsk, 2)}}</a></td>
