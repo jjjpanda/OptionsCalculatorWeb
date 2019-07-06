@@ -105,6 +105,22 @@
     </div>
     <br/>
 
+    <div id = "optionsStrategyInfo-div" ng-show= "display.optionsStrategyInfo">
+        <a> Delta : {{mergedOptions.greeks.delta}}</a>
+        <br/>
+        <a> Gamma : {{mergedOptions.greeks.gamma}}</a>
+        <br/>
+        <a> Theta : {{mergedOptions.greeks.theta}}</a>
+        <br/>
+        <a> Rho : {{mergedOptions.greeks.rho}}</a>
+        <br/>
+        <a> Vega : {{mergedOptions.greeks.vega}}</a>
+        <br/>
+        <a> Price of Strategy : $ {{mergedOptions.boughtAt}}</a>
+        <br/>
+    </div>
+    <br/>
+
     <!--LINE OUTPUT-->
     <div id= "profitLine-div">
         <div class="my-chart">

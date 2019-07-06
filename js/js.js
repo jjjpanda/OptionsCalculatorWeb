@@ -22,7 +22,7 @@ app.controller("appController", function($scope){
 
     $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChanged": false}
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":15}
-    $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false}
+    $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false, "optionsStrategyInfo":false}
     $scope.selectedOptions = []
     $scope.mergedOptions = {}
     $scope.rangeOfPrices = []
@@ -81,6 +81,7 @@ app.controller("appController", function($scope){
             $scope.selectedOptions = []
             $scope.mergedOptions = {}
             $scope.display.profitTable = false;
+            $scope.display.optionsStrategyInfo = false;
             $scope.resetCharts()
             
             $scope.getPrice(false)
@@ -244,13 +245,12 @@ app.controller("appController", function($scope){
     }
 
     $scope.displayProfit = () => {
-
-        $scope.resetCharts()
-
         $scope.loadIconStart()
+        $scope.resetCharts()
         
         $scope.calculateProfits(() => {
             $scope.display.profitTable = true;
+            $scope.display.optionsStrategyInfo = true;
             $scope.addLineChartData()
             $scope.loadIconStop()
         })
@@ -264,6 +264,7 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLineChartData = () =>{
+        
         interval = Math.ceil($scope.mergedOptions.profit.length/7)
         interval = interval > 0 ? interval : 1
         
@@ -326,6 +327,7 @@ app.controller("appController", function($scope){
         
         $scope.lineChartOptions.symbols[1].value = $scope.stock.price
         $scope.lineChartOptions2.symbols[1].value = $scope.stock.price
+
     }
 
     $scope.dataForChart = {};
