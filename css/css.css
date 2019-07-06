@@ -211,14 +211,14 @@ button{
 }
 
 .collapseContent .atmStrike{
-    border: 1px solid teal;
+    border: 1px solid white;
 }
 
 a{
     color: white
 }
 
-a:hover, a:focus{
+.collapseContent a:hover, .collapseContent a:focus{
     color: greenyellow;
     border: 1px solid greenyellow
 }
