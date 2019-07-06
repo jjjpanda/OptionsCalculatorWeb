@@ -174,13 +174,13 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="option in expiry[1]" class="{{option.strike}}">
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callBid, 2)}}</a></td>
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.call, 2)}}</a></td>
-                            <td><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callAsk, 2)}}</a></td>
-                            <td><a>{{option.strike}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.putBid, 2)}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.put, 2)}}</a></td>
-                            <td><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.putAsk, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callBid, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.call, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption($event, option.call, option.strike, expiry[0], isCall = true)">{{roundPlaces(option.callAsk, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.strike}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.putBid, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.put, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption($event, option.put, option.strike, expiry[0], isCall = false)">{{roundPlaces(option.putAsk, 2)}}</a></td>
                         </tr>
                     </tbody>
                 </table>

@@ -318,8 +318,12 @@ app.controller("appController", function($scope){
             })
             
         }
+        
         $scope.lineChartOptions.series = $scope.lineChartOptions.series.reverse()
         $scope.lineChartOptions2.series = $scope.lineChartOptions2.series.reverse()
+        
+        $scope.lineChartOptions.symbols[1].value = $scope.stock.price
+        $scope.lineChartOptions2.symbols[1].value = $scope.stock.price
     }
 
     $scope.dataForChart = {};
@@ -356,6 +360,11 @@ app.controller("appController", function($scope){
             value: 0,
             color: 'rgb(255,255,255)',
             axis: 'y'
+        },{
+            type: 'vline',
+            value: $scope.stock.price,
+            color: 'rgb(255,255,255)',
+            axis: 'x'
         }],
         grid: {
             x: false,
@@ -380,7 +389,7 @@ app.controller("appController", function($scope){
                 }
             }
         },
-        axes: {x: {key: "x" //, ticks: "dataset".length
+        axes: {x: {key: "x"//, ticks: "dataset".length
         },  y: {key: 'y', interpolation: { mode: "bundle", tension: 0.7}, tickFormat: (value) => {
                 return "$"+value
             }
@@ -391,7 +400,13 @@ app.controller("appController", function($scope){
             value: 0,
             color: 'rgb(255,255,255)',
             axis: 'y'
-        }],
+        },{
+            type: 'vline',
+            value: $scope.stock.price,
+            color: 'rgb(255,255,255)',
+            axis: 'x'
+        }
+        ],
         grid: {
             x: false,
             y: false
