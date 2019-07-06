@@ -269,6 +269,7 @@ app.controller("appController", function($scope){
         
         for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=interval){
             
+            //CHART 1
             k = 0
             for(j = 0; j < $scope.mergedOptions.profit[i][1].length; j++){
                 if(j==0 || Math.sign($scope.mergedOptions.profit[i][1][j-1][1]) != Math.sign($scope.mergedOptions.profit[i][1][j][1]) ){
@@ -304,8 +305,9 @@ app.controller("appController", function($scope){
                     }
                 }
                 $scope.dataForChart["dataset"+[i]+" "+[k]].push( {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]} )   
-            }       
+            }  
 
+            //CHART 2
             $scope.dataForChart2["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
             $scope.lineChartOptions2.series.push({
                 axis: "y",

@@ -12,5 +12,6 @@ Fixes and Updates Necessary:
 -add volume to options selection \
 -enter to click \
 -remove saved input in stock symbol \
-
+-delta and initial cost \
+-stock price chart \
 
