@@ -123,23 +123,25 @@
 
     <!--LINE OUTPUT-->
     <div id= "profitLine-div">
-        <div class="my-chart">
+        <div class="my-chart" ng-show = "display.profitChart">
             <linechart id="chart" data="dataForChart" options="lineChartOptions"></linechart>
         </div>
         <br/>
 
-        <div class="my-chart">
+        <div class="my-chart" ng-show = "display.profitChart2">
             <linechart id="chart2" data="dataForChart2" options="lineChartOptions2"></linechart>
         </div>
         <br/>
-        </div>
+
+        <button ng-show="display.profitChart || display.profitChart2" ng-click="switchChart()">SWITCH TO {{display.profitChart ? "DETAILED" : "BASIC"}} CHART</button>
+    </div>
     <br/>
 
     <!--TABLE OUTPUT-->
     <div class = "profitTable-div"  ng-show="display.profitTable">
         <table id = "profitTable">
             <thead>
-                <th>---</th>
+                <th><a ng-click = "transposeTable()">&#x22ba</a></th>
                 <th ng-repeat="day in mergedOptions.profit"><a>{{day[0]}}</a></th>
             </thead>
             <tbody>
@@ -152,10 +154,10 @@
     </div>    
     <br/>
 
-    <div class = "profitTable-div"  ng-show="display.profitTable">
+    <div class = "profitTable-div"  ng-show="display.profitTable2">
         <table id = "profitTable2">
             <thead>
-                <th>---</th>
+                <th><a ng-click = "transposeTable()">&#x22ba</a></th>
                 <th ng-repeat="price in mergedOptions.profit[0][1]"><a>{{roundPlaces(price[0],2)}}</a></th>
             </thead>
             <tbody>

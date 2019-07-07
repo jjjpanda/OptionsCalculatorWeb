@@ -22,7 +22,7 @@ app.controller("appController", function($scope, $timeout){
 
     $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChangedForStock": false, "tickerChangedForOption": false}
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":15}
-    $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false, "optionsStrategyInfo":false}
+    $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false, "profitTable2":false, "profitChart":false, "profitChart2":false,"optionsStrategyInfo":false}
     $scope.selectedOptions = []
     $scope.mergedOptions = {}
     $scope.rangeOfPrices = []
@@ -81,8 +81,7 @@ app.controller("appController", function($scope, $timeout){
             
             $scope.selectedOptions = []
             $scope.mergedOptions = {}
-            $scope.display.profitTable = false;
-            $scope.display.optionsStrategyInfo = false;
+            $scope.hideProfitDisplays()
             $scope.resetCharts()
             
             $scope.getPrice(false)
@@ -250,11 +249,20 @@ app.controller("appController", function($scope, $timeout){
         $scope.resetCharts()
         
         $timeout($scope.calculateProfits, 0).then(() => {
-            $scope.display.profitTable = true;
-            $scope.display.optionsStrategyInfo = true;
             $scope.addLineChartData()
+            $scope.display.profitTable = true;
+            $scope.display.profitChart = true;
+            $scope.display.optionsStrategyInfo = true;
             $scope.loadIconStop()
         })
+    }
+
+    $scope.hideProfitDisplays = () => {
+        $scope.display.profitTable = false;
+        $scope.display.profitTable2 = false;
+        $scope.display.profitChart = false;
+        $scope.display.profitChart2 = false;
+        $scope.display.optionsStrategyInfo = false;
     }
 
     $scope.resetCharts = () => {
@@ -329,6 +337,28 @@ app.controller("appController", function($scope, $timeout){
         $scope.lineChartOptions.symbols[1].value = $scope.stock.price
         $scope.lineChartOptions2.symbols[1].value = $scope.stock.price
 
+    }
+
+    $scope.transposeTable = () => {
+        if($scope.display.profitTable){
+            $scope.display.profitTable = false;
+            $scope.display.profitTable2 = true;
+        }
+        else if($scope.display.profitTable2){
+            $scope.display.profitTable = true;
+            $scope.display.profitTable2 = false;
+        }
+    }
+
+    $scope.switchChart = () => {
+        if($scope.display.profitChart){
+            $scope.display.profitChart = false;
+            $scope.display.profitChart2 = true;
+        }
+        else if($scope.display.profitChart2){
+            $scope.display.profitChart = true;
+            $scope.display.profitChart2 = false;
+        }
     }
 
     $scope.dataForChart = {};

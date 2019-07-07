@@ -2,7 +2,6 @@
 
 Fixes and Updates Necessary:
 
--transpose table button \
 -graph detailed button \
 -stock not found handling \
 -options not found handling \
