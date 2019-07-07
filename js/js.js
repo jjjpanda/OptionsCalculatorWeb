@@ -247,12 +247,16 @@ app.controller("appController", function($scope, $timeout){
     $scope.displayProfit = () => {
         $scope.loadIconStart()
         $scope.resetCharts()
+        $scope.hideProfitDisplays()
         
         $timeout($scope.calculateProfits, 0).then(() => {
-            $scope.addLineChartData()
-            $scope.display.profitTable = true;
-            $scope.display.profitChart = true;
+            $scope.addLineChartData()        
+        }).then(()=>{
             $scope.display.optionsStrategyInfo = true;
+            $scope.display.profitChart = true;
+        }).then(()=>{
+            $scope.display.profitTable = true;
+        }).then(()=>{
             $scope.loadIconStop()
         })
     }
