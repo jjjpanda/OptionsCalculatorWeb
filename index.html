@@ -35,7 +35,7 @@
 
         <div id="ticker-div">
             <label for="ticker">Symbol</label>
-            <input type = "text" id = "ticker" ng-model="stock.tickerSymbol" ng-change="stock.tickerChanged = true">
+            <input type = "text" id = "ticker" ng-model="stock.tickerSymbol" ng-change="stock.tickerChangedForStock = true; stock.tickerChangedForOption = true">
         </div>
 
         <div id="divYield-div">

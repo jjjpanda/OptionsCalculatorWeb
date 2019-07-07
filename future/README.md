@@ -2,7 +2,6 @@
 
 Fixes and Updates Necessary:
 
--fix loading on calculate \
 -transpose table button \
 -graph detailed button \
 -stock not found handling \

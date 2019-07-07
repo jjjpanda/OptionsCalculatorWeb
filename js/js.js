@@ -18,9 +18,9 @@ function objectToMap(object){
 }
 
 var app = angular.module("angApp", ['n3-line-chart']);
-app.controller("appController", function($scope){
+app.controller("appController", function($scope, $timeout){
 
-    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChanged": false}
+    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChangedForStock": false, "tickerChangedForOption": false}
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":15}
     $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false, "optionsStrategyInfo":false}
     $scope.selectedOptions = []
@@ -36,7 +36,7 @@ app.controller("appController", function($scope){
     }
 
     $scope.getPrice = (showLoadingIcon) => {
-        if($scope.stock.tickerChanged || isNaN(minutesSinceLastPriceLoad()) || minutesSinceLastPriceLoad() > 5){
+        if($scope.stock.tickerChangedForStock || isNaN(minutesSinceLastPriceLoad()) || minutesSinceLastPriceLoad() > 5){
             $.post("/price",{ticker: $scope.stock.tickerSymbol}, function(data){
                 //do things with data returned from app js
                 console.log(data)
@@ -51,7 +51,7 @@ app.controller("appController", function($scope){
                 $scope.$apply()
             });
             if(showLoadingIcon) {$scope.loadIconStart()} 
-            $scope.stock.tickerChanged = false;
+            $scope.stock.tickerChangedForStock = false;
         } 
     }
     
@@ -66,9 +66,10 @@ app.controller("appController", function($scope){
             else{
                 $scope.chains = data;
                 $scope.collapseAllExpiries()
-                callback()
                 $scope.loadIconStop()
                 lastOptionsLoad = new Date()
+                $scope.stock.tickerChangedForOption = false
+                callback()
                 $scope.$apply()
             }
         });
@@ -76,7 +77,7 @@ app.controller("appController", function($scope){
     }
 
     $scope.addLeg = () => {
-        if($scope.stock.tickerChanged || isNaN(minutesSinceLastOptionsLoad()) || minutesSinceLastOptionsLoad() > 5){
+        if($scope.stock.tickerChangedForOption || isNaN(minutesSinceLastOptionsLoad()) || minutesSinceLastOptionsLoad() > 5){
             
             $scope.selectedOptions = []
             $scope.mergedOptions = {}
@@ -173,7 +174,7 @@ app.controller("appController", function($scope){
         return profitMap
     }
 
-    $scope.mergeOptions = (callback) => {
+    $scope.mergeOptions = () => {
         $scope.mergedOptions = {'boughtAt':0, 'expiry':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}
         
         for (option of $scope.selectedOptions){
@@ -214,10 +215,10 @@ app.controller("appController", function($scope){
         }
 
         console.log($scope.mergedOptions)
-        callback()
+        
     }
 
-    $scope.calculateProfits = (callback) => {
+    $scope.calculateProfits = () => {
         for(option of $scope.selectedOptions){
             option.greeks = calculateGreeks(option.timeTillExpiry, $scope.stock.price, option.strike, option.isCall, option.isLong, $scope.stock.freeRate, $scope.stock.divYield, option.iv)
             option.profit = []
@@ -241,14 +242,14 @@ app.controller("appController", function($scope){
             ////////////////
         }
         console.log($scope.selectedOptions)
-        $scope.mergeOptions(callback)
+        $scope.mergeOptions()
     }
 
     $scope.displayProfit = () => {
         $scope.loadIconStart()
         $scope.resetCharts()
         
-        $scope.calculateProfits(() => {
+        $timeout($scope.calculateProfits, 0).then(() => {
             $scope.display.profitTable = true;
             $scope.display.optionsStrategyInfo = true;
             $scope.addLineChartData()
