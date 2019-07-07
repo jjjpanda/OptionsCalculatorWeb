@@ -353,7 +353,7 @@ a{
 }
 */
 
-#chart .chart-legend {
+.hideLegend .chart-legend {
     display: none;
 }
 

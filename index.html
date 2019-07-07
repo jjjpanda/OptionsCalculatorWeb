@@ -122,14 +122,9 @@
     <br/>
 
     <!--LINE OUTPUT-->
-    <div id= "profitLine-div">
-        <div class="my-chart" ng-show = "display.profitChart">
-            <linechart id="chart" data="dataForChart" options="lineChartOptions"></linechart>
-        </div>
-        <br/>
-
-        <div class="my-chart" ng-show = "display.profitChart2">
-            <linechart id="chart2" data="dataForChart2" options="lineChartOptions2"></linechart>
+    <div id= "profitLineChart-div">
+        <div class="my-chart">
+            <linechart id="profitLineChart" ng-class = "display.profitChart ? 'hideLegend': ''" data="dataForChart" options="lineChartOptions"></linechart>
         </div>
         <br/>
 

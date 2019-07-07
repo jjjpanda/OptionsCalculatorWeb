@@ -2,7 +2,6 @@
 
 Fixes and Updates Necessary:
 
--graph detailed button \
 -stock not found handling \
 -options not found handling \
 -iv skew modal \

@@ -26,6 +26,8 @@ app.controller("appController", function($scope, $timeout){
     $scope.selectedOptions = []
     $scope.mergedOptions = {}
     $scope.rangeOfPrices = []
+    $scope.dataForChart = {}
+    $scope.lineChartOptions = {}
 
     $scope.loadIconStart = () => {
         $scope.display.loadingIcon = true;
@@ -82,7 +84,7 @@ app.controller("appController", function($scope, $timeout){
             $scope.selectedOptions = []
             $scope.mergedOptions = {}
             $scope.hideProfitDisplays()
-            $scope.resetCharts()
+            $scope.resetChartData()
             
             $scope.getPrice(false)
             $scope.getOptionsChain(() => {
@@ -246,16 +248,17 @@ app.controller("appController", function($scope, $timeout){
 
     $scope.displayProfit = () => {
         $scope.loadIconStart()
-        $scope.resetCharts()
+        $scope.resetChartData()
+
         $scope.hideProfitDisplays()
-        
+
         $timeout($scope.calculateProfits, 0).then(() => {
-            $scope.addLineChartData()        
-        }).then(()=>{
-            $scope.display.optionsStrategyInfo = true;
-            $scope.display.profitChart = true;
+            $scope.display.profitChart = true;      
+        }).then(()=>{ 
+            $scope.addLineChartData()  
         }).then(()=>{
             $scope.display.profitTable = true;
+            $scope.display.optionsStrategyInfo = true;
         }).then(()=>{
             $scope.loadIconStop()
         })
@@ -269,13 +272,6 @@ app.controller("appController", function($scope, $timeout){
         $scope.display.optionsStrategyInfo = false;
     }
 
-    $scope.resetCharts = () => {
-        $scope.dataForChart = {};
-        $scope.lineChartOptions.series = [];
-        $scope.dataForChart2 = {};
-        $scope.lineChartOptions2.series = [];
-    }
-
     $scope.addLineChartData = () =>{
         
         interval = Math.ceil($scope.mergedOptions.profit.length/7)
@@ -283,63 +279,101 @@ app.controller("appController", function($scope, $timeout){
         
         for(i = $scope.mergedOptions.profit.length-1; i > 0; i-=interval){
             
-            //CHART 1
-            k = 0
-            for(j = 0; j < $scope.mergedOptions.profit[i][1].length; j++){
-                if(j==0 || Math.sign($scope.mergedOptions.profit[i][1][j-1][1]) != Math.sign($scope.mergedOptions.profit[i][1][j][1]) ){
-                    k++
-                    $scope.dataForChart["dataset"+[i]+" "+[k]] = []
-                    $scope.lineChartOptions.series.push({
-                        axis: "y",
-                        dataset: "dataset"+i+" "+k,
-                        key: "y",
-                        label: $scope.mergedOptions.profit[i][0],
-                        color: (Math.sign($scope.mergedOptions.profit[i][1][j][1]) == 1) ? ("rgb(" + Math.round(100 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + ")") : ("rgb(" + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + ")"),
-                        defined: function(value) {
-                            return value != undefined || value.y != undefined;
-                        },
-                        type: ['line', 'dot'],
-                        id: 'profitAtExpiry'+i+" "+k
-                    })
-                    if(k > 0 && j>0 && j < $scope.mergedOptions.profit[i][1].length){
-                        $scope.dataForChart["dataset"+[i]+" "+[k+0.5]] = [{"x":$scope.mergedOptions.profit[i][1][j-1][0] , "y":$scope.mergedOptions.profit[i][1][j-1][1]},
-                                                                    {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]}]
+            if($scope.display.profitChart){
+                k = 0
+                for(j = 0; j < $scope.mergedOptions.profit[i][1].length; j++){
+                    if(j==0 || Math.sign($scope.mergedOptions.profit[i][1][j-1][1]) != Math.sign($scope.mergedOptions.profit[i][1][j][1]) ){
+                        k++
+                        $scope.dataForChart["dataset"+[i]+" "+[k]] = []
                         $scope.lineChartOptions.series.push({
                             axis: "y",
-                            dataset: "dataset"+i+" "+(k+0.5),
+                            dataset: "dataset"+i+" "+k,
                             key: "y",
-                            label: "intermediate",
-                            color: "rgb(" + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
+                            label: $scope.mergedOptions.profit[i][0],
+                            color: (Math.sign($scope.mergedOptions.profit[i][1][j][1]) == 1) ? ("rgb(" + Math.round(100 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + ")") : ("rgb(" + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + "," + Math.round(100 * i / $scope.mergedOptions.profit.length) + ")"),
                             defined: function(value) {
                                 return value != undefined || value.y != undefined;
                             },
-                            type: ['line', 'dot'],
-                            id: 'profitAtExpiry'+i+" "+(k+0.5)
+                            type: ['line'],
+                            id: 'profitAtExpiry'+i+" "+k
                         })
+                        if(k > 0 && j>0 && j < $scope.mergedOptions.profit[i][1].length){
+                            $scope.dataForChart["dataset"+[i]+" "+[k+0.5]] = [{"x":$scope.mergedOptions.profit[i][1][j-1][0] , "y":$scope.mergedOptions.profit[i][1][j-1][1]},
+                                                                        {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]}]
+                            $scope.lineChartOptions.series.push({
+                                axis: "y",
+                                dataset: "dataset"+i+" "+(k+0.5),
+                                key: "y",
+                                label: "intermediate",
+                                color: "rgb(" + Math.round(222 * i / $scope.mergedOptions.profit.length) + "," + Math.round(222 * i / $scope.mergedOptions.profit.length) + "," + Math.round(222 * i / $scope.mergedOptions.profit.length) + ")",
+                                defined: function(value) {
+                                    return value != undefined || value.y != undefined;
+                                },
+                                type: ['line'],
+                                id: 'profitAtExpiry'+i+" "+(k+0.5)
+                            })
+                        }
                     }
-                }
-                $scope.dataForChart["dataset"+[i]+" "+[k]].push( {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]} )   
-            }  
+                    $scope.dataForChart["dataset"+[i]+" "+[k]].push( {"x":$scope.mergedOptions.profit[i][1][j][0] , "y":$scope.mergedOptions.profit[i][1][j][1]} )   
+                }  
+            }
 
-            //CHART 2
-            $scope.dataForChart2["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
-            $scope.lineChartOptions2.series.push({
-                axis: "y",
-                dataset: "dataset"+i,
-                key: "y",
-                label: $scope.mergedOptions.profit[i][0],
-                color: "rgb(" + Math.round(140 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
-                type: ['line', 'dot'],
-                id: 'profitAtExpiry'+i
-            })
+            else if($scope.display.profitChart2){
+                $scope.dataForChart["dataset"+[i]] = $scope.mergedOptions.profit[i][1].map((x)=> {return {"x":x[0], "y":x[1]}})
+                $scope.lineChartOptions.series.push({
+                    axis: "y",
+                    dataset: "dataset"+i,
+                    key: "y",
+                    label: $scope.mergedOptions.profit[i][0],
+                    color: "rgb(" + Math.round(140 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + "," + Math.round(255 * i / $scope.mergedOptions.profit.length) + ")",
+                    type: ['line', 'dot'],
+                    id: 'profitAtExpiry'+i
+                })
+            }
             
         }
         
         $scope.lineChartOptions.series = $scope.lineChartOptions.series.reverse()
-        $scope.lineChartOptions2.series = $scope.lineChartOptions2.series.reverse()
+
+        if($scope.display.profitChart){
+            $scope.lineChartOptions.tooltipHook = function(d){
+                return false
+                if(d == undefined){}
+                else {
+                    return {
+                    abscissas: "Profit from Present to Expiry",
+                    rows:  
+                        d.filter(s => (s.series.label !== "intermediate")).map(function(s){  
+                            return {
+                                label: s.series.label + " & " + $scope.roundPlaces(s.row.x,2) + " => ",
+                                value: "$ " + $scope.roundPlaces(s.row.y1,2),
+                                color: ""
+                            }
+                        })
+                    }
+                }
+            }
+        }
+        else if($scope.display.profitChart2){
+            $scope.lineChartOptions.tooltipHook = function(d){
+                if(d == undefined){}
+                else {
+                    return {
+                    abscissas: "Profit from Present to Expiry",
+                    rows:  
+                        d.map(function(s){
+                            return {
+                                label: $scope.roundPlaces(s.row.x,2) + " => ",
+                                value: "$ " + $scope.roundPlaces(s.row.y1,2),
+                                color: s.series.color
+                            }
+                        })
+                    }
+                }
+            }
+        }
         
         $scope.lineChartOptions.symbols[1].value = $scope.stock.price
-        $scope.lineChartOptions2.symbols[1].value = $scope.stock.price
 
     }
 
@@ -363,94 +397,38 @@ app.controller("appController", function($scope, $timeout){
             $scope.display.profitChart = true;
             $scope.display.profitChart2 = false;
         }
+        $scope.resetChartData()
+        $scope.addLineChartData()
     }
 
-    $scope.dataForChart = {};
-    $scope.dataForChart2 = {};
+    $scope.resetChartData = () => { 
 
-    $scope.lineChartOptions = {
-        series: [],
-        tooltipHook: function(d){
-            //return false
-            if(d == undefined){}
-            else {
-                return {
-                abscissas: "Profit from Present to Expiry",
-                rows:  
-                    d.filter(s => (s.series.label !== "intermediate")).map(function(s){  
-                        return {
-                            label: s.series.label + " & " + $scope.roundPlaces(s.row.x,2) + " => ",
-                            value: "$ " + s.row.y1,
-                            color: ""
-                        }
-                    })
+        $scope.dataForChart = {};
+        $scope.lineChartOptions = {
+            series: [],
+            axes: {x: {key: "x" //, ticks: "dataset".length
+            },  y: {key: 'y', interpolation: { mode: "bundle", tension: 0.7}, 
+                    tickFormat: (value) => {
+                    return "$"+$scope.roundPlaces(value,2)
                 }
+            }},
+            symbols: [{
+                type: 'hline',
+                value: 0,
+                color: 'rgb(255,255,255)',
+                axis: 'y'
+            },{
+                type: 'vline',
+                value: $scope.stock.price,
+                color: 'rgb(255,255,255)',
+                axis: 'x'
+            }],
+            grid: {
+                x: false,
+                y: false
             }
-        },
-        axes: {x: {key: "x" //, ticks: "dataset".length
-        },  y: {key: 'y', interpolation: { mode: "bundle", tension: 0.7}, 
-                tickFormat: (value) => {
-                return "$"+value
-            }
-        }
-        },
-        symbols: [{
-            type: 'hline',
-            value: 0,
-            color: 'rgb(255,255,255)',
-            axis: 'y'
-        },{
-            type: 'vline',
-            value: $scope.stock.price,
-            color: 'rgb(255,255,255)',
-            axis: 'x'
-        }],
-        grid: {
-            x: false,
-            y: false
-        }
-    };
-    $scope.lineChartOptions2 = {
-        series: [],
-        tooltipHook: function(d){
-            if(d == undefined){}
-            else {
-                return {
-                abscissas: "Profit from Present to Expiry",
-                rows:  
-                    d.map(function(s){
-                        return {
-                            label: $scope.roundPlaces(s.row.x,2) + " => ",
-                            value: "$ " + s.row.y1,
-                            color: s.series.color
-                        }
-                    })
-                }
-            }
-        },
-        axes: {x: {key: "x"//, ticks: "dataset".length
-        },  y: {key: 'y', interpolation: { mode: "bundle", tension: 0.7}, tickFormat: (value) => {
-                return "$"+value
-            }
-        }
-        },
-        symbols: [{
-            type: 'hline',
-            value: 0,
-            color: 'rgb(255,255,255)',
-            axis: 'y'
-        },{
-            type: 'vline',
-            value: $scope.stock.price,
-            color: 'rgb(255,255,255)',
-            axis: 'x'
-        }
-        ],
-        grid: {
-            x: false,
-            y: false
-        }
-    };
+        };
+    }
 
     $scope.init = () => {
         //Things to do on init
