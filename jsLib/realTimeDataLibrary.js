@@ -138,7 +138,7 @@ getStockHistoricalData: function(apikey, ticker, callback){
         qs: {
            'symbol': ticker,
            'interval': 'daily',
-           'start':getDateFromYearsAgo(1),
+           'start':getDateFromYearsAgo(3),
            'end': getDateFromYearsAgo(0)
         },
         headers: {

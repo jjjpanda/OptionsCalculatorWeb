@@ -28,32 +28,60 @@ app.controller("appController", function($scope, $timeout){
     $scope.rangeOfPrices = []
     $scope.dataForChart = {}
     $scope.lineChartOptions = {}
+
     $scope.stockChartOptions = {
         series: [{
             axis: "y",
             dataset: "dataset",
             key: "close",
-            label: "Stock Price",
+            label: "Price",
             color: '#ffffff',
-            defined: function(value) {
-                return value != undefined || value.y != undefined;
-            },
             type: ['line'],
-            id: 'stockHistorical'
+            id: 'priceHistorical'
+        },{
+            axis: "y2",
+            dataset: "dataset",
+            key: "volume",
+            label: "Volume",
+            color: '#6988ee',
+            type: ['column'],
+            id: 'volumeHistorical'
         }],
         axes: {x: {key: "date", ticks: "dataset".length, type: 'date'
-        },  y: {key: 'close', interpolation: { mode: "bundle", tension: 0.7}, 
+        },  y: {key: 'close', 
                 tickFormat: (value) => {
-                return "$"+$scope.roundPlaces(value,2)
-            }
+                return "$"+ value
         }},
+        y2: {key:'volume', tickFormat: (value) => {
+            return ""
+        }   
+        }},
+        tooltipHook: function(d){
+            if(d == undefined){ return }
+            return {
+              abscissas: "",
+              rows:  d.map(function(s){
+                if(s.series.label == 'Volume'){
+                    return {
+                        label: s.series.label + ": " + dateToString(s.row.x) + " -",
+                        value: s.row.y1,
+                        color: s.series.color
+                    }
+                }
+                return {
+                  label: s.series.label + ": " + dateToString(s.row.x) + " -",
+                  value: '$ '+$scope.roundPlaces(s.row.y1,2),
+                  color: s.series.color
+                }
+              })
+            }
+        },
         grid: {
             x: false,
             y: false
         }
     };
     
-
     $scope.loadIconStart = () => {
         $scope.display.loadingIcon = true;
     }
@@ -80,8 +108,8 @@ app.controller("appController", function($scope, $timeout){
             if(showLoadingIcon) {$scope.loadIconStart()} 
             $scope.stock.tickerChangedForStock = false;
             $.post('/historical', {ticker: $scope.stock.tickerSymbol}, function(data){
-                //console.log(data)
-                $scope.stock.historical.dataset = data.map(x=> x.date = expiryConvertToDate(x.date))
+                console.log(data)
+                $scope.stock.historical.dataset = data.map(x=> { return {date: expiryConvertToDate(x.date), close: x.close, volume:x.volume} })
                 console.log($scope.stock.historical)
             })
         } 
