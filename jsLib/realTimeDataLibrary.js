@@ -167,6 +167,6 @@ function zip(arrays) {
 
 getDateFromYearsAgo = (n)=>{
     d = new Date()
-    console.log((d.getFullYear() - n) + "-"+ ("0" + (d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2))
+    //console.log((d.getFullYear() - n) + "-"+ ("0" + (d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2))
     return (d.getFullYear() - n) + "-"+ ("0" + (d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2)
 }

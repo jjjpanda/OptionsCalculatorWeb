@@ -421,7 +421,7 @@ app.controller("appController", function($scope, $timeout){
                     rows:  
                         d.map(function(s){
                             return {
-                                label: $scope.roundPlaces(s.row.x,2) + " => ",
+                                label: s.series.label + " - ", //$scope.roundPlaces(s.row.x,2) + " => ",
                                 value: "$ " + $scope.roundPlaces(s.row.y1,2),
                                 color: s.series.color
                             }
