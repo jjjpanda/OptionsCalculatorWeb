@@ -129,11 +129,44 @@ getChain: function (apikey, ticker, expiration, index, callback){
             callback({'error':error, 'response':response.statusCode});
         }
       });
+},
+
+getStockHistoricalData: function(apikey, ticker, callback){
+    request({
+        method: 'get',
+        url: 'https://sandbox.tradier.com/v1/markets/history',
+        qs: {
+           'symbol': ticker,
+           'interval': 'daily',
+           'start':getDateFromYearsAgo(1),
+           'end': getDateFromYearsAgo(0)
+        },
+        headers: {
+          'Authorization': 'Bearer '+ apikey,
+          'Accept': 'application/json'
+        }
+        }, 
+        (error, response, body) => {
+          console.log(response.statusCode);
+          console.log(body);
+          body = JSON.parse(body)
+          if(body != undefined || body.history || undefined){
+            callback(body.history.day)
+          }
+        }
+    );
 }
+
 };
 
 function zip(arrays) {
     return Array.apply(null,Array(arrays[0].length)).map(function(_,i){
         return arrays.map(function(array){return array[i]})
     });
+}
+
+getDateFromYearsAgo = (n)=>{
+    d = new Date()
+    console.log((d.getFullYear() - n) + "-"+ ("0" + (d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2))
+    return (d.getFullYear() - n) + "-"+ ("0" + (d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2)
 }

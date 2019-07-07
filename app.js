@@ -38,6 +38,13 @@ app.post('/chain', function(req, res){
     });
 })
 
+app.post('/historical', function(req, res){
+    var ticker = req.body.ticker
+    realTimeOptions.getStockHistoricalData(key, ticker, function(data){
+        res.json(data);
+    });
+})
+
 app.listen(port, () => console.log("Server running at http://localhost:%d", port));
 
 

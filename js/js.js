@@ -54,6 +54,9 @@ app.controller("appController", function($scope, $timeout){
             });
             if(showLoadingIcon) {$scope.loadIconStart()} 
             $scope.stock.tickerChangedForStock = false;
+            $.post('/historical', {ticker: $scope.stock.tickerSymbol}, function(data){
+                console.log(data)
+            })
         } 
     }
     
