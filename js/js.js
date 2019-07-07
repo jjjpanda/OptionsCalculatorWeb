@@ -20,7 +20,7 @@ function objectToMap(object){
 var app = angular.module("angApp", ['n3-line-chart']);
 app.controller("appController", function($scope, $timeout){
 
-    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChangedForStock": false, "tickerChangedForOption": false}
+    $scope.stock = {'ticker':'','price':'', 'historical':[], 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChangedForStock": false, "tickerChangedForOption": false}
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":15}
     $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false, "profitTable2":false, "profitChart":false, "profitChart2":false,"optionsStrategyInfo":false}
     $scope.selectedOptions = []
@@ -28,6 +28,31 @@ app.controller("appController", function($scope, $timeout){
     $scope.rangeOfPrices = []
     $scope.dataForChart = {}
     $scope.lineChartOptions = {}
+    $scope.stockChartOptions = {
+        series: [{
+            axis: "y",
+            dataset: "dataset",
+            key: "close",
+            label: "Stock Price",
+            color: '#ffffff',
+            defined: function(value) {
+                return value != undefined || value.y != undefined;
+            },
+            type: ['line'],
+            id: 'stockHistorical'
+        }],
+        axes: {x: {key: "date", ticks: "dataset".length, type: 'date'
+        },  y: {key: 'close', interpolation: { mode: "bundle", tension: 0.7}, 
+                tickFormat: (value) => {
+                return "$"+$scope.roundPlaces(value,2)
+            }
+        }},
+        grid: {
+            x: false,
+            y: false
+        }
+    };
+    
 
     $scope.loadIconStart = () => {
         $scope.display.loadingIcon = true;
@@ -55,7 +80,9 @@ app.controller("appController", function($scope, $timeout){
             if(showLoadingIcon) {$scope.loadIconStart()} 
             $scope.stock.tickerChangedForStock = false;
             $.post('/historical', {ticker: $scope.stock.tickerSymbol}, function(data){
-                console.log(data)
+                //console.log(data)
+                $scope.stock.historical.dataset = data.map(x=> x.date = expiryConvertToDate(x.date))
+                console.log($scope.stock.historical)
             })
         } 
     }
