@@ -17,8 +17,8 @@
 <body>
 <div ng-app="myApp" ng-controller="appController">
 
-    <div class="middleDiv fade" ng-show="!display.click"> 
-        <img class="cycle slow" src="/img/logo.png" id="logo" ng-click="clickMiddleIcon()" draggable="false"/>
+    <div class="middleDiv fade" ng-show="!display.click" ng-mouseover = "adjustSpin()"> 
+        <img ng-class= "display.icon" src="/img/logo.png" id="logo" ng-click="clickMiddleIcon()" draggable="false"/>
     </div>
     <div class='middleDiv' ng-show="display.click">
         <button ng-click="redirectTo('/opc')">CALC</button>
@@ -35,11 +35,15 @@
     app.controller('appController', function($scope) {
         $scope.display = {}
         $scope.display.click = false;
+        $scope.display.icon = '';
         $scope.clickMiddleIcon = () => {
             $scope.display.click = !$scope.display.click
         }
         $scope.redirectTo = (data) => {
             window.location.href = data
+        }
+        $scope.adjustSpin = () => {
+            $scope.display.icon = 'spin slow'
         }
     });
 </script>

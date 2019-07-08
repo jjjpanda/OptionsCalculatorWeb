@@ -28,7 +28,9 @@ app.controller("appController", function($scope, $timeout){
     $scope.dataForChart = {}
     $scope.lineChartOptions = {}
 
-    
+    $scope.redirectTo = (data) => {
+        window.location.href = data
+    }
     
     $scope.loadIconStart = () => {
         $scope.display.loadingIcon = true;

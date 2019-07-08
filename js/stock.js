@@ -4,6 +4,10 @@ app.controller("appController", function($scope){
     $scope.stock = {'ticker':'','price':'', 'historical':[], 'percentChange':'', "tickerChangedForStock": false}
     $scope.display = {'loadingIcon':false}
 
+    $scope.redirectTo = (data) => {
+        window.location.href = data
+    }
+
     $scope.loadIconStart = () => {
         $scope.display.loadingIcon = true;
     }
