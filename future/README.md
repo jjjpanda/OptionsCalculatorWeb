@@ -8,4 +8,7 @@ Fixes and Updates Necessary:
 -add volume to options selection \
 -enter to click \
 -remove saved input in stock symbol \
--cost of strategy credit debit specification
+-cost of strategy credit debit specification \
+-index page vs tab view \
+-change buttons \
+
