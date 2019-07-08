@@ -78,6 +78,10 @@ button{
     height:10%
 }
 
+#loadingIcon{
+    height:5%
+}
+
 @keyframes cycle {
     0%, 50%, 100% {
     animation-timing-function: cubic-bezier(0.5, 0.5, 0.5, 0.5);
@@ -157,15 +161,7 @@ button{
     animation: spin 2s infinite;
 }
 
-#loadingIcon{
-    height:7%;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
+
 
 
 
@@ -291,7 +287,7 @@ a{
     color: white;
 }
 
-.modal {
+#optionsModal {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 100px; /* Location of the box */

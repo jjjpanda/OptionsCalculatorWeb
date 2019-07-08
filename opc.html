@@ -59,6 +59,8 @@
             <label for="stockPercentChange">Percent Change</label>
             <input type='text' class = "text" id="stockPercentChange" value = '{{stock.percentChange}}' readonly> %
         </div> 
+
+        <img src="/img/logo.png" class="cycle slow" id = "loadingIcon" ng-show = "display.loadingIcon"/>
         
     </div>
     <br/>
@@ -169,7 +171,7 @@
     <!--MODALS-->
 
     <!--OPTIONS SELECTION MODAL-->
-    <div class = "modal" ng-show="display.optionsSelection">
+    <div id = "optionsModal" ng-show="display.optionsSelection">
         <div id = "optionsSelection" >
             <span id="closeModal" ng-click="closeModal()">&times;</span>
             <div ng-repeat="expiry in chains" class = 'chain'>
@@ -200,11 +202,6 @@
                 </table>
             </div>
         </div>
-    </div>
-
-    <!--LOADING MODAL-->
-    <div class = "modal" ng-show = "display.loadingIcon">
-        <img src="/img/logo.png" class="cycle slow" id = "loadingIcon"/>
     </div>
 
 </div>
