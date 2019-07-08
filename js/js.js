@@ -115,7 +115,7 @@ app.controller("appController", function($scope, $timeout){
         }
     }
 
-    $scope.selectOption = ($event, price, strike, expiry, isCall) => {
+    $scope.selectOption = (price, strike, expiry, isCall) => {
         var option = {}
         option.price = parseFloat(price)
         option.boughtAt = parseFloat(price)
