@@ -1,4 +1,3 @@
-const loadingIcon = "#loadingIcon"
 var currentBiggestID = 0
 
 function mapToObject(map) {
@@ -20,7 +19,7 @@ function objectToMap(object){
 var app = angular.module("angApp", ['n3-line-chart']);
 app.controller("appController", function($scope, $timeout){
 
-    $scope.stock = {'ticker':'','price':'', 'historical':[], 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChangedForStock": false, "tickerChangedForOption": false}
+    $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChangedForStock": false, "tickerChangedForOption": false}
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":15}
     $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false, "profitTable2":false, "profitChart":false, "profitChart2":false,"optionsStrategyInfo":false}
     $scope.selectedOptions = []
@@ -29,60 +28,7 @@ app.controller("appController", function($scope, $timeout){
     $scope.dataForChart = {}
     $scope.lineChartOptions = {}
 
-    $scope.stockChartOptions = {
-        series: [{
-            axis: "y",
-            dataset: "dataset",
-            key: "close",
-            label: "Price",
-            color: '#ffffff',
-            type: ['line'],
-            id: 'priceHistorical',
-            visible: false
-        },{
-            axis: "y2",
-            dataset: "dataset",
-            key: "volume",
-            label: "Volume",
-            color: '#aaaabb',
-            type: ['column'],
-            id: 'volumeHistorical',
-            visible: false
-        }],
-        axes: {x: {key: "date", ticks: "dataset".length, type: 'date'
-        },  y: {key: 'close', 
-                tickFormat: (value) => {
-                return "$"+ value
-        }},
-        y2: {key:'volume', tickFormat: (value) => {
-            return ""
-        }   
-        }},
-        tooltipHook: function(d){
-            if(d == undefined){ return }
-            return {
-              abscissas: "",
-              rows:  d.map(function(s){
-                if(s.series.label == 'Volume'){
-                    return {
-                        label: s.series.label + ": " + dateToString(s.row.x) + " -",
-                        value: s.row.y1,
-                        color: s.series.color
-                    }
-                }
-                return {
-                  label: s.series.label + ": " + dateToString(s.row.x) + " -",
-                  value: '$ '+$scope.roundPlaces(s.row.y1,2),
-                  color: s.series.color
-                }
-              })
-            }
-        },
-        grid: {
-            x: false,
-            y: false
-        }
-    };
+    
     
     $scope.loadIconStart = () => {
         $scope.display.loadingIcon = true;
@@ -109,29 +55,6 @@ app.controller("appController", function($scope, $timeout){
             });
             if(showLoadingIcon) {$scope.loadIconStart()} 
             $scope.stock.tickerChangedForStock = false;
-            $.post('/historical', {ticker: $scope.stock.tickerSymbol}, function(data){
-                console.log(data)
-                $scope.stock.historical.dataset = data.map(x=> { return {date: expiryConvertToDate(x.date), close: x.close, volume:x.volume} })
-                console.log($scope.stock.historical)
-            }).then($scope.stockChartOptions.series = [{
-                    axis: "y",
-                    dataset: "dataset",
-                    key: "close",
-                    label: "Price",
-                    color: '#ffffff',
-                    type: ['line'],
-                    id: 'priceHistorical',
-                    visible: false
-                },{
-                    axis: "y2",
-                    dataset: "dataset",
-                    key: "volume",
-                    label: "Volume",
-                    color: '#6988ee',
-                    type: ['column'],
-                    id: 'volumeHistorical',
-                    visible: false
-                }])
         } 
     }
     

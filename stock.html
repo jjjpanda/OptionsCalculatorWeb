@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.77">
+
+    <title>Options Calculator</title>
+
+    <link rel="icon" href="/img/logo.png"></link>
+
+    <script src="/jsLib/jQuerySavedCDN.js"></script>
+    <script src="/jsLib/angularSavedCDN.js"></script>
+    <script src="/jsLib/d3.min.js"></script>
+    <script src="/jsLib/LineChart.min.js"></script>
+
+    <link rel="stylesheet" href="/css/LineChart.css"></link>
+    <link rel="stylesheet" href="/css/css.css"></link>
+
+    <script src="/js/timeLibrary.js"></script>
+    
+</head>
+
+<body>
+<div ng-app="angApp" ng-controller="appController">
+
+    <!--LOGO-->
+    <span> 
+        <img src="/img/logo.png" id="logo"/>
+    </span>
+    <hr style="height:5px;border:none;color:#333;background-color:#333;"/>
+
+    <!--TOP ROW-->
+    <div id="topRow">
+
+        <div id="ticker-div">
+            <label for="ticker">Symbol</label>
+            <input type = "text" id = "ticker" ng-model="stock.tickerSymbol" ng-change="stock.tickerChangedForStock = true;">
+        </div>
+
+        <button type = "button" id="submitTicker" ng-click="getPrice(true)">Get Price</button>
+
+        <div class="text-div">
+            <label for="stockPrice">Price</label>
+            <input type='text' class = "text" id ="stockPrice" value = '{{stock.price}}' readonly>
+        </div>
+
+        <div class="text-div">
+            <label for="stockPercentChange">Percent Change</label>
+            <input type='text' class = "text" id="stockPercentChange" value = '{{stock.percentChange}}' readonly> %
+        </div> 
+
+        <img src="/img/logo.png" class="cycle slow" id = "loadingIcon" ng-show = "display.loadingIcon"/>
+        
+    </div>
+
+    <!--STOCK CHART-->
+    <div class="my-chart">
+        <linechart data="stock.historical" options="stockChartOptions"></linechart>
+    </div>
+
+</div>
+<script src="/js/stock.js"></script>
+</body>
+</html>

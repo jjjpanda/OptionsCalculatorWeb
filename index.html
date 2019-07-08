@@ -15,15 +15,15 @@
 </head>
 
 <body>
-<div ng-app="myApp" ng-controller="customersCtrl">
+<div ng-app="myApp" ng-controller="appController">
 
     <div class="middleDiv fade" ng-show="!display.click"> 
         <img class="cycle slow" src="/img/logo.png" id="logo" ng-click="clickMiddleIcon()" draggable="false"/>
     </div>
     <div class='middleDiv' ng-show="display.click">
-        <button ng-click="directToCalculator()">CALC</button>
+        <button ng-click="redirectTo('/opc')">CALC</button>
         <br/>
-        <button>BRUH</button>
+        <button ng-click="redirectTo('/stock')">STONK</button>
         <br/>
         <button>BRUH</button>
         <br/>
@@ -32,14 +32,14 @@
 </div>
 <script>
     var app = angular.module('myApp', ['ngAnimate']);
-    app.controller('customersCtrl', function($scope) {
+    app.controller('appController', function($scope) {
         $scope.display = {}
         $scope.display.click = false;
         $scope.clickMiddleIcon = () => {
             $scope.display.click = !$scope.display.click
         }
-        $scope.directToCalculator = () => {
-            window.location.href = '/opc'
+        $scope.redirectTo = (data) => {
+            window.location.href = data
         }
     });
 </script>
