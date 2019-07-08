@@ -23,9 +23,7 @@ app.use('/img', exp.static(path.join(__dirname, '/img')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
 
-app.post('/redirectToCalculator', function(res){
-    res.redirect(path.join(__dirname, 'opc.html'))
-})
+app.get('/opc', (req, res) => res.sendFile(path.join(__dirname, 'opc.html')))
 
 app.post('/price', function(req, res){
     var ticker = req.body.ticker

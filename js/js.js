@@ -37,15 +37,17 @@ app.controller("appController", function($scope, $timeout){
             label: "Price",
             color: '#ffffff',
             type: ['line'],
-            id: 'priceHistorical'
+            id: 'priceHistorical',
+            visible: false
         },{
             axis: "y2",
             dataset: "dataset",
             key: "volume",
             label: "Volume",
-            color: '#6988ee',
+            color: '#aaaabb',
             type: ['column'],
-            id: 'volumeHistorical'
+            id: 'volumeHistorical',
+            visible: false
         }],
         axes: {x: {key: "date", ticks: "dataset".length, type: 'date'
         },  y: {key: 'close', 
@@ -111,7 +113,25 @@ app.controller("appController", function($scope, $timeout){
                 console.log(data)
                 $scope.stock.historical.dataset = data.map(x=> { return {date: expiryConvertToDate(x.date), close: x.close, volume:x.volume} })
                 console.log($scope.stock.historical)
-            })
+            }).then($scope.stockChartOptions.series = [{
+                    axis: "y",
+                    dataset: "dataset",
+                    key: "close",
+                    label: "Price",
+                    color: '#ffffff',
+                    type: ['line'],
+                    id: 'priceHistorical',
+                    visible: false
+                },{
+                    axis: "y2",
+                    dataset: "dataset",
+                    key: "volume",
+                    label: "Volume",
+                    color: '#6988ee',
+                    type: ['column'],
+                    id: 'volumeHistorical',
+                    visible: false
+                }])
         } 
     }
     

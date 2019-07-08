@@ -65,6 +65,11 @@
     </div>
     <br/>
 
+    <!--STOCK CHART-->
+    <div class="my-chart">
+        <linechart data="stock.historical" options="stockChartOptions"></linechart>
+    </div>
+
     <!--SELECTED OPTIONS-->
     <div id = "selectedOptions">
         <div ng-repeat="option in selectedOptions">
@@ -165,10 +170,6 @@
 
     </div>
     <br/>
-
-    <div class="my-chart">
-        <linechart data="stock.historical" options="stockChartOptions"></linechart>
-    </div>
     
     <!--MODALS-->
 

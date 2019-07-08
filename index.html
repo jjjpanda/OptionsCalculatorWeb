@@ -39,7 +39,7 @@
             $scope.display.click = !$scope.display.click
         }
         $scope.directToCalculator = () => {
-            $.post('/redirectToCalculator')
+            window.location.href = '/opc'
         }
     });
 </script>
