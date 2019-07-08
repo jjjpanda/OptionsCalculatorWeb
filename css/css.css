@@ -83,16 +83,16 @@ button{
     animation-timing-function: cubic-bezier(0.5, 0.5, 0.5, 0.5);
     }
     0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
+    -webkit-transform: translate(-50%, -50%) rotate(0);
+    transform: translate(-50%, -50%) rotate(0);
     }
     50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
+    -webkit-transform: translate(-50%, -50%) rotate(180deg);
+    transform: translate(-50%, -50%) rotate(180deg);
     }
     100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 @-webkit-keyframes cycle {
@@ -100,16 +100,16 @@ button{
     animation-timing-function: cubic-bezier(0.5, 0.5, 0.5, 0.5);
     }
     0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
+    -webkit-transform: translate(-50%, -50%) rotate(0);
+    transform: translate(-50%, -50%) rotate(0);
     }
     50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
+    -webkit-transform: translate(-50%, -50%) rotate(180deg);
+    transform: translate(-50%, -50%) rotate(180deg);
     }
     100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 .cycle {
@@ -122,34 +122,34 @@ button{
 }
 @keyframes spin {
     0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
+    -webkit-transform: translate(-50%, -50%) rotate(0) ;
+    transform: translate(-50%, -50%) rotate(0) ;
     animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
     }
     50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
+    -webkit-transform: translate(-50%, -50%) rotate(180deg) ;
+    transform: translate(-50%, -50%) rotate(180deg) ;
     animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     }
     100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+    -webkit-transform: translate(-50%, -50%) rotate(360deg) ;
+    transform: translate(-50%, -50%) rotate(360deg) ;
     }
 }
 @-webkit-keyframes spin {
     0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
+    -webkit-transform: translate(-50%, -50%) rotate(0) ;
+    transform: translate(-50%, -50%) rotate(0) ;
     animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
     }
     50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
+    -webkit-transform: translate(-50%, -50%) rotate(180deg) ;
+    transform: translate(-50%, -50%) rotate(180deg) ;
     animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     }
     100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+    -webkit-transform: translate(-50%, -50%) rotate(360deg) ;
+    transform: translate(-50%, -50%) rotate(360deg) ;
     }
 }
 .spin {
@@ -160,11 +160,9 @@ button{
 #loadingIcon{
     height:7%;
     margin: 0;
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
 }
 
 
