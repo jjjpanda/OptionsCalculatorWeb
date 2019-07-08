@@ -14,3 +14,4 @@ Fixes and Updates Necessary:
 -freeze leftmost column of profit charts \
 -show stock chart without visible false tag \
 -add years input for historical chart maybe date input \
+-fix x axis for historical data, just show month \
