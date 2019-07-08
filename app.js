@@ -25,6 +25,8 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
 
 app.get('/opc', (req, res) => res.sendFile(path.join(__dirname, 'opc.html')))
 
+app.get('/stock', (req, res) => res.sendFile(path.join(__dirname, 'stock.html')))
+
 app.post('/price', function(req, res){
     var ticker = req.body.ticker
     //res.json({"test": "test"});
