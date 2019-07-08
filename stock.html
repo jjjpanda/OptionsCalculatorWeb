@@ -35,8 +35,6 @@
             <input type = "text" id = "ticker" ng-model="stock.tickerSymbol" ng-change="stock.tickerChangedForStock = true;">
         </div>
 
-        <button type = "button" id="submitTicker" ng-click="getPrice(true)">Get Price</button>
-
         <div class="text-div">
             <label for="stockPrice">Price</label>
             <input type='text' class = "text" id ="stockPrice" value = '{{stock.price}}' readonly>
@@ -46,6 +44,8 @@
             <label for="stockPercentChange">Percent Change</label>
             <input type='text' class = "text" id="stockPercentChange" value = '{{stock.percentChange}}' readonly> %
         </div> 
+
+        <button type = "button" id="submitTicker" ng-click="getPrice(true)">Get Price</button>
 
         <img src="/img/logo.png" class="cycle slow" id = "loadingIcon" ng-show = "display.loadingIcon"/>
         
