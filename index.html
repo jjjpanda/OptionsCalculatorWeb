@@ -18,12 +18,15 @@
 <div ng-app="myApp" ng-controller="customersCtrl">
 
     <div class="middleDiv fade" ng-show="!display.click"> 
-        <img class="cycle slow" src="/img/logo.png" id="logo" ng-click="clickMiddleIcon()"/>
+        <img class="cycle slow" src="/img/logo.png" id="logo" ng-click="clickMiddleIcon()" draggable="false"/>
     </div>
     <div class='middleDiv' ng-show="display.click">
+        <button ng-click="directToCalculator()">CALC</button>
+        <br/>
         <button>BRUH</button>
+        <br/>
         <button>BRUH</button>
-        <button>BRUH</button>
+        <br/>
     </div>
 
 </div>
@@ -34,6 +37,9 @@
         $scope.display.click = false;
         $scope.clickMiddleIcon = () => {
             $scope.display.click = !$scope.display.click
+        }
+        $scope.directToCalculator = () => {
+            $.post('/redirectToCalculator')
         }
     });
 </script>
