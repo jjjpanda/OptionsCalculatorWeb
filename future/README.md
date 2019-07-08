@@ -4,6 +4,7 @@ Fixes and Updates Necessary:
 
 -stock not found handling \
 -options not found handling \
+-iv not calculated handling \
 -iv skew modal \
 -add volume to options selection \
 -enter to click \

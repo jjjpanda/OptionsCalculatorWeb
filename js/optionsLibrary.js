@@ -110,6 +110,7 @@ function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYi
     var iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying
     var priceOfOptionTheoretical, vega;
     priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true,  r, divYield, iv)
+    stopTrying = 0
     while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000005){
         if(loss(priceOfOption, priceOfOptionTheoretical) > priceOfOption / 10){
             if (priceOfOption > priceOfOptionTheoretical)
@@ -126,6 +127,11 @@ function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYi
             iv = iv + (loss(priceOfOption, priceOfOptionTheoretical) / vega)
         }
         priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv)
+        stopTrying++
+        if(stopTrying > 50){
+            iv = -1
+            break;   
+        }
     }
     if (iv < 0){
         return -1 //INVALID ID
