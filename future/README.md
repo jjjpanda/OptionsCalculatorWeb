@@ -11,4 +11,6 @@ Fixes and Updates Necessary:
 -cost of strategy credit debit specification \
 -index page vs tab view \
 -change buttons \
-
+-freeze leftmost column of profit charts \
+-show stock chart without visible false tag \
+-add years input for historical chart maybe date input \
