@@ -47,13 +47,17 @@
             <input type='text' class = "text" id="stockPercentChange" value = '{{stock.percentChange}}' readonly> %
         </div> 
 
-        <img src="/img/logo.png" class="cycle slow" id = "loadingIcon" ng-show = "display.loadingIcon"/>
         
     </div>
 
     <!--STOCK CHART-->
     <div class="my-chart">
         <linechart data="stock.historical" options="stockChartOptions"></linechart>
+    </div>
+
+    <!--LOADING MODAL-->
+    <div class = "modal" ng-show = "display.loadingIcon">
+        <img src="/img/logo.png" class="cycle slow" id = "loadingIcon"/>
     </div>
 
 </div>
