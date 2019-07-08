@@ -1,1 +1,42 @@
-s
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.77">
+
+    <title>Options Calculator</title>
+
+    <link rel="icon" href="/img/logo.png"></link>
+
+    <script src="/jsLib/jQuerySavedCDN.js"></script>
+    <script src="/jsLib/angularSavedCDN.js"></script>
+    <script src="/jsLib/animateCDN.js"></script>
+
+    <link rel="stylesheet" href="/css/css.css"></link>
+    
+</head>
+
+<body>
+<div ng-app="myApp" ng-controller="customersCtrl">
+
+    <div class="middleDiv fade" ng-show="!display.click"> 
+        <img class="cycle slow" src="/img/logo.png" id="logo" ng-click="clickMiddleIcon()"/>
+    </div>
+    <div class='middleDiv' ng-show="display.click">
+        <button>BRUH</button>
+        <button>BRUH</button>
+        <button>BRUH</button>
+    </div>
+
+</div>
+<script>
+    var app = angular.module('myApp', ['ngAnimate']);
+    app.controller('customersCtrl', function($scope) {
+        $scope.display = {}
+        $scope.display.click = false;
+        $scope.clickMiddleIcon = () => {
+            $scope.display.click = !$scope.display.click
+        }
+    });
+</script>
+
+</body>
+</html>

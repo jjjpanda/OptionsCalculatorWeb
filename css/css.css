@@ -22,6 +22,58 @@ button{
 
 
 
+
+
+
+
+
+
+.middleDiv{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+
+
+
+
+
+
+
+
+
+
+.fade.ng-hide {
+    opacity: 0;
+}
+
+.fade.ng-hide-remove,
+.fade.ng-hide-add {
+    display: block !important; /* or inline-block, as appropriate */
+}
+
+.fade.ng-hide-remove {
+    transition: all linear 1000ms;
+}
+
+.fade.ng-hide-add {
+    transition: all linear 500ms;
+}
+
+
+
+
+
+
+
+
+
+
+
 #logo{
     height:10%
 }
@@ -67,6 +119,10 @@ button{
 .cycle {
     -webkit-animation: cycle 1.5s infinite linear;
     animation: cycle 1.5s infinite linear;
+}
+.slow{
+    -webkit-animation: cycle 3s infinite linear;
+    animation: cycle 3s infinite linear;
 }
 @keyframes spin {
     0% {
