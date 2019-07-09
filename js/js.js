@@ -113,6 +113,18 @@ app.controller("appController", function($scope, $timeout){
                         return y    
                     })]
                 })
+                $scope.ivSkewCallsChartOptions.symbols = [{
+                    type: 'vline',
+                    value: $scope.stock.price,
+                    color: 'rgb(255,255,255)',
+                    axis: 'x'
+                }]
+                $scope.ivSkewPutsChartOptions.symbols = [{
+                    type: 'vline',
+                    value: $scope.stock.price,
+                    color: 'rgb(255,255,255)',
+                    axis: 'x'
+                }]
                 $scope.collapseAllExpiries()
                 $scope.loadIconStop()
                 lastOptionsLoad = new Date()

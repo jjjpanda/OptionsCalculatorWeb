@@ -144,6 +144,16 @@ function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, divYield
 //IV and Price
 function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYield){
     var iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying
+    if((isCall ? priceOfOption + strike < priceUnderlying : priceOfOption - strike < priceUnderlying) || (isCall ? strike/priceUnderlying < 0.66 : strike/priceUnderlying > 1.5)){
+        if(isCall){
+            d = cndfInv(0.999/(Math.exp(-divYield * t)))
+        }
+        else if(!isCall){
+            d = cndfInv(-0.999/(Math.exp(-divYield * t)) + 1)
+        }
+        console.log('bruh')
+        return Math.abs((Math.sqrt(t*(2*Math.log(priceUnderlying/priceOfOption) + Math.pow(d,2) - 2*divYield*t + 2*r*t))-d*Math.sqrt(t))/t)
+    }
     var priceOfOptionTheoretical, vega;
     priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true,  r, divYield, iv)
     stopTrying = 0
@@ -165,16 +175,7 @@ function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYi
         priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv)
         stopTrying++
         if(stopTrying > 50){
-            if((isCall ? priceOfOption + strike < priceUnderlying : priceOfOption - strike > priceUnderlying)){
-                if(isCall){
-                    d = cndfInv(0.999/(Math.exp(-divYield * t)))
-                }
-                else if(!isCall){
-                    d = cndfInv(-0.999/(Math.exp(-divYield * t)) + 1)
-                }
-                console.log('bruh')
-                iv = Math.abs((Math.sqrt(t*(2*Math.log(priceUnderlying/priceOfOption) + Math.pow(d,2) - 2*divYield*t + 2*r*t))-d*Math.sqrt(t))/t)
-            }
+            iv = -1
             break;   
         }
     }
