@@ -5,7 +5,6 @@ Fixes and Updates Necessary:
 -stock not found handling \
 -options not found handling \
 -iv not calculated handling \
--iv skew modal \
 -add volume to options selection \
 -enter to click \
 -remove saved input in stock symbol \
@@ -15,5 +14,5 @@ Fixes and Updates Necessary:
 -show stock chart without visible false tag \
 -add years input for historical chart maybe date input \
 -fix x axis for historical data, just show month \
--fix massive amounts of duplicate code \
+-fix massive amounts of duplicate code THIS OMG PLS \
 -index page vs tab view which follows up on above
