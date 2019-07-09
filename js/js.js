@@ -227,8 +227,8 @@ app.controller("appController", function($scope, $timeout){
 
     $scope.fillRangeOfPrices = () => {
         $scope.rangeOfPrices = []
-        min = $scope.stock.price/Math.pow(1+($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
-        max = $scope.stock.price*Math.pow(1+($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
+        min = $scope.stock.price*Math.pow(1-($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
+        max = $scope.stock.price/Math.pow(1-($scope.submitDetails.percentInterval/100), Math.floor($scope.submitDetails.numberOfIntervals/2))
         for(i = min; i < max * (1+($scope.submitDetails.percentInterval/200)); i *= (1+($scope.submitDetails.percentInterval/100))){
             $scope.rangeOfPrices.push([i, 0])
         }

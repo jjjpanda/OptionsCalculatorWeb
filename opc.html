@@ -144,7 +144,7 @@
                 <th ng-repeat="day in mergedOptions.profit"><a>{{day[0]}}</a></th>
             </thead>
             <tbody>
-                <tr ng-repeat="price in mergedOptions.profit[0][1] | orderBy:'-'">
+                <tr ng-repeat="price in mergedOptions.profit[0][1] | orderBy:'parseInt()':'-'">
                     <td><a>{{roundPlaces(price[0],2)}}</a></td>
                     <td ng-repeat="day in mergedOptions.profit" ng-style="{'border':mergedOptions.percentProfit[$index][1][rangeOfPrices.length - $parent.$index -1 ][2]}"><a>{{roundPlaces(day[1][rangeOfPrices.length - $parent.$index - 1][1],2)}}</a></td>
                 </tr>
@@ -162,7 +162,7 @@
             <tbody>
                 <tr ng-repeat="day in mergedOptions.profit">
                     <td><a>{{day[0]}}</a></td>
-                    <td ng-repeat="price in mergedOptions.profit[0][1]" ng-style="{'border':mergedOptions.percentProfit[$parent.$index][1][$index][2]}"><a>{{roundPlaces(day[1][$index][1],2)}}</a></td>
+                    <td ng-repeat="price in mergedOptions.profit[0][1] | orderBy:'+'" ng-style="{'border':mergedOptions.percentProfit[$parent.$index][1][$index][2]}"><a>{{roundPlaces(day[1][$index][1],2)}}</a></td>
                 </tr>
             </tbody>
         </table>
