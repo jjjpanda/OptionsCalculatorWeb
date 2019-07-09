@@ -287,7 +287,7 @@ a{
     color: white;
 }
 
-#optionsModal {
+.modal {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 100px; /* Location of the box */
@@ -300,7 +300,7 @@ a{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#optionsSelection{
+#optionsSelection, #ivSkew{
     background-color: black;
     margin: auto;
     overflow: auto;
@@ -310,14 +310,14 @@ a{
     width: 80%;
 }
 
-#closeModal {
+.closeModal {
     color: #aaaaaa;
     float: right;
     font-size: 50px;
     font-weight: bold;
 }
 
-#closeModal:hover, #closeModal:focus {
+.closeModal:hover, .closeModal:focus {
   color: red;
   text-decoration: none;
   cursor: pointer;

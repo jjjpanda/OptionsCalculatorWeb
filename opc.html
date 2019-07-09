@@ -91,6 +91,8 @@
 
     <!--SUBMIT OPTIONS-->
     <div id = "submitRow">
+        <button type="button" id = "displayIVSkew" ng-click="displayIVSkewModal()">IV SKEW</button>
+
         <button type="button" id = "addLeg" ng-click="addLeg()">ADD LEG</button>
        
         <button type="button" id = "calculateOptions" ng-click="displayProfit()">CALCULATE</button>
@@ -171,9 +173,9 @@
     <!--MODALS-->
 
     <!--OPTIONS SELECTION MODAL-->
-    <div id = "optionsModal" ng-show="display.optionsSelection">
+    <div class = "modal" ng-show="display.optionsSelection">
         <div id = "optionsSelection" >
-            <span id="closeModal" ng-click="closeModal()">&times;</span>
+            <span class="closeModal" ng-click="closeSelectionModal()">&times;</span>
             <div ng-repeat="expiry in chains" class = 'chain'>
                 <button class="collapse" ng-click = "expandExpiry(expiry[0])">{{expiry[0]}}</button>
                 <table class="collapseContent" ng-show="display.expandedExpiries[expiry[0]]"> 
@@ -190,13 +192,37 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="option in expiry[1]" class="{{option.strike}}">
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true)">{{roundPlaces(option.callBid, 2)}}</a></td>
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true)">{{roundPlaces(option.call, 2)}}</a></td>
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true)">{{roundPlaces(option.callAsk, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true, option.callIV)">{{roundPlaces(option.callBid, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true, option.callIV)">{{roundPlaces(option.call, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true, option.callIV)">{{roundPlaces(option.callAsk, 2)}}</a></td>
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.strike}}</a></td>
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false)">{{roundPlaces(option.putBid, 2)}}</a></td>
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false)">{{roundPlaces(option.put, 2)}}</a></td>
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false)">{{roundPlaces(option.putAsk, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false, option.putIV)">{{roundPlaces(option.putBid, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false, option.putIV)">{{roundPlaces(option.put, 2)}}</a></td>
+                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false, option.putIV)">{{roundPlaces(option.putAsk, 2)}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!--OPTIONS IV SKEW MODAL-->
+    <div class = "modal" ng-show="display.ivSkew">
+        <div id = "ivSkew" >
+            <span class="closeModal" ng-click="closeIVSkewModal()">&times;</span>
+            <div ng-repeat="expiry in chains" class = 'chain'>
+                <button class="collapse" ng-click = "expandExpiry(expiry[0])">{{expiry[0]}}</button>
+                <table class="collapseContent" ng-show="display.expandedExpiries[expiry[0]]"> 
+                    <thead>
+                        <tr>
+                            <th>Call</th>
+                            <th>Put</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><linechart class = "hideLegend" data="{'d':expiry[1]}" options="ivSkewCallsChartOptions"></linechart></td>
+                            <td><linechart class = "hideLegend" data="{'d':expiry[1]}" options="ivSkewPutsChartOptions"></linechart></td>
                         </tr>
                     </tbody>
                 </table>

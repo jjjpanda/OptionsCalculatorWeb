@@ -21,12 +21,49 @@ app.controller("appController", function($scope, $timeout){
 
     $scope.stock = {'ticker':'','price':'', 'percentChange':'', 'divYield':0, 'freeRate':0, "tickerChangedForStock": false, "tickerChangedForOption": false}
     $scope.submitDetails = {'percentInterval':1, "numberOfIntervals":15}
-    $scope.display = {"loadingIcon":false, "optionsSelection":false, "expandedExpiries":{}, "profitTable":false, "profitTable2":false, "profitChart":false, "profitChart2":false,"optionsStrategyInfo":false}
+    $scope.display = {"loadingIcon":false, "optionsSelection":false, 'ivSkew': false, "expandedExpiries":{}, "profitTable":false, "profitTable2":false, "profitChart":false, "profitChart2":false,"optionsStrategyInfo":false}
     $scope.selectedOptions = []
     $scope.mergedOptions = {}
     $scope.rangeOfPrices = []
     $scope.dataForChart = {}
     $scope.lineChartOptions = {}
+
+    $scope.ivSkewCallsChartOptions = {
+        series: [{
+            axis: "y",
+            dataset: "d",
+            key: "callIV",
+            label: "IV",
+            color: '#aaaabb',
+            type: ['line', 'dot'],
+            id: 'IV'
+        }],
+        axes: {x: {key: "strike"
+        }},
+        tooltipHook: () => {return false;},
+        grid: {
+            x: false,
+            y: false
+        }
+    }
+    $scope.ivSkewPutsChartOptions = {
+        series: [{
+            axis: "y",
+            dataset: "d",
+            key: "putIV",
+            label: "IV",
+            color: '#aaaabb',
+            type: ['line', 'dot'],
+            id: 'IV'
+        }],
+        axes: {x: {key: "strike"
+        }},
+        tooltipHook: () => {return false;},
+        grid: {
+            x: false,
+            y: false
+        }
+    }
 
     $scope.redirectTo = (data) => {
         window.location.href = data
@@ -69,7 +106,13 @@ app.controller("appController", function($scope, $timeout){
                 $scope.loadIconStop()
             }
             else{
-                $scope.chains = data;
+                $scope.chains = data.filter((x)=>{
+                    return [x[0], x[1].map((y)=>{
+                        y['callIV'] = calculateIV(timeTillExpiry(expiryConvertToDate(x[0])), y.call, $scope.stock.price, y.strike, true, $scope.stock.freeRate,$scope.stock.divYield);
+                        y['putIV'] = calculateIV(timeTillExpiry(expiryConvertToDate(x[0])), y.put, $scope.stock.price, y.strike, false, $scope.stock.freeRate,$scope.stock.divYield);
+                        return y    
+                    })]
+                })
                 $scope.collapseAllExpiries()
                 $scope.loadIconStop()
                 lastOptionsLoad = new Date()
@@ -99,6 +142,19 @@ app.controller("appController", function($scope, $timeout){
         }
     }
 
+    $scope.displayIVSkewModal = () => {
+        if($scope.stock.tickerChangedForOption || isNaN(minutesSinceLastOptionsLoad()) || minutesSinceLastOptionsLoad() > 5){
+
+            $scope.getPrice(false)
+            $scope.getOptionsChain(() => {
+                $scope.display.ivSkew = true;
+            })
+        }
+        else{
+            $scope.display.ivSkew = true;
+        }
+    }
+
     $scope.collapseAllExpiries = () => {
         $scope.chains.forEach(x => {
             $scope.display.expandedExpiries[x[0]] = false;
@@ -115,7 +171,7 @@ app.controller("appController", function($scope, $timeout){
         }
     }
 
-    $scope.selectOption = (price, strike, expiry, isCall) => {
+    $scope.selectOption = (price, strike, expiry, isCall, iv) => {
         var option = {}
         option.price = parseFloat(price)
         option.boughtAt = parseFloat(price)
@@ -127,16 +183,20 @@ app.controller("appController", function($scope, $timeout){
         option.isLong = true;
         option.name = expiryToString(option.expiry) + " $" + option.strike + " " + (option.isCall ? "Call" : "Put")
         option.id = currentBiggestID++
-        option.iv = calculateIV(option.timeTillExpiry, option.price, $scope.stock.price, option.strike, option.isCall, $scope.stock.freeRate, $scope.stock.divYield)
+        option.iv = iv
         option.ivEdited = option.iv
 
         console.log(option)
         $scope.selectedOptions.push(option)
-        $scope.closeModal()
+        $scope.closeSelectionModal()
     }
 
-    $scope.closeModal = () => {
+    $scope.closeSelectionModal = () => {
         $scope.display.optionsSelection = false;
+    }
+
+    $scope.closeIVSkewModal = () => {
+        $scope.display.ivSkew = false;
     }
 
     $scope.removeLeg = (id) => {
