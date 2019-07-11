@@ -91,7 +91,7 @@
 
     <!--SUBMIT OPTIONS-->
     <div id = "submitRow">
-        <button type="button" id = "addLeg" ng-click="addLeg()">ADD LEG</button>
+        <button type="button" id = "addLeg" ng-click="addLeg()">&#x2b; ADD LEG</button>
 
         <button type="button" id = "displayIVSkew" ng-click="displayIVSkewModal()">IV SKEW</button>
        
@@ -145,7 +145,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="price in mergedOptions.profit[0][1] | orderBy:'parseInt()':'-'">
-                    <td><a>{{roundPlaces(price[0],2)}}</a></td>
+                    <th><a>{{roundPlaces(price[0],2)}}</a></th>
                     <td ng-repeat="day in mergedOptions.profit" ng-style="{'border':mergedOptions.percentProfit[$index][1][rangeOfPrices.length - $parent.$index -1 ][2]}"><a>{{roundPlaces(day[1][rangeOfPrices.length - $parent.$index - 1][1],2)}}</a></td>
                 </tr>
             </tbody>
@@ -161,7 +161,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="day in mergedOptions.profit">
-                    <td><a>{{day[0]}}</a></td>
+                    <th><a>{{day[0]}}</a></th>
                     <td ng-repeat="price in mergedOptions.profit[0][1] | orderBy:'+'" ng-style="{'border':mergedOptions.percentProfit[$parent.$index][1][$index][2]}"><a>{{roundPlaces(day[1][$index][1],2)}}</a></td>
                 </tr>
             </tbody>
