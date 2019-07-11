@@ -1,7 +1,7 @@
 
-var app = angular.module("angApp", ['n3-line-chart']);
+var app = angular.module("angApp", ['n3-line-chart', 'n3-pie-chart']);
 app.controller("appController", function($scope){
-    $scope.stock = {'ticker':'','price':'', 'historical':[], 'percentChange':'', "tickerChangedForStock": false}
+    $scope.stock = {'ticker':'','price':'', 'historical':[], 'days':[], 'percentChange':'', "tickerChangedForStock": false}
     $scope.display = {'loadingIcon':false}
 
     $scope.redirectTo = (data) => {
@@ -71,6 +71,10 @@ app.controller("appController", function($scope){
         }
     };
 
+    $scope.pieChartOptions = {
+        thickness: 60
+    }
+
     $scope.getPrice = (showLoadingIcon) => {
         if($scope.stock.tickerChangedForStock || isNaN(minutesSinceLastPriceLoad()) || minutesSinceLastPriceLoad() > 5){
             $.post("/price",{ticker: $scope.stock.tickerSymbol}, function(data){
@@ -90,8 +94,24 @@ app.controller("appController", function($scope){
             $.post('/historical', {ticker: $scope.stock.tickerSymbol}, function(data){
                 console.log(data)
                 $scope.stock.historical.dataset = data.map(x=> { return {date: expiryConvertToDate(x.date), close: x.close, volume:x.volume} })
+                daysUp = 0;
+                daysDown = 0;
+                for(i = 1; i < $scope.stock.historical.dataset.length; i++){
+                    if($scope.stock.historical.dataset[i].close - $scope.stock.historical.dataset[i-1].close > 0){
+                        daysUp++;
+                    }
+                    else{
+                        daysDown++;
+                    }
+                }
+                $scope.stock.days = [{label: "Up Days", value: daysUp, color: "#11ff22"},
+                                    {label: "Down Days", value: daysDown, color: "#ff002f"}
+                                    ];
+                
+                console.log($scope.stock.days)
                 console.log($scope.stock.historical)
-            }).then($scope.stockChartOptions.series = [{
+            }).then(() => {
+                $scope.stockChartOptions.series = [{
                     axis: "y",
                     dataset: "dataset",
                     key: "close",
@@ -109,7 +129,9 @@ app.controller("appController", function($scope){
                     type: ['column'],
                     id: 'volumeHistorical',
                     visible: false
-                }])
+                }]
+                $scope.pieChartOptions.thickness = 50;
+            })
         } 
     }
 

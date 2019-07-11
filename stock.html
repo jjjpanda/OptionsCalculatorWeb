@@ -10,6 +10,7 @@
     <script src="/jsLib/angularSavedCDN.js"></script>
     <script src="/jsLib/d3.min.js"></script>
     <script src="/jsLib/LineChart.min.js"></script>
+    <script src="/jsLib/pie-chart.min.js"></script>
 
     <link rel="stylesheet" href="/css/LineChart.css"></link>
     <link rel="stylesheet" href="/css/css.css"></link>
@@ -50,11 +51,19 @@
         <img src="/img/logo.png" class="cycle slow" id = "loadingIcon" ng-show = "display.loadingIcon"/>
         
     </div>
+    <br/>
 
     <!--STOCK CHART-->
     <div class="my-chart">
         <linechart data="stock.historical" options="stockChartOptions"></linechart>
     </div>
+    <br/>
+
+    <!--PIE CHART-->
+    <div class = "my-chart">
+        <pie-chart data="stock.days" options="pieChartOptions"></pie-chart>
+    </div>
+    <br/>
 
 </div>
 <script src="/js/stock.js"></script>
