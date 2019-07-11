@@ -1,7 +1,7 @@
 
 var app = angular.module("angApp", ['n3-line-chart', 'n3-pie-chart']);
 app.controller("appController", function($scope){
-    $scope.stock = {'ticker':'','price':'', 'historical':[], 'days':[], 'percentChange':'', "tickerChangedForStock": false}
+    $scope.stock = {'ticker':'','price':'', 'historical':[], 'days':[], 'volPerMove':[], 'percentChange':'', "tickerChangedForStock": false}
     $scope.display = {'loadingIcon':false}
 
     $scope.redirectTo = (data) => {
@@ -96,19 +96,28 @@ app.controller("appController", function($scope){
                 $scope.stock.historical.dataset = data.map(x=> { return {date: expiryConvertToDate(x.date), close: x.close, volume:x.volume} })
                 daysUp = 0;
                 daysDown = 0;
+                pvu = 0; pvd = 0;
                 for(i = 1; i < $scope.stock.historical.dataset.length; i++){
                     if($scope.stock.historical.dataset[i].close - $scope.stock.historical.dataset[i-1].close > 0){
                         daysUp++;
+                        pvu += $scope.stock.historical.dataset[i].close / $scope.stock.historical.dataset[i].volume 
+                        
                     }
                     else{
                         daysDown++;
+                        pvd += $scope.stock.historical.dataset[i].close / $scope.stock.historical.dataset[i].volume 
                     }
                 }
                 $scope.stock.days = [{label: "Up Days", value: daysUp, color: "#11ff22"},
                                     {label: "Down Days", value: daysDown, color: "#ff002f"}
                                     ];
+
+                $scope.stock.volPerMove = [{label: "Up Days", value: pvu, color: "#11ff22"},
+                                    {label: "Down Days", value: pvd, color: "#ff002f"}
+                                    ];
                 
                 console.log($scope.stock.days)
+                console.log($scope.stock.volPerMove)
                 console.log($scope.stock.historical)
             }).then(() => {
                 $scope.stockChartOptions.series = [{
