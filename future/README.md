@@ -5,7 +5,7 @@ Fixes and Updates Necessary:
 -stock not found handling \
 -options not found handling \
 -iv not calculated handling \
--add volume to options selection \
+-adjust mobile for volume and OI \
 -enter to click \
 -remove saved input in stock symbol \
 -cost of strategy credit debit specification \
