@@ -185,14 +185,12 @@
                             <th>Call</th>
                             <th>Ask</th>
                             <th>Vol</th>
-                            <th>Avg Vol</th>
                             <th>OI</th>
                             <th>Strike</th>
                             <th>Bid</th>
                             <th>Put</th>
                             <th>Ask</th>
                             <th>Vol</th>
-                            <th>Avg Vol</th>
                             <th>OI</th>
                         </tr>
                     </thead>
@@ -202,11 +200,8 @@
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true, option.callIV)">{{roundPlaces(option.call, 2)}}</a></td>
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.call, option.strike, expiry[0], true, option.callIV)">{{roundPlaces(option.callAsk, 2)}}</a></td>
                             
-                            <!--
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.callAvgVol}}</a></td>
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.callVol}}</a></td>
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.callOI}}</a></td>
-                            -->
                             
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.strike}}</a></td>
                             
@@ -214,11 +209,8 @@
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false, option.putIV)">{{roundPlaces(option.put, 2)}}</a></td>
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a ng-click="selectOption(option.put, option.strike, expiry[0], false, option.putIV)">{{roundPlaces(option.putAsk, 2)}}</a></td>
                             
-                            <!--
-                            <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.putAvgVol}}</a></td>
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.putVol}}</a></td>
                             <td ng-class =" (option.strike < stock.price && expiry[1][$index+1].strike > stock.price) ? 'atmStrike' : '' "><a>{{option.putOI}}</a></td>
-                            -->
                                 
                         </tr>
                     </tbody>

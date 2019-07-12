@@ -94,14 +94,14 @@ getChain: function (apikey, ticker, expiration, index, callback){
             body = JSON.parse(body).options
             if(body.option != undefined){
                 body = body.option;
+                console.log(body)
                 bid = body.map(a => a.bid)
                 ask = body.map(a => a.ask)
                 strike = body.map(a => a.strike)
-                avgvol = body.map(a => a.average_volume)
-                vol = body.map(a => a.last_volume)
+                vol = body.map(a => a.volume)
                 oi = body.map(a => a.open_interest)
                 type = body.map(a => a.option_type)
-                data = zip([type, strike, bid, ask, vol, avgvol, oi]) 
+                data = zip([type, strike, bid, ask, vol, oi]) 
             }
             data = data.map(function(x){
                 return {
@@ -110,8 +110,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
                     bid: x[2],
                     ask: x[3],
                     vol: x[4],
-                    avgvol: x[5],
-                    oi: x[6]
+                    oi: x[5]
                 };
             });
             //REFACTOR
@@ -125,7 +124,6 @@ getChain: function (apikey, ticker, expiration, index, callback){
                                 [option.type]:(option.bid+option.ask)/2, 
                                 [option.type+"Ask"]:option.ask,
                                 [option.type+"Vol"]:option.vol,
-                                [option.type+"AvgVol"]:option.avgvol,
                                 [option.type+"OI"]:option.oi
                             })
                 }
@@ -134,7 +132,6 @@ getChain: function (apikey, ticker, expiration, index, callback){
                     newData.find(x => x.strike === option.strike)[option.type] = (option.bid+option.ask)/2
                     newData.find(x => x.strike === option.strike)[option.type+"Ask"] = option.ask
                     newData.find(x => x.strike === option.strike)[option.type+"Vol"] = option.vol
-                    newData.find(x => x.strike === option.strike)[option.type+"AvgVol"] = option.avgvol
                     newData.find(x => x.strike === option.strike)[option.type+"OI"] = option.oi
                 }
             }
