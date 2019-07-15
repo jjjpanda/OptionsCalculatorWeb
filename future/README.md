@@ -3,6 +3,7 @@
 Fixes and Updates Necessary:
 
 -stock not found handling \
+-adsense (sorry) \
 -options not found handling \
 -iv not calculated handling \
 -adjust mobile for volume and OI \
