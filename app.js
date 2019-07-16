@@ -21,9 +21,9 @@ app.use('/jsLib', exp.static(path.join(__dirname, '/jsLib')));
 app.use('/css', exp.static(path.join(__dirname, '/css')));
 app.use('/img', exp.static(path.join(__dirname, '/img')));
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'opc.html')))
 
-app.get('/opc', (req, res) => res.sendFile(path.join(__dirname, 'opc.html')))
+app.get('/index', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
 
 app.get('/stock', (req, res) => res.sendFile(path.join(__dirname, 'stock.html')))
 
