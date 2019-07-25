@@ -94,7 +94,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
             body = JSON.parse(body).options
             if(body.option != undefined){
                 body = body.option;
-                console.log(body)
+                //console.log(body)
                 bid = body.map(a => a.bid)
                 ask = body.map(a => a.ask)
                 strike = body.map(a => a.strike)
