@@ -2,6 +2,7 @@
 
 Fixes and Updates Necessary:
 
+
 -stock not found handling \
 -adsense (sorry) \
 -options not found handling \
