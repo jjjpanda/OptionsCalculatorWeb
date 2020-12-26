@@ -4,13 +4,13 @@
 
     <title>STONKS & OPTIONS &#x1F4B0; &#x1F4B0;</title>
 
-    <link rel="icon" href="/img/logo.png"></link>
+    <link rel="icon" href="/OptionsCalculatorWeb/img/logo.png"></link>
 
-    <script src="/jsLib/jQuerySavedCDN.js"></script>
-    <script src="/jsLib/angularSavedCDN.js"></script>
-    <script src="/jsLib/animateCDN.js"></script>
+    <script src="/OptionsCalculatorWeb/jsLib/jQuerySavedCDN.js"></script>
+    <script src="/OptionsCalculatorWeb/jsLib/angularSavedCDN.js"></script>
+    <script src="/OptionsCalculatorWeb/jsLib/animateCDN.js"></script>
 
-    <link rel="stylesheet" href="/css/css.css"></link>
+    <link rel="stylesheet" href="/OptionsCalculatorWeb/css/css.css"></link>
     
 </head>
 
@@ -18,7 +18,7 @@
 <div ng-app="myApp" ng-controller="appController">
 
     <div class="middleDiv fade" ng-show="!display.click" ng-mouseover = "adjustSpin()"> 
-        <img ng-class= "display.icon" src="/img/logo.png" id="logo" ng-click="clickMiddleIcon()" draggable="false"/>
+        <img ng-class= "display.icon" src="/OptionsCalculatorWeb/img/logo.png" id="logo" ng-click="clickMiddleIcon()" draggable="false"/>
     </div>
     <div class='middleDiv' ng-show="display.click">
         <button ng-click="redirectTo('/')">OPTIONS CALCULATOR</button>
